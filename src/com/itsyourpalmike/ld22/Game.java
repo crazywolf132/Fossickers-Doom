@@ -44,9 +44,7 @@ public class Game extends Canvas implements Runnable
 	private int[] colors2 = new int[256];
 	/////////////////////////////////////
 
-	// Player variables
 	private int tickCount = 0;
-
 	private Level level;
 	private Player player;
 
@@ -155,7 +153,6 @@ public class Game extends Canvas implements Runnable
 
 			if (System.currentTimeMillis() - lastTimer1 > 1000)
 			{
-				// System.out.println("Ticks: " + ticks + ", Frames: " + frames);
 				lastTimer1 += 1000;
 				frames = 0;
 				ticks = 0;
@@ -169,7 +166,7 @@ public class Game extends Canvas implements Runnable
 
 		level.tick();
 
-		if (!hasFocus())
+		if (!hasFocus()) // If we don't have focus release the keys, otherwise input can get stuck
 		{
 			input.releaseAll();
 		}
@@ -187,7 +184,7 @@ public class Game extends Canvas implements Runnable
 			return;
 		}
 
-		// screen.renderBackground();
+		// Rendering the background tiles w proper offsets
 		int xScroll = player.x - screen.w / 2;
 		int yScroll = player.y - screen.h / 2;
 		if(xScroll<0) xScroll = 0;
@@ -205,6 +202,7 @@ public class Game extends Canvas implements Runnable
 			}
 		}
 
+		// rendering the sprites
 		screen.clear();
 		level.renderSprites(screen, xScroll, yScroll);
 

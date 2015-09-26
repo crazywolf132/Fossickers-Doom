@@ -15,6 +15,7 @@ public class RockTile extends Tile
 
 	public void render(Screen screen, Level level, int x, int y)
 	{
+		// This render creates smooth corners and shapes, so the world isn't obviously blocky
 		int col =  Color.get(444, 444, 333, 333);
 		int transitionColor =  Color.get(111, 444, 555, level.grassColor);
 		
@@ -34,7 +35,6 @@ public class RockTile extends Tile
 				screen.render(x*16+0, y*16+0, 0, col, 0);
 			else
 				screen.render(x*16+0, y*16+0, 7 + 0 * 32, transitionColor, 3);
-				
 		}
 		else
 		{

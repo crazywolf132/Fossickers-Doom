@@ -21,9 +21,10 @@ public class Level
 	public int grassColor = 141;
 
 	public List<Entity> entities = new ArrayList<Entity>();
-	public List<Entity>[] entitiesInTiles;
+	public List<Entity>[] entitiesInTiles; // we keep track of what tiles entities are inside of for easy optimization / attacking
 	private Comparator<Entity> spriteSorter = new Comparator<Entity>()
 	{
+		// Sorts entities so that the ones farther up get rendered behind the ones farther down
 		public int compare(Entity e0, Entity e1)
 		{
 			if (e1.y < e0.y) return 1;
@@ -32,22 +33,18 @@ public class Level
 		}
 	};
 
-	@SuppressWarnings("unchecked")
 	public Level(int w, int h)
 	{
 		this.w = w;
 		this.h = h;
-		tiles = NoiseMap.getMap(w, h);
-		data = new byte[w * h];
+		byte[][] maps = NoiseMap.getMap(w, h);
+		tiles = maps[0];
+		data = maps[1];
 		entitiesInTiles = new ArrayList[w * h];
 		for (int i = 0; i < w * h; i++)
 		{
 			entitiesInTiles[i] = new ArrayList<Entity>();
 		}
-
-		Random random = new Random();
-
-		
 	}
 
 	public void renderBackground(Screen screen, int xScroll, int yScroll)
@@ -69,13 +66,10 @@ public class Level
 		screen.setOffset(0, 0);
 	}
 
+	// Renders entities inside of tiles in the view area
 	List<Entity> rowSprites = new ArrayList<Entity>();
 	public void renderSprites(Screen screen, int xScroll, int yScroll)
 	{
-		/*
-		 * screen.setOffset(xScroll, yScroll); for (int i = 0; i < entities.size(); i++) { entities.get(i).render(screen); } screen.setOffset(0, 0);
-		 */
-
 		int xo = xScroll >> 4;
 		int yo = yScroll >> 4;
 		int w = (screen.w + 15) >> 4;
@@ -100,6 +94,7 @@ public class Level
 		screen.setOffset(0, 0);
 	}
 
+	/// sorts entities before rendering them
 	private void sortAndRender(Screen screen, List<Entity> list)
 	{
 		Collections.sort(list, spriteSorter);
@@ -114,16 +109,30 @@ public class Level
 		if (x < 0 || y < 0 || x >= w || y >= h) return Tile.rock;
 		return Tile.tiles[tiles[x + y * w]];
 	}
+	
+	public int getData(int x, int y)
+	{
+		if (x < 0 || y < 0 || x >= w || y >= h) return 0;
+		return data[x + y * w]&0xff;
+	}
+	
+	public void setData(int x, int y, int val)
+	{
+		if (x < 0 || y < 0 || x >= w || y >= h) return;
+		data[x + y * w] = (byte) val;
+	}
 
+	// Adds entity to entities arraylist and inserts it into tile/entity spot
 	public void add(Entity entity)
 	{
 		entities.add(entity);
 		entity.init(this);
 
-		// where we were at at the end of video 3
 		insertEntity(entity.x >> 4, entity.y >> 4, entity);
 	}
 
+	// Adding / Removing entities from tiles
+	///////////////////////////////////////////////////////////
 	private void removeEntity(int x, int y, Entity e)
 	{
 		if (x < 0 || y < 0 || x >= w || y >= h) return;
@@ -135,6 +144,7 @@ public class Level
 		if (x < 0 || y < 0 || x >= w || y >= h) return;
 		entitiesInTiles[x + y * w].add(e);
 	}
+	///////////////////////////////////////////////////////////
 
 	public void tick()
 	{
@@ -165,8 +175,8 @@ public class Level
 			}
 		}
 	}
-	
 
+	// Gets entities within tiles of a certain area
 	public List<Entity> getEntities(int x0, int y0, int x1, int y1)
 	{
 		List<Entity> result = new ArrayList<Entity>();

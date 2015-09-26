@@ -108,6 +108,7 @@ public class Mob extends Entity
 	
 	public void hurt(Mob mob, int damage, int attackDir)
 	{
+		// Removes health, adds particles, and sets knockback
 		level.add(new TextParticle("" +damage, x, y, Color.get(-1,  500,  500,  500)));
 		health -= damage;
 		
@@ -118,6 +119,7 @@ public class Mob extends Entity
 		hurtTime = 10;
 	}
 	
+	// validates a starting position so mobs don't spawn inside of walls
 	public void findStartPos(Level level)
 	{
 		while(true)
@@ -131,6 +133,5 @@ public class Mob extends Entity
 				break;
 			}
 		}
-		
 	}
 }

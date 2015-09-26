@@ -10,6 +10,8 @@ import com.itsyourpalmike.ld22.level.tile.Tile;
 
 public class NoiseMap
 {
+	// This is magical. No idea how it works but it does
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public double[] values;
 	private int w, h;
 	private static final Random random = new Random();
@@ -85,13 +87,18 @@ public class NoiseMap
 	{
 		values[(x & (w - 1)) + (y & (h - 1)) * w] = value;
 	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static byte[] getMap(int w, int h)
+	// Generates the map
+	public static byte[][] getMap(int w, int h)
 	{
 		NoiseMap noise1 = new NoiseMap(w, h, w/4);
 		NoiseMap noise2 = new NoiseMap(w, h, w/4);
 
+		// Creates the map and the data 
 		byte[] map = new byte[w * h];
+		byte[] data = new byte[w * h];
+		
 		for (int y = 0; y < h; y++)
 		{
 			for (int x = 0; x < w; x++)
@@ -109,11 +116,12 @@ public class NoiseMap
 				dist = dist * dist * dist * dist;
 				val = val + 1 - dist * 20;
 
+				// Creating tiles
 				if (val < 0)
 				{
 					map[i] = Tile.water.id;
 				}
-				else if (val > 1)
+				else if (val > 2)
 				{
 					map[i] = Tile.rock.id;
 				}
@@ -123,8 +131,29 @@ public class NoiseMap
 				}
 			}
 		}
-		return map;
-
+		
+		// Spawning flower Tiles
+		for(int i = 0; i < w * h / 400; i++)
+		{
+			int x = random.nextInt(w);
+			int y = random.nextInt(h);
+			int col = random.nextInt(4);
+			for(int j = 0; j < 30; j++)
+			{
+				int xx = x + random.nextInt(5) - random.nextInt(5);
+				int yy = y + random.nextInt(5) - random.nextInt(5);
+				if(xx>=0 && yy>=0 && xx < w && yy < h)
+				{
+					if(map[xx+yy*w] == Tile.grass.id)
+					{
+						map[xx + yy * w] = Tile.flower.id;
+						data[xx + yy * w] = (byte)(col+random.nextInt(4)*16); // creates unique flowers
+					}
+				}
+			}
+		}
+		
+		return new byte[][] { map, data };
 	}
 
 	public static void main(String[] args)
@@ -134,7 +163,7 @@ public class NoiseMap
 			int w = 128;
 			int h = 128;
 
-			byte[] map = NoiseMap.getMap(w, h);
+			byte[] map = NoiseMap.getMap(w, h)[0];
 
 			BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			int[] pixels = new int[w * h];
@@ -144,12 +173,14 @@ public class NoiseMap
 				{
 					int i = x + y * w;
 
+					// Set visible colors for each tile
 					if (map[i] == Tile.water.id) pixels[i] = 0x000080;
 					if (map[i] == Tile.grass.id) pixels[i] = 0x208020;
 					if (map[i] == Tile.rock.id) pixels[i] = 0x404040;
 				}
 			}
 
+			// Displays map to the screen
 			img.setRGB(0, 0, w, h, pixels, 0, w);
 			JOptionPane.showMessageDialog(null, null, "Another", JOptionPane.YES_NO_OPTION, new ImageIcon(img));
 		}

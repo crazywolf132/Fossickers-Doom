@@ -15,6 +15,7 @@ public class WaterTile extends Tile
 
 	public void render(Screen screen, Level level, int x, int y)
 	{
+		// This render creates smooth corners and shapes, so the world isn't obviously blocky
 		int col =  Color.get(4, 4, 5, 5);
 		int transitionColor =  Color.get(100, 4, 211, level.grassColor);
 		
@@ -33,8 +34,7 @@ public class WaterTile extends Tile
 			if(!ul)
 				screen.render(x*16+0, y*16+0, 0, col, 0);
 			else
-				screen.render(x*16+0, y*16+0, 8 + 1 * 32, transitionColor, 0);
-				
+				screen.render(x*16+0, y*16+0, 8 + 1 * 32, transitionColor, 0);	
 		}
 		else
 		{
