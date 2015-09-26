@@ -67,7 +67,7 @@ public class Game extends Canvas implements Runnable
 		level = new Level(64, 64);
 		player = new Player(input);
 		level.add(player);
-		for (int i = 0; i < 1000; i++)
+		for (int i = 0; i < 10; i++)
 			level.add(new TestMob());
 
 		// Setting up colors
