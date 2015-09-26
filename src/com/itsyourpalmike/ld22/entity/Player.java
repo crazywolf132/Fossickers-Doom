@@ -5,6 +5,7 @@ import java.util.List;
 import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.level.Level;
 
 public class Player extends Mob
 {
@@ -16,7 +17,7 @@ public class Player extends Mob
 	public Player(InputHandler input)
 	{
 		this.input = input;
-		x=y=16;
+		x=y=24;
 	}
 	
 	public void tick()
@@ -150,4 +151,5 @@ public class Player extends Mob
 			screen.render(xo + 8, yo + 8+4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 3);
 		}
 	}
+
 }

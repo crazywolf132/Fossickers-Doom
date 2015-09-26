@@ -5,9 +5,9 @@ import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.Level;
 
-public class RockTile extends Tile
+public class WaterTile extends Tile
 {
-	public RockTile(int id)
+	public WaterTile(int id)
 	{
 		super(id);
 	}
@@ -15,8 +15,8 @@ public class RockTile extends Tile
 
 	public void render(Screen screen, Level level, int x, int y)
 	{
-		int col =  Color.get(444, 444, 333, 333);
-		int transitionColor =  Color.get(111, 444, 555, level.grassColor);
+		int col =  Color.get(4, 4, 5, 5);
+		int transitionColor =  Color.get(100, 4, 211, level.grassColor);
 		
 		boolean u = level.getTile(x, y-1) != this;
 		boolean d = level.getTile(x, y+1) != this;
@@ -33,12 +33,12 @@ public class RockTile extends Tile
 			if(!ul)
 				screen.render(x*16+0, y*16+0, 0, col, 0);
 			else
-				screen.render(x*16+0, y*16+0, 7 + 0 * 32, transitionColor, 3);
+				screen.render(x*16+0, y*16+0, 8 + 1 * 32, transitionColor, 0);
 				
 		}
 		else
 		{
-			screen.render(x*16+0, y*16+0, (l?6:5) + (u?2:1) * 32, transitionColor, 3);
+			screen.render(x*16+0, y*16+0, (l?4:5) + (u?0:1) * 32, transitionColor, 0);
 		}
 		
 		if(!u && !r)
@@ -46,11 +46,11 @@ public class RockTile extends Tile
 			if(!ur)
 				screen.render(x*16+8, y*16+0, 1, col, 0);
 			else
-				screen.render(x*16+8, y*16+0, 8 + 0 * 32, transitionColor, 3);
+				screen.render(x*16+8, y*16+0, 7 + 1 * 32, transitionColor, 0);
 		}
 		else
 		{
-			screen.render(x*16+8, y*16+0, (r?4:5) + (u?2:1) * 32, transitionColor, 3);
+			screen.render(x*16+8, y*16+0, (r?6:5) + (u?0:1) * 32, transitionColor, 0);
 		}
 		
 		if(!d && !l)
@@ -58,11 +58,11 @@ public class RockTile extends Tile
 			if(!dl)
 				screen.render(x*16+0, y*16+8, 2, col, 0);
 			else
-				screen.render(x*16+0, y*16+8, 7 + 1 * 32, transitionColor, 3);
+				screen.render(x*16+0, y*16+8, 8 + 0 * 32, transitionColor, 0);
 		}
 		else
 		{
-			screen.render(x*16+0, y*16+8, (l?6:5) + (d?0:1) * 32, transitionColor, 3);
+			screen.render(x*16+0, y*16+8, (l?4:5) + (d?2:1) * 32, transitionColor, 0);
 		}
 		
 		if(!d && !r)
@@ -70,11 +70,11 @@ public class RockTile extends Tile
 			if(!dr)
 				screen.render(x*16+8, y*16+8, 3, col, 0);
 			else
-				screen.render(x*16+8, y*16+8, 8 + 1 * 32, transitionColor, 3);
+				screen.render(x*16+8, y*16+8, 7 + 0 * 32, transitionColor, 0);
 		}
 		else
 		{
-			screen.render(x*16+8, y*16+8, (r?4:5) + (d?0:1) * 32, transitionColor, 3);
+			screen.render(x*16+8, y*16+8, (r?6:5) + (d?2:1) * 32, transitionColor, 0);
 		}
 	}
 	

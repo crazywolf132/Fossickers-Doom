@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
+import com.itsyourpalmike.ld22.level.Level;
 
 public class Mob extends Entity
 {
@@ -115,5 +116,21 @@ public class Mob extends Entity
 		if(attackDir==2) xKnockback = -6;
 		if(attackDir==3) xKnockback = 6;
 		hurtTime = 10;
+	}
+	
+	public void findStartPos(Level level)
+	{
+		while(true)
+		{
+			int x = random.nextInt(level.w);
+			int y = random.nextInt(level.h);
+			if(level.getTile(x, y).mayPass(level, x, y, this))
+			{
+				this.x = x * 16 + 8;
+				this.y = y * 16 + 8;
+				break;
+			}
+		}
+		
 	}
 }

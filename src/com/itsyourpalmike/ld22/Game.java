@@ -45,7 +45,6 @@ public class Game extends Canvas implements Runnable
 	/////////////////////////////////////
 
 	// Player variables
-
 	private int tickCount = 0;
 
 	private Level level;
@@ -64,11 +63,16 @@ public class Game extends Canvas implements Runnable
 
 	private void init()
 	{
-		level = new Level(64, 64);
+		level = new Level(128, 128);
 		player = new Player(input);
+		player.findStartPos(level);
 		level.add(player);
-		for (int i = 0; i < 10; i++)
-			level.add(new TestMob());
+		for (int i = 0; i < 10000; i++)
+		{
+			TestMob m = new TestMob();
+			m.findStartPos(level);
+			level.add(m);
+		}
 
 		// Setting up colors
 		int pp = 0;
