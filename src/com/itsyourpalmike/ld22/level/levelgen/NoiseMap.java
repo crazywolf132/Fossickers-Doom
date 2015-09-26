@@ -92,13 +92,13 @@ public class NoiseMap
 	// Generates the map
 	public static byte[][] getMap(int w, int h)
 	{
-		NoiseMap noise1 = new NoiseMap(w, h, w/4);
-		NoiseMap noise2 = new NoiseMap(w, h, w/4);
+		NoiseMap noise1 = new NoiseMap(w, h, w / 4);
+		NoiseMap noise2 = new NoiseMap(w, h, w / 4);
 
-		// Creates the map and the data 
+		// Creates the map and the data
 		byte[] map = new byte[w * h];
 		byte[] data = new byte[w * h];
-		
+
 		for (int y = 0; y < h; y++)
 		{
 			for (int x = 0; x < w; x++)
@@ -121,7 +121,7 @@ public class NoiseMap
 				{
 					map[i] = Tile.water.id;
 				}
-				else if (val > 2)
+				else if (val > 1)
 				{
 					map[i] = Tile.rock.id;
 				}
@@ -131,28 +131,48 @@ public class NoiseMap
 				}
 			}
 		}
-		
-		// Spawning flower Tiles
-		for(int i = 0; i < w * h / 400; i++)
+
+		// Spawning tree Tiles
+		for (int i = 0; i < w * h / 400; i++)
 		{
 			int x = random.nextInt(w);
 			int y = random.nextInt(h);
 			int col = random.nextInt(4);
-			for(int j = 0; j < 30; j++)
+			for (int j = 0; j < 200; j++)
 			{
-				int xx = x + random.nextInt(5) - random.nextInt(5);
-				int yy = y + random.nextInt(5) - random.nextInt(5);
-				if(xx>=0 && yy>=0 && xx < w && yy < h)
+				int xx = x + random.nextInt(15) - random.nextInt(15);
+				int yy = y + random.nextInt(15) - random.nextInt(15);
+				if (xx >= 0 && yy >= 0 && xx < w && yy < h)
 				{
-					if(map[xx+yy*w] == Tile.grass.id)
+					if (map[xx + yy * w] == Tile.grass.id)
 					{
-						map[xx + yy * w] = Tile.flower.id;
-						data[xx + yy * w] = (byte)(col+random.nextInt(4)*16); // creates unique flowers
+						map[xx + yy * w] = Tile.tree.id;
 					}
 				}
 			}
 		}
-		
+
+		// Spawning flower Tiles
+		for (int i = 0; i < w * h / 400; i++)
+		{
+			int x = random.nextInt(w);
+			int y = random.nextInt(h);
+			int col = random.nextInt(4);
+			for (int j = 0; j < 30; j++)
+			{
+				int xx = x + random.nextInt(5) - random.nextInt(5);
+				int yy = y + random.nextInt(5) - random.nextInt(5);
+				if (xx >= 0 && yy >= 0 && xx < w && yy < h)
+				{
+					if (map[xx + yy * w] == Tile.grass.id)
+					{
+						map[xx + yy * w] = Tile.flower.id;
+						data[xx + yy * w] = (byte)(col + random.nextInt(4) * 16); // creates unique flowers
+					}
+				}
+			}
+		}
+
 		return new byte[][] { map, data };
 	}
 

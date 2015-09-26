@@ -1,12 +1,11 @@
 package com.itsyourpalmike.ld22.entity;
 
-import java.util.List;
-
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
+import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.level.Level;
 
-public class Mob extends Entity
+public class ItemEntity extends Entity
 {
 	protected int walkDist = 0;
 	protected int dir = 0;
@@ -14,7 +13,7 @@ public class Mob extends Entity
 	protected int xKnockback, yKnockback;
 	public int health = 10;
 
-	public Mob()
+	public ItemEntity(Item item)
 	{
 		x = y = 8;
 		xr = 4;
@@ -29,49 +28,6 @@ public class Mob extends Entity
 		}
 		
 		if(hurtTime > 0) hurtTime--;
-	}
-
-	public boolean move(int xa, int ya)
-	{
-		if(xKnockback < 0)
-		{
-			move2(-1, 0);
-			xKnockback++;
-		}
-		if(xKnockback > 0)
-		{
-			move2(1, 0);
-			xKnockback--;
-		}
-		if(yKnockback < 0)
-		{
-			move2(0, -1);
-			yKnockback++;
-		}
-		if(yKnockback > 0)
-		{
-			move2(0, 1);
-			yKnockback--;
-		}
-		if(hurtTime > 0) return true;
-		
-		if (xa != 0 || ya != 0)
-		{
-			walkDist++;
-			if (xa < 0) dir = 2;
-			if (xa > 0) dir = 3;
-			if (ya < 0) dir = 1;
-			if (ya > 0) dir = 0;
-		}
-		
-		
-		return super.move(xa, ya);
-	}
-
-
-	public boolean blocks(Entity e)
-	{
-		return true;
 	}
 	
 	public void hurt(Mob mob, int damage, int attackDir)

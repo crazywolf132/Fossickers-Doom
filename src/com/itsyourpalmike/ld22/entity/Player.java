@@ -16,13 +16,13 @@ public class Player extends Mob
 	public Player(InputHandler input)
 	{
 		this.input = input;
-		x=y=24;
+		x = y = 24;
 	}
-	
+
 	public void tick()
 	{
 		super.tick();
-		
+
 		// Moving the player
 		int xa = 0;
 		int ya = 0;
@@ -42,13 +42,13 @@ public class Player extends Mob
 		{
 			xa++;
 		}
-		
+
 		move(xa, ya);
-		
+
 		// Attacking
-		if(input.attack)
+		if (input.attack)
 		{
-			if(!wasAttacking)
+			if (!wasAttacking)
 			{
 				attack();
 			}
@@ -59,41 +59,59 @@ public class Player extends Mob
 			wasAttacking = false;
 		}
 
-		if(attackTime > 0) attackTime--;
+		if (attackTime > 0) attackTime--;
 	}
 
 	private void attack()
 	{
-		walkDist+=8;
+		walkDist += 8;
 		attackDir = dir;
 		attackTime = 5;
-		
+
 		// Hurts entities inside of tiles within the player's attack zone
-		if(dir==0)
+		if (dir == 0)
 		{
-			hurt(level.getEntities(x-8, y+4, x+8, y+12));
+			hurt(x - 8, y + 4, x + 8, y + 12);
 		}
-		if(dir==1)
+		if (dir == 1)
 		{
-			hurt(level.getEntities(x-8, y-12, x+8, y-4));
+			hurt(x - 8, y - 12, x + 8, y - 4);
 		}
-		if(dir==3)
+		if (dir == 3)
 		{
-			hurt(level.getEntities(x+4, y-8, x+12, y+8));
+			hurt(x + 4, y - 8, x + 12, y + 8);
 		}
-		if(dir==2)
+		if (dir == 2)
 		{
-			hurt(level.getEntities(x-12, y-8, x-4, y+8));
+			hurt(x - 12, y - 8, x - 4, y + 8);
 		}
+
+		// Hurts the tile the player is facing
+		int yo = -2;
+		int xt = x >> 4;
+		int yt = (y+yo) >> 4;
+		int r = 12;
+
+		if (attackDir == 0) yt = (y + r+yo) >> 4;
+		if (attackDir == 1) yt = (y - r+yo) >> 4;
+		if (attackDir == 2) xt = (x - r) >> 4;
+		if (attackDir == 3) xt = (x + r) >> 4;
+
+		if (xt >= 0 && yt >= 0 && xt < level.w && yt < level.h)
+		{
+			level.getTile(xt, yt).hurt(level, xt, yt, this, random.nextInt(4) + 1, attackDir);
+		}
+
 	}
 
 	// Hurting enemies
-	private void hurt(List<Entity> entities)
+	private void hurt(int x0, int y0, int x1, int y1)
 	{
-		for(int i = 0; i < entities.size(); i++)
+		List<Entity> entities = level.getEntities(x0, y0, x1, y1);
+		for (int i = 0; i < entities.size(); i++)
 		{
 			Entity e = entities.get(i);
-			if(e!=this)entities.get(i).hurt(this, random.nextInt(4)+1, attackDir);
+			if (e != this) entities.get(i).hurt(this, random.nextInt(4) + 1, attackDir);
 		}
 	}
 
@@ -122,15 +140,15 @@ public class Player extends Mob
 
 			xt = 4 + ((walkDist >> 3) & 1) * 2;
 		}
-		
+
 		int xo = x - 8;
 		int yo = y - 11;
 
 		// Rendering attack thing-a-ma-bob
-		if(attackTime > 0 && attackDir == 1)
+		if (attackTime > 0 && attackDir == 1)
 		{
-			screen.render(xo + 0, yo -4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 0);
-			screen.render(xo + 8, yo -4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 1);
+			screen.render(xo + 0, yo - 4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 0);
+			screen.render(xo + 8, yo - 4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 1);
 		}
 
 		// Rendering the player
@@ -140,24 +158,24 @@ public class Player extends Mob
 		screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, Color.get(-1, 111, 145, 543), flip2);
 
 		// Rendering attack thing-a-ma-bob
-		if(attackTime > 0 && attackDir == 2)
+		if (attackTime > 0 && attackDir == 2)
 		{
 			screen.render(xo - 4, yo, 7 + 13 * 32, Color.get(-1, 555, 555, 555), 1);
 			screen.render(xo - 4, yo + 8, 7 + 13 * 32, Color.get(-1, 555, 555, 555), 3);
 		}
 
 		// Rendering attack thing-a-ma-bob
-		if(attackTime > 0 && attackDir == 3)
+		if (attackTime > 0 && attackDir == 3)
 		{
 			screen.render(xo + 8 + 4, yo, 7 + 13 * 32, Color.get(-1, 555, 555, 555), 0);
 			screen.render(xo + 8 + 4, yo + 8, 7 + 13 * 32, Color.get(-1, 555, 555, 555), 2);
 		}
 
 		// Rendering attack thing-a-ma-bob
-		if(attackTime > 0 && attackDir == 0)
+		if (attackTime > 0 && attackDir == 0)
 		{
-			screen.render(xo + 0, yo + 8+4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 2);
-			screen.render(xo + 8, yo + 8+4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 3);
+			screen.render(xo + 0, yo + 8 + 4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 2);
+			screen.render(xo + 8, yo + 8 + 4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 3);
 		}
 	}
 

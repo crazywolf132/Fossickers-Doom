@@ -1,5 +1,6 @@
 package com.itsyourpalmike.ld22.level.tile;
 
+import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.Level;
@@ -31,5 +32,11 @@ public class FlowerTile extends GrassTile
 		if(shape==1) screen.render(x*16+8, y*16+0, 1+1*32, flowerCol, 0);
 		if(shape==2) screen.render(x*16+0, y*16+8, 1+1*32, flowerCol, 0);
 		if(shape==3) screen.render(x*16+8, y*16+8, 1+1*32, flowerCol, 0);
+	}
+	
+	// If we hurt flowers they dissapear
+	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
+	{
+		level.setTile(x,y, Tile.grass, 0);
 	}
 }

@@ -1,6 +1,7 @@
 package com.itsyourpalmike.ld22.level.tile;
 
 import com.itsyourpalmike.ld22.entity.Entity;
+import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.Level;
 
@@ -11,6 +12,7 @@ public class Tile
 	public static Tile rock = new RockTile(1);
 	public static Tile water = new WaterTile(2);
 	public static Tile flower = new FlowerTile(3);
+	public static Tile tree = new TreeTile(4);
 	
 	public final byte id;
 	
@@ -26,5 +28,10 @@ public class Tile
 	public boolean mayPass(Level level, int x, int y, Entity e)
 	{
 		return true;
+	}
+	
+	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
+	{
+		
 	}
 }

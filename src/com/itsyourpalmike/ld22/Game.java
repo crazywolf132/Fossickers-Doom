@@ -65,7 +65,7 @@ public class Game extends Canvas implements Runnable
 		player = new Player(input);
 		player.findStartPos(level);
 		level.add(player);
-		for (int i = 0; i < 10000; i++)
+		for (int i = 0; i < 100; i++)
 		{
 			TestMob m = new TestMob();
 			m.findStartPos(level);

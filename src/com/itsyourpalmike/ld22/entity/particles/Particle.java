@@ -17,9 +17,4 @@ public class Particle extends Entity
 	{
 		
 	}
-
-	public boolean blocks(Mob mob)
-	{
-		return false;
-	}
 }

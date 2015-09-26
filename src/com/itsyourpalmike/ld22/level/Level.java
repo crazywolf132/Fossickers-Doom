@@ -109,6 +109,13 @@ public class Level
 		if (x < 0 || y < 0 || x >= w || y >= h) return Tile.rock;
 		return Tile.tiles[tiles[x + y * w]];
 	}
+
+	public void setTile(int x, int y, Tile t, int dataVal)
+	{
+		if (x < 0 || y < 0 || x >= w || y >= h) return;
+		tiles[x + y * w] = t.id;
+		data[x + y * w] = (byte) dataVal;
+	}
 	
 	public int getData(int x, int y)
 	{
