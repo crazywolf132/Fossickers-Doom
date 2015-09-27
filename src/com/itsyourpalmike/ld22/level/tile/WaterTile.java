@@ -17,7 +17,7 @@ public class WaterTile extends Tile
 	{
 		// This render creates smooth corners and shapes, so the world isn't obviously blocky
 		int col =  Color.get(4, 4, 5, 5);
-		int transitionColor =  Color.get(100, 4, 211, level.grassColor);
+		int transitionColor =  Color.get(100, 4, 211, level.dirtColor);
 		
 		boolean u = level.getTile(x, y-1) != this;
 		boolean d = level.getTile(x, y+1) != this;

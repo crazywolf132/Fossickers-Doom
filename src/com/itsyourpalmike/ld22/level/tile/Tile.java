@@ -16,12 +16,16 @@ public class Tile
 	public static Tile water = new WaterTile(2);
 	public static Tile flower = new FlowerTile(3);
 	public static Tile tree = new TreeTile(4);
+	public static Tile dirt = new DirtTile(5);
+	public static Tile sand = new SandTile(6);
 	
 	public final byte id;
+	public boolean isGrassy = false;
 	
 	public Tile(int id)
 	{
 		this.id = (byte)id;
+		if(tiles[id]!=null) throw new RuntimeException("Duplicate tile ids!");
 		tiles[id] = this;
 	}
 	public void render(Screen screen, Level level, int x, int y)

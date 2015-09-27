@@ -71,7 +71,7 @@ public class Mob extends Entity
 
 	public boolean blocks(Entity e)
 	{
-		return true;
+		return e.isBlockableBy(this);
 	}
 	
 	public void hurt(Mob mob, int damage, int attackDir)

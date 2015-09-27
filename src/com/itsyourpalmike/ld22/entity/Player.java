@@ -178,5 +178,10 @@ public class Player extends Mob
 			screen.render(xo + 8, yo + 8 + 4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 3);
 		}
 	}
+	
+	public void touchItem(ItemEntity itemEntity)
+	{
+		itemEntity.take(this);
+	}
 
 }

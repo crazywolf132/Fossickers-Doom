@@ -19,6 +19,8 @@ public class Level
 	public byte[] data;
 
 	public int grassColor = 141;
+	public int dirtColor = 322;
+	public int sandColor = 550;
 
 	public List<Entity> entities = new ArrayList<Entity>();
 	public List<Entity>[] entitiesInTiles; // we keep track of what tiles entities are inside of for easy optimization / attacking

@@ -1,5 +1,7 @@
 package com.itsyourpalmike.ld22.item;
 
+import com.itsyourpalmike.ld22.entity.ItemEntity;
+
 public class Item
 {
 
@@ -13,6 +15,11 @@ public class Item
 	{
 		
 		return 0;
+	}
+
+	public void onTake(ItemEntity itemEntity)
+	{
+		
 	}
 	
 }

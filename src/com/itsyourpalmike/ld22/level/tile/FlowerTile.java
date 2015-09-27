@@ -1,8 +1,11 @@
 package com.itsyourpalmike.ld22.level.tile;
 
+import com.itsyourpalmike.ld22.entity.ItemEntity;
 import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.Resource;
+import com.itsyourpalmike.ld22.item.ResourceItem;
 import com.itsyourpalmike.ld22.level.Level;
 
 public class FlowerTile extends GrassTile
@@ -11,6 +14,7 @@ public class FlowerTile extends GrassTile
 	{
 		super(id);
 		tiles[id] = this;
+		isGrassy = true;
 	}
 	
 	public void render(Screen screen, Level level, int x, int y)
@@ -38,5 +42,6 @@ public class FlowerTile extends GrassTile
 	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
 	{
 		level.setTile(x,y, Tile.grass, 0);
+		level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10)+3, y * 16  + random.nextInt(10)+3));
 	}
 }

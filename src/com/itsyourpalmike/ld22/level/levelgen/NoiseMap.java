@@ -1,5 +1,6 @@
 package com.itsyourpalmike.ld22.level.levelgen;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -92,6 +93,10 @@ public class NoiseMap
 	// Generates the map
 	public static byte[][] getMap(int w, int h)
 	{
+		NoiseMap mnoise1 = new NoiseMap(w, h, w / 8);
+		NoiseMap mnoise2 = new NoiseMap(w, h, w / 8);
+		NoiseMap mnoise3 = new NoiseMap(w, h, w / 8);
+
 		NoiseMap noise1 = new NoiseMap(w, h, w / 4);
 		NoiseMap noise2 = new NoiseMap(w, h, w / 4);
 
@@ -106,6 +111,8 @@ public class NoiseMap
 				int i = x + y * w;
 
 				double val = Math.abs(noise1.values[i] - noise2.values[i]) * 3 - 2;
+				double mval = Math.abs(mnoise1.values[i] - mnoise2.values[i]);
+				mval = Math.abs(mval - mnoise3.values[i]) * 3 - 2;
 
 				double xd = x / (w - 1.0) * 2 - 1;
 				double yd = y / (h - 1.0) * 2 - 1;
@@ -117,17 +124,69 @@ public class NoiseMap
 				val = val + 1 - dist * 20;
 
 				// Creating tiles
-				if (val < 0)
+				if (val < -0.5)
 				{
 					map[i] = Tile.water.id;
 				}
-				else if (val > 1)
+				else if (val > 0.5 && mval < -1.5)
 				{
 					map[i] = Tile.rock.id;
 				}
 				else
 				{
 					map[i] = Tile.grass.id;
+				}
+			}
+		}
+
+		// Spawning sand Tiles
+		for (int i = 0; i < w * h / 400; i++)
+		{
+			int x = random.nextInt(w);
+			int y = random.nextInt(h);
+			int col = random.nextInt(4);
+			for (int j = 0; j < 200; j++)
+			{
+				int xo = x + random.nextInt(8) - random.nextInt(8);
+				int yo = y + random.nextInt(8) - random.nextInt(8);
+				for (int yy = yo - 1; yy <= yo + 1; yy++)
+				{
+					for (int xx = xo - 1; xx <= xo + 1; xx++)
+					{
+						if (xx >= 0 && yy >= 0 && xx < w && yy < h)
+						{
+							if (map[xx + yy * w] == Tile.grass.id)
+							{
+								map[xx + yy * w] = Tile.sand.id;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// Spawning dirt Tiles
+		for (int i = 0; i < w * h / 400; i++)
+		{
+			int x = random.nextInt(w);
+			int y = random.nextInt(h);
+			int col = random.nextInt(4);
+			for (int j = 0; j < 200; j++)
+			{
+				int xo = x + random.nextInt(8) - random.nextInt(8);
+				int yo = y + random.nextInt(8) - random.nextInt(8);
+				for (int yy = yo - 1; yy <= yo + 1; yy++)
+				{
+					for (int xx = xo - 1; xx <= xo + 1; xx++)
+					{
+						if (xx >= 0 && yy >= 0 && xx < w && yy < h)
+						{
+							if (map[xx + yy * w] == Tile.grass.id)
+							{
+								map[xx + yy * w] = Tile.dirt.id;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -197,12 +256,13 @@ public class NoiseMap
 					if (map[i] == Tile.water.id) pixels[i] = 0x000080;
 					if (map[i] == Tile.grass.id) pixels[i] = 0x208020;
 					if (map[i] == Tile.rock.id) pixels[i] = 0x404040;
+					if (map[i] == Tile.dirt.id) pixels[i] = 0x602020;
 				}
 			}
 
 			// Displays map to the screen
 			img.setRGB(0, 0, w, h, pixels, 0, w);
-			JOptionPane.showMessageDialog(null, null, "Another", JOptionPane.YES_NO_OPTION, new ImageIcon(img));
+			JOptionPane.showMessageDialog(null, null, "Another", JOptionPane.YES_NO_OPTION, new ImageIcon(img.getScaledInstance(w * 4, h * 4, Image.SCALE_AREA_AVERAGING)));
 		}
 	}
 }

@@ -83,6 +83,12 @@ public class Entity
 		{
 			Entity e = isInside.get(i);
 			if(e == this) continue;
+			e.touchedBy(this);
+		}
+		for(int i = 0; i < isInside.size(); i++)
+		{
+			Entity e = isInside.get(i);
+			if(e == this) continue;
 			if(e.blocks(this))
 			{
 				return false;
@@ -92,5 +98,21 @@ public class Entity
 		x += xa;
 		y += ya;
 		return true;
+	}
+
+	protected void touchedBy(Entity entity)
+	{
+		
+	}
+
+	public boolean isBlockableBy(Mob mob)
+	{
+		
+		return true;
+	}
+
+	public void touchItem(ItemEntity itemEntity)
+	{
+		
 	}
 }

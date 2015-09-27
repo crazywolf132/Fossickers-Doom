@@ -16,14 +16,15 @@ public class ItemEntity extends Entity
 	public double xa, ya, za;
 	public double xx, yy, zz;
 	private Item item;
+	private int time = 0;
 
 	public ItemEntity(Item item, int x, int y)
 	{
 		this.item = item;
 		xx = this.x = x;
 		yy = this.y = y;
-		xr = 4;
-		yr = 3;
+		xr = 2;
+		yr = 2;
 		
 		zz = 2;
 		za = random.nextFloat() * 0.7 + 1;
@@ -33,6 +34,7 @@ public class ItemEntity extends Entity
 	
 	public void tick()
 	{
+		time++;
 		xx+=xa;
 		yy+=ya;
 		zz+=za;
@@ -52,6 +54,12 @@ public class ItemEntity extends Entity
 		if(hurtTime > 0) hurtTime--;
 	}
 	
+	public boolean isBlockableBy(Mob mob)
+	{
+		
+		return false;
+	}
+	
 	public void render(Screen screen)
 	{
 		
@@ -59,6 +67,17 @@ public class ItemEntity extends Entity
 
 		screen.render(x-4, y-4, item.getSprite(), Color.get(-1, 0, 0, 0), 0);
 		screen.render(x-4, y-4-(int)(zz), item.getSprite(), col, 0);
+	}
+	
+	protected void touchedBy(Entity entity)
+	{
+		if(time > 30)entity.touchItem(this);
+	}
+
+	public void take(Player player)
+	{
+		item.onTake(this);
+		remove();
 	}
 	
 }
