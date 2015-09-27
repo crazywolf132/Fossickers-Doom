@@ -67,27 +67,27 @@ public class Player extends Mob
 		walkDist += 8;
 		attackDir = dir;
 		attackTime = 5;
+		int yo = -2;
 
 		// Hurts entities inside of tiles within the player's attack zone
 		if (dir == 0)
 		{
-			hurt(x - 8, y + 4, x + 8, y + 12);
+			hurt(x - 8, y + 4+yo, x + 8, y + 12+yo);
 		}
 		if (dir == 1)
 		{
-			hurt(x - 8, y - 12, x + 8, y - 4);
+			hurt(x - 8, y - 12+yo, x + 8, y - 4+yo);
 		}
 		if (dir == 3)
 		{
-			hurt(x + 4, y - 8, x + 12, y + 8);
+			hurt(x + 4, y - 8+yo, x + 12, y + 8+yo);
 		}
 		if (dir == 2)
 		{
-			hurt(x - 12, y - 8, x - 4, y + 8);
+			hurt(x - 12, y - 8+yo, x - 4, y + 8+yo);
 		}
 
 		// Hurts the tile the player is facing
-		int yo = -2;
 		int xt = x >> 4;
 		int yt = (y+yo) >> 4;
 		int r = 12;

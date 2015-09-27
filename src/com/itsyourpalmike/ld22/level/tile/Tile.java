@@ -1,5 +1,7 @@
 package com.itsyourpalmike.ld22.level.tile;
 
+import java.util.Random;
+
 import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.gfx.Screen;
@@ -7,6 +9,7 @@ import com.itsyourpalmike.ld22.level.Level;
 
 public class Tile
 {
+	protected final Random random = new Random();
 	public static Tile[] tiles = new Tile[256];
 	public static Tile grass = new GrassTile(0);
 	public static Tile rock = new RockTile(1);

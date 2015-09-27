@@ -2,60 +2,63 @@ package com.itsyourpalmike.ld22.entity;
 
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
+import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.level.Level;
 
+// This is the entity version of actual items that are on the ground in the level
 public class ItemEntity extends Entity
 {
 	protected int walkDist = 0;
 	protected int dir = 0;
 	public int hurtTime = 0;
 	protected int xKnockback, yKnockback;
-	public int health = 10;
+	public double xa, ya, za;
+	public double xx, yy, zz;
+	private Item item;
 
-	public ItemEntity(Item item)
+	public ItemEntity(Item item, int x, int y)
 	{
-		x = y = 8;
+		this.item = item;
+		xx = this.x = x;
+		yy = this.y = y;
 		xr = 4;
 		yr = 3;
+		
+		zz = 2;
+		za = random.nextFloat() * 0.7 + 1;
+		xa = random.nextGaussian()*0.3;
+		ya = random.nextGaussian()*0.2;
 	}
 	
 	public void tick()
 	{
-		if(health <= 0)
+		xx+=xa;
+		yy+=ya;
+		zz+=za;
+		if(zz < 0)
 		{
-			remove();
+			zz = 0;
+			za *= -0.5;
+			xa *= 0.6;
+			ya *= 0.6;
 		}
+		za -= 0.15;
 		
+		int nx=(int)xx;
+		int ny=(int)yy;
+		
+		move(nx-x,ny-y);
 		if(hurtTime > 0) hurtTime--;
 	}
 	
-	public void hurt(Mob mob, int damage, int attackDir)
+	public void render(Screen screen)
 	{
-		// Removes health, adds particles, and sets knockback
-		level.add(new TextParticle("" +damage, x, y, Color.get(-1,  500,  500,  500)));
-		health -= damage;
 		
-		if(attackDir==0) yKnockback = 6;
-		if(attackDir==1) yKnockback = -6;
-		if(attackDir==2) xKnockback = -6;
-		if(attackDir==3) xKnockback = 6;
-		hurtTime = 10;
+		int col = item.getColor();
+
+		screen.render(x-4, y-4, item.getSprite(), Color.get(-1, 0, 0, 0), 0);
+		screen.render(x-4, y-4-(int)(zz), item.getSprite(), col, 0);
 	}
 	
-	// validates a starting position so mobs don't spawn inside of walls
-	public void findStartPos(Level level)
-	{
-		while(true)
-		{
-			int x = random.nextInt(level.w);
-			int y = random.nextInt(level.h);
-			if(level.getTile(x, y).mayPass(level, x, y, this))
-			{
-				this.x = x * 16 + 8;
-				this.y = y * 16 + 8;
-				break;
-			}
-		}
-	}
 }
