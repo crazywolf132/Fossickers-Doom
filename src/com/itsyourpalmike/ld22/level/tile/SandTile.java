@@ -9,6 +9,7 @@ public class SandTile extends Tile
 	public SandTile(int id)
 	{
 		super(id);
+		connectsToSand = true;
 	}
 
 	public void render(Screen screen, Level level, int x, int y)
@@ -18,10 +19,10 @@ public class SandTile extends Tile
 		int col = Color.get(level.sandColor, level.sandColor, level.sandColor - 110,level.sandColor - 110);
 		int transitionColor = Color.get(level.sandColor - 110, level.sandColor, level.sandColor - 110, level.dirtColor);
 
-		boolean u = level.getTile(x, y - 1) != this;
-		boolean d = level.getTile(x, y + 1) != this;
-		boolean l = level.getTile(x - 1, y) != this;
-		boolean r = level.getTile(x + 1, y) != this;
+		boolean u = !level.getTile(x, y - 1).connectsToSand;
+		boolean d = !level.getTile(x, y + 1).connectsToSand;
+		boolean l = !level.getTile(x - 1, y).connectsToSand;
+		boolean r = !level.getTile(x + 1, y).connectsToSand;
 
 		if (!u && !l)
 		{

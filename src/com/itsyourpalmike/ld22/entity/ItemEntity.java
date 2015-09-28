@@ -9,6 +9,7 @@ import com.itsyourpalmike.ld22.level.Level;
 // This is the entity version of actual items that are on the ground in the level
 public class ItemEntity extends Entity
 {
+	private int lifeTime;
 	protected int walkDist = 0;
 	protected int dir = 0;
 	public int hurtTime = 0;
@@ -23,18 +24,25 @@ public class ItemEntity extends Entity
 		this.item = item;
 		xx = this.x = x;
 		yy = this.y = y;
-		xr = 2;
-		yr = 2;
+		xr = 3;
+		yr = 3;
 		
 		zz = 2;
 		za = random.nextFloat() * 0.7 + 1;
 		xa = random.nextGaussian()*0.3;
 		ya = random.nextGaussian()*0.2;
+		
+		lifeTime = 60*10 + random.nextInt(60);
 	}
 	
 	public void tick()
 	{
 		time++;
+		if(time>=lifeTime)
+		{
+			remove();
+			return;
+		}
 		xx+=xa;
 		yy+=ya;
 		zz+=za;
@@ -62,7 +70,10 @@ public class ItemEntity extends Entity
 	
 	public void render(Screen screen)
 	{
-		
+		if(time>=lifeTime-6*20)
+		{
+			if(time/6%2 == 0) return;
+		}
 		int col = item.getColor();
 
 		screen.render(x-4, y-4, item.getSprite(), Color.get(-1, 0, 0, 0), 0);

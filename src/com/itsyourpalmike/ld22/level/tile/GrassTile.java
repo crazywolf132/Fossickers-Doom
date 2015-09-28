@@ -9,7 +9,7 @@ public class GrassTile extends Tile
 	public GrassTile(int id)
 	{
 		super(id);
-		isGrassy = true;
+		connectsToGrass = true;
 	}
 
 
@@ -19,10 +19,10 @@ public class GrassTile extends Tile
 				int col =  Color.get(level.grassColor, level.grassColor, level.grassColor+111, level.grassColor+111);
 				int transitionColor =  Color.get(level.grassColor-111, level.grassColor, level.grassColor+111, level.dirtColor);
 				
-				boolean u = !level.getTile(x, y-1).isGrassy;
-				boolean d = !level.getTile(x, y+1).isGrassy;
-				boolean l = !level.getTile(x-1, y).isGrassy;
-				boolean r = !level.getTile(x+1, y).isGrassy;
+				boolean u = !level.getTile(x, y-1).connectsToGrass;
+				boolean d = !level.getTile(x, y+1).connectsToGrass;
+				boolean l = !level.getTile(x-1, y).connectsToGrass;
+				boolean r = !level.getTile(x+1, y).connectsToGrass;
 				
 				if(!u && !l)
 				{

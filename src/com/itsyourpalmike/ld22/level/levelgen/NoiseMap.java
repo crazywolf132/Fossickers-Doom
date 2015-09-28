@@ -232,6 +232,22 @@ public class NoiseMap
 			}
 		}
 
+		// Spawning cactus Tiles
+		for (int i = 0; i < w * h / 100; i++)
+		{
+			int xx = random.nextInt(w);
+			int yy = random.nextInt(h);
+			int col = random.nextInt(4);
+			if (xx >= 0 && yy >= 0 && xx < w && yy < h)
+			{
+				if (map[xx + yy * w] == Tile.sand.id)
+				{
+					map[xx + yy * w] = Tile.cactus.id;
+				}
+			}
+
+		}
+
 		return new byte[][] { map, data };
 	}
 

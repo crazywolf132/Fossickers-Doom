@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.Level;
+import com.itsyourpalmike.ld22.level.tile.Tile;
 
 public class Entity
 {
@@ -45,7 +46,7 @@ public class Entity
 		return false;
 	}
 
-	public void hurt(Mob mob, int i, int attackDir)
+	public void hurt(Mob mob, int dmg, int attackDir)
 	{
 		
 	}
@@ -66,15 +67,26 @@ public class Entity
 	protected boolean move2(int xa, int ya)
 	{
 		if (xa != 0 && ya != 0) throw new IllegalArgumentException("Move2 can only mone alone one axis at time!");
-		for (int c = 0; c < 4; c++)
+		int xt0 = ((x + xa) - xr) >> 4;
+		int yt0 = ((y + ya) - yr) >> 4;
+		int xt1 = ((x + xa) + xr) >> 4;
+		int yt1 = ((y + ya) + yr) >> 4;
+		
+		boolean blocked = false;
+		for(int yt = yt0; yt<=yt1;yt++)
 		{
-			int xt = ((x + xa) + (c % 2 * 2 - 1) * xr) >> 4;
-			int yt = ((y + ya) + (c / 2 * 2 - 1) * yr) >> 4;
-			if (!level.getTile(xt, yt).mayPass(level, xt, yt, this))
+			for(int xt = xt0; xt<=xt1;xt++)
 			{
-				return false;
+					level.getTile(xt, yt).bumpedInto(level, xt, yt, this);
+					if (!level.getTile(xt, yt).mayPass(level, xt, yt, this))
+					{
+						blocked = true;
+						return false;
+					}
 			}
 		}
+		if(blocked) return false;
+	
 		
 		List<Entity> wasInside = level.getEntities( x - xr, y - yr, x + xr, y + yr);
 		List<Entity> isInside = level.getEntities( x + xa - xr, y + ya - yr, x + xa + xr, y + ya + yr);
@@ -112,6 +124,11 @@ public class Entity
 	}
 
 	public void touchItem(ItemEntity itemEntity)
+	{
+		
+	}
+
+	public void hurt(Tile tile, int x, int y, int dmg)
 	{
 		
 	}

@@ -38,11 +38,7 @@ public class Game extends Canvas implements Runnable
 	private InputHandler input = new InputHandler(this);
 	private Screen screen;
 
-	// SEPARATE COLORS FOR BACKGROUND AND FOREGROUND SPRITES/TILES
-	/////////////////////////////////////
-	private int[] colors1 = new int[256];
-	private int[] colors2 = new int[256];
-	/////////////////////////////////////
+	private int[] colors = new int[256];
 
 	private int tickCount = 0;
 	private Level level;
@@ -85,15 +81,10 @@ public class Game extends Canvas implements Runnable
 					int bb = (b * 255 / 5);
 					int mid = (rr * 30 + gg * 59 + bb * 11) / 100;
 
-					int r1 = ((rr + mid) / 2) * 200 / 255 + 10;
-					int g1 = ((gg + mid) / 2) * 200 / 255 + 10;
-					int b1 = ((bb + mid) / 2) * 200 / 255 + 15;
-					colors1[pp] = r1 << 16 | g1 << 8 | b1;
-
-					int r2 = ((rr + mid) / 2) * 200 / 255 + 45;
-					int g2 = ((gg + mid) / 2) * 200 / 255 + 45;
-					int b2 = ((bb + mid) / 2) * 200 / 255 + 55;
-					colors2[pp++] = r2 << 16 | g2 << 8 | b2;
+					int r1 = ((rr + mid*2) / 3)*230/255 +10;
+					int g1 = ((gg + mid*2) / 3)*230/255 +10;
+					int b1 = ((bb + mid*2) / 3)*230/255 +10;
+					colors[pp++] = r1 << 16 | g1 << 8 | b1;
 				}
 			}
 		}
@@ -192,59 +183,11 @@ public class Game extends Canvas implements Runnable
 		if(xScroll>level.w * 16 - screen.w) xScroll = level.w * 16 - screen.w;
 		if(yScroll>level.h * 16 - screen.h) yScroll = level.h * 16 - screen.h;
 		level.renderBackground(screen, xScroll, yScroll);
-
-		// Drawing the screen pixels to the game's pixels using tile/background colors
-		for (int y = 0; y < screen.h; y++)
-		{
-			for (int x = 0; x < screen.w; x++)
-			{
-				pixels[x + y * WIDTH] = colors1[screen.pixels[x + y * screen.w]];
-			}
-		}
-
-		// rendering the sprites
-		screen.clear();
 		level.renderSprites(screen, xScroll, yScroll);
+		renderGui();
 
 		// If the game window isn't focused display a message!
-		if (!this.hasFocus())
-		{
-			String msg = "Click to focus!";
-			int xx = (WIDTH - msg.length() * 8) / 2;
-			int yy = (HEIGHT - 8) / 2;
-			int w = msg.length();
-			int h = 1;
-
-			// Rendering the four corners of message box
-			screen.render(xx - 8, yy - 8, 0 + 13 * 32, Color.get(-1, 1, 5, 445), 0);
-			screen.render(xx + w * 8, yy - 8, 0 + 13 * 32, Color.get(-1, 1, 5, 445), 1);
-			screen.render(xx - 8, yy + 8, 0 + 13 * 32, Color.get(-1, 1, 5, 445), 2);
-			screen.render(xx + w * 8, yy + 8, 0 + 13 * 32, Color.get(-1, 1, 5, 445), 3);
-
-			// Rendering top and bottom of message box
-			for (int x = 0; x < w; x++)
-			{
-				screen.render(xx + x * 8, yy - 8, 1 + 13 * 32, Color.get(-1, 1, 5, 445), 0);
-				screen.render(xx + x * 8, yy + 8, 1 + 13 * 32, Color.get(-1, 1, 5, 445), 2);
-			}
-
-			// Rendering left and right of message box
-			for (int y = 0; y < h; y++)
-			{
-				screen.render(xx - 8, yy + y * 8, 2 + 13 * 32, Color.get(-1, 1, 5, 445), 0);
-				screen.render(xx + w * 8, yy + y * 8, 2 + 13 * 32, Color.get(-1, 1, 5, 445), 1);
-			}
-
-			// Makes text flash white / grey
-			if ((tickCount / 20) % 2 == 0)
-			{
-				Font.draw(msg, screen, xx, yy, Color.get(5, 333, 333, 333));
-			}
-			else
-			{
-				Font.draw(msg, screen, xx, yy, Color.get(5, 555, 555, 555));
-			}
-		}
+		if (!this.hasFocus()) renderFocusNagger();
 
 		// Drawing the screen pixels to the game's pixels using
 		// sprite/foreground colors
@@ -252,8 +195,7 @@ public class Game extends Canvas implements Runnable
 		{
 			for (int x = 0; x < screen.w; x++)
 			{
-				int cc = screen.pixels[x + y * screen.w];
-				if (cc < 255) pixels[x + y * WIDTH] = colors2[cc];
+				pixels[x + y * WIDTH] = colors[screen.pixels[x + y * screen.w]];
 			}
 		}
 
@@ -269,6 +211,64 @@ public class Game extends Canvas implements Runnable
 		g.drawImage(image, xo, yo, ww, hh, null);
 		g.dispose();
 		bs.show();
+	}
+
+	private void renderGui()
+	{
+		for(int y = 0; y < 2; y++)
+		{
+			for(int x = 0; x < 20; x++)
+			{
+				screen.render(x*8, screen.h-16 + y * 8, 0+12*32, Color.get(333, 333, 333, 333), 0);
+			}
+		}
+		for(int i = 0; i < 10; i++)
+		{
+			if(i < player.health)
+				screen.render(i*8, screen.h-16, 0+12*32, Color.get(333, 200, 500, 533), 0);
+			else
+				screen.render(i*8, screen.h-16, 0+12*32, Color.get(333, 000, 000, 000), 0);
+				
+		}
+	}
+
+	private void renderFocusNagger()
+	{
+		String msg = "Click to focus!";
+		int xx = (WIDTH - msg.length() * 8) / 2;
+		int yy = (HEIGHT - 8) / 2;
+		int w = msg.length();
+		int h = 1;
+
+		// Rendering the four corners of message box
+		screen.render(xx - 8, yy - 8, 0 + 13 * 32, Color.get(-1, 1, 5, 445), 0);
+		screen.render(xx + w * 8, yy - 8, 0 + 13 * 32, Color.get(-1, 1, 5, 445), 1);
+		screen.render(xx - 8, yy + 8, 0 + 13 * 32, Color.get(-1, 1, 5, 445), 2);
+		screen.render(xx + w * 8, yy + 8, 0 + 13 * 32, Color.get(-1, 1, 5, 445), 3);
+
+		// Rendering top and bottom of message box
+		for (int x = 0; x < w; x++)
+		{
+			screen.render(xx + x * 8, yy - 8, 1 + 13 * 32, Color.get(-1, 1, 5, 445), 0);
+			screen.render(xx + x * 8, yy + 8, 1 + 13 * 32, Color.get(-1, 1, 5, 445), 2);
+		}
+
+		// Rendering left and right of message box
+		for (int y = 0; y < h; y++)
+		{
+			screen.render(xx - 8, yy + y * 8, 2 + 13 * 32, Color.get(-1, 1, 5, 445), 0);
+			screen.render(xx + w * 8, yy + y * 8, 2 + 13 * 32, Color.get(-1, 1, 5, 445), 1);
+		}
+
+		// Makes text flash white / grey
+		if ((tickCount / 20) % 2 == 0)
+		{
+			Font.draw(msg, screen, xx, yy, Color.get(5, 333, 333, 333));
+		}
+		else
+		{
+			Font.draw(msg, screen, xx, yy, Color.get(5, 555, 555, 555));
+		}
 	}
 
 	public static void main(String[] args)

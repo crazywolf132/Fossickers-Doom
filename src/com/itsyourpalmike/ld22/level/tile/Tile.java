@@ -18,9 +18,11 @@ public class Tile
 	public static Tile tree = new TreeTile(4);
 	public static Tile dirt = new DirtTile(5);
 	public static Tile sand = new SandTile(6);
+	public static Tile cactus = new CactusTile(7);
 	
 	public final byte id;
-	public boolean isGrassy = false;
+	public boolean connectsToGrass = false;
+	public boolean connectsToSand = false;
 	
 	public Tile(int id)
 	{
@@ -38,6 +40,10 @@ public class Tile
 	}
 	
 	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
+	{
+		
+	}
+	public void bumpedInto(Level level, int x, int y, Entity entity)
 	{
 		
 	}

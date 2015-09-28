@@ -5,6 +5,7 @@ import java.util.List;
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.level.Level;
+import com.itsyourpalmike.ld22.level.tile.Tile;
 
 public class Mob extends Entity
 {
@@ -74,17 +75,30 @@ public class Mob extends Entity
 		return e.isBlockableBy(this);
 	}
 	
-	public void hurt(Mob mob, int damage, int attackDir)
+	public void hurt(Mob mob, int dmg, int attackDir)
+	{
+		doHurt(dmg, attackDir);
+	}
+	
+	protected void doHurt(int dmg, int attackDir)
 	{
 		// Removes health, adds particles, and sets knockback
-		level.add(new TextParticle("" +damage, x, y, Color.get(-1,  500,  500,  500)));
-		health -= damage;
+		if(hurtTime > 0) return;
+		
+		level.add(new TextParticle("" +dmg, x, y, Color.get(-1,  500,  500,  500)));
+		health -= dmg;
 		
 		if(attackDir==0) yKnockback = 6;
 		if(attackDir==1) yKnockback = -6;
 		if(attackDir==2) xKnockback = -6;
 		if(attackDir==3) xKnockback = 6;
 		hurtTime = 10;
+	}
+	
+	public void hurt(Tile tile, int x, int y, int dmg)
+	{
+		int attackDir = dir^1;
+		doHurt(dmg, attackDir);
 	}
 	
 	// validates a starting position so mobs don't spawn inside of walls
