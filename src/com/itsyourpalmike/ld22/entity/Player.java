@@ -143,6 +143,19 @@ public class Player extends Mob
 
 		int xo = x - 8;
 		int yo = y - 11;
+		if(inWater())
+		{
+			yo+= 4;
+			int waterColor = Color.get(-1, -1, 115, 115);
+			if(tickTime/8%2==0)
+			{
+				waterColor = Color.get(-1, 335, 5, 115);
+			}
+			screen.render(xo + 0, yo + 3, 5 + 13 * 32, waterColor, 0);
+			screen.render(xo + 8, yo + 3, 5 + 13 * 32, waterColor, 1);
+			
+		}
+
 
 		// Rendering attack thing-a-ma-bob
 		if (attackTime > 0 && attackDir == 1)
@@ -159,9 +172,13 @@ public class Player extends Mob
 		}
 		screen.render(xo + 8 * flip1, yo + 0, xt + yt * 32, col, flip1);
 		screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32,col, flip1);
-		screen.render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, col, flip2);
-		screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, col, flip2);
-
+		
+		if(!inWater())
+		{
+			screen.render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, col, flip2);
+			screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, col, flip2);
+		}
+		
 		// Rendering attack thing-a-ma-bob
 		if (attackTime > 0 && attackDir == 2)
 		{
@@ -189,4 +206,8 @@ public class Player extends Mob
 		itemEntity.take(this);
 	}
 
+	public boolean canSwim()
+	{
+		return true;
+	}
 }

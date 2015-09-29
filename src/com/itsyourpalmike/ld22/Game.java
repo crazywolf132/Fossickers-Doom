@@ -177,7 +177,7 @@ public class Game extends Canvas implements Runnable
 
 		// Rendering the background tiles w proper offsets
 		int xScroll = player.x - screen.w / 2;
-		int yScroll = player.y - screen.h / 2;
+		int yScroll = player.y - (screen.h - 8) / 2;
 		if(xScroll<0) xScroll = 0;
 		if(yScroll<0) yScroll = 0;
 		if(xScroll>level.w * 16 - screen.w) xScroll = level.w * 16 - screen.w;
@@ -189,8 +189,7 @@ public class Game extends Canvas implements Runnable
 		// If the game window isn't focused display a message!
 		if (!this.hasFocus()) renderFocusNagger();
 
-		// Drawing the screen pixels to the game's pixels using
-		// sprite/foreground colors
+		// Drawing the screen pixels to the game
 		for (int y = 0; y < screen.h; y++)
 		{
 			for (int x = 0; x < screen.w; x++)

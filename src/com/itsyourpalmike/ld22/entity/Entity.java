@@ -132,4 +132,9 @@ public class Entity
 	{
 		
 	}
+
+	public boolean canSwim()
+	{
+		return false;
+	}
 }
