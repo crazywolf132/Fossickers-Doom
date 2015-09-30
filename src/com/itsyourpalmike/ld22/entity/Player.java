@@ -6,6 +6,7 @@ import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.Level;
+import com.itsyourpalmike.ld22.level.tile.Tile;
 
 public class Player extends Mob
 {
@@ -72,28 +73,28 @@ public class Player extends Mob
 		// Hurts entities inside of tiles within the player's attack zone
 		if (dir == 0)
 		{
-			hurt(x - 8, y + 4+yo, x + 8, y + 12+yo);
+			hurt(x - 8, y + 4 + yo, x + 8, y + 12 + yo);
 		}
 		if (dir == 1)
 		{
-			hurt(x - 8, y - 12+yo, x + 8, y - 4+yo);
+			hurt(x - 8, y - 12 + yo, x + 8, y - 4 + yo);
 		}
 		if (dir == 3)
 		{
-			hurt(x + 4, y - 8+yo, x + 12, y + 8+yo);
+			hurt(x + 4, y - 8 + yo, x + 12, y + 8 + yo);
 		}
 		if (dir == 2)
 		{
-			hurt(x - 12, y - 8+yo, x - 4, y + 8+yo);
+			hurt(x - 12, y - 8 + yo, x - 4, y + 8 + yo);
 		}
 
 		// Hurts the tile the player is facing
 		int xt = x >> 4;
-		int yt = (y+yo) >> 4;
+		int yt = (y + yo) >> 4;
 		int r = 12;
 
-		if (attackDir == 0) yt = (y + r+yo) >> 4;
-		if (attackDir == 1) yt = (y - r+yo) >> 4;
+		if (attackDir == 0) yt = (y + r + yo) >> 4;
+		if (attackDir == 1) yt = (y - r + yo) >> 4;
 		if (attackDir == 2) xt = (x - r) >> 4;
 		if (attackDir == 3) xt = (x + r) >> 4;
 
@@ -143,19 +144,18 @@ public class Player extends Mob
 
 		int xo = x - 8;
 		int yo = y - 11;
-		if(inWater())
+		if (inWater())
 		{
-			yo+= 4;
+			yo += 4;
 			int waterColor = Color.get(-1, -1, 115, 115);
-			if(tickTime/8%2==0)
+			if (tickTime / 8 % 2 == 0)
 			{
 				waterColor = Color.get(-1, 335, 5, 115);
 			}
 			screen.render(xo + 0, yo + 3, 5 + 13 * 32, waterColor, 0);
 			screen.render(xo + 8, yo + 3, 5 + 13 * 32, waterColor, 1);
-			
-		}
 
+		}
 
 		// Rendering attack thing-a-ma-bob
 		if (attackTime > 0 && attackDir == 1)
@@ -166,19 +166,19 @@ public class Player extends Mob
 
 		// Rendering the player
 		int col = Color.get(-1, 111, 145, 543);
-		if(hurtTime > 0)
+		if (hurtTime > 0)
 		{
 			col = Color.get(-1, 555, 555, 555);
 		}
 		screen.render(xo + 8 * flip1, yo + 0, xt + yt * 32, col, flip1);
-		screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32,col, flip1);
-		
-		if(!inWater())
+		screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, col, flip1);
+
+		if (!inWater())
 		{
 			screen.render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, col, flip2);
 			screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, col, flip2);
 		}
-		
+
 		// Rendering attack thing-a-ma-bob
 		if (attackTime > 0 && attackDir == 2)
 		{
@@ -200,7 +200,7 @@ public class Player extends Mob
 			screen.render(xo + 8, yo + 8 + 4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 3);
 		}
 	}
-	
+
 	public void touchItem(ItemEntity itemEntity)
 	{
 		itemEntity.take(this);
@@ -209,5 +209,23 @@ public class Player extends Mob
 	public boolean canSwim()
 	{
 		return true;
+	}
+
+	// validates a starting position so mobs don't spawn inside of walls
+	public void findStartPos(Level level)
+	{
+		while (true)
+		{
+			int x = random.nextInt(level.w);
+			int y = random.nextInt(level.h);
+			if (level.getTile(x, y) == Tile.grass && level.getTile(x - 1, y) == Tile.grass && level.getTile(x + 1, y) == Tile.grass)
+			{
+				this.x = x * 16 + 8;
+				this.y = y * 16 + 8;
+				level.add(new Anvil(this.x-16, this.y));
+				level.add(new Chest(this.x+16, this.y));
+				break;
+			}
+		}
 	}
 }
