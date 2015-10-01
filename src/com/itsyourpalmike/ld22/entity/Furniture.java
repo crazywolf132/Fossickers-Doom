@@ -33,10 +33,10 @@ public class Furniture extends Entity
 	
 	public void render(Screen screen)
 	{
-		screen.render(x-8, y-8, sprite, col, 0);
-		screen.render(x-0, y-8, sprite+1, col, 0);
-		screen.render(x-8, y-0, sprite+32, col, 0);
-		screen.render(x+0, y-0, sprite+33, col, 0);
+		screen.render(x-8, y-8-4, sprite, col, 0);
+		screen.render(x-0, y-8-4, sprite+1, col, 0);
+		screen.render(x-8, y-0-4, sprite+32, col, 0);
+		screen.render(x+0, y-0-4, sprite+33, col, 0);
 	}
 
 	public boolean blocks(Entity e)

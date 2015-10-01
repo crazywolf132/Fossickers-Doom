@@ -13,6 +13,7 @@ import com.itsyourpalmike.ld22.level.tile.Tile;
 
 public class Level
 {
+	private Random random = new Random();
 	public int w, h;
 
 	public byte[] tiles;
@@ -157,6 +158,13 @@ public class Level
 
 	public void tick()
 	{
+		for(int i = 0; i < w * h / 1000; i++)
+		{
+			int xt = random.nextInt(w);
+			int yt = random.nextInt(w);
+			getTile(xt, yt).tick(this, xt, yt);
+		}
+		
 		for (int i = 0; i < entities.size(); i++)
 		{
 			Entity e = entities.get(i);

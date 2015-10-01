@@ -11,6 +11,6 @@ public class Anvil extends Furniture
 		col = Color.get(-1, 000, 111, 222);
 		sprite = 0+8*32;
 		xr = 3;
-		yr = 2;
+		yr = 3;
 	}
 }

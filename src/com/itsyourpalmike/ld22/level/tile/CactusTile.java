@@ -3,6 +3,7 @@ package com.itsyourpalmike.ld22.level.tile;
 import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.entity.ItemEntity;
 import com.itsyourpalmike.ld22.entity.Mob;
+import com.itsyourpalmike.ld22.entity.particles.SmashParticle;
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
@@ -37,6 +38,7 @@ public class CactusTile extends Tile
 	{
 		// We use the level data array to set rock's damage/life
 		int damage = level.getData(x, y)+dmg;
+		level.add(new SmashParticle(x*16+8, y*16+8));
 		level.add(new TextParticle("" +dmg, x*16+8, y*16+8, Color.get(-1,  500,  500,  500)));
 		if(damage >= 10)
 		{

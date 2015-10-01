@@ -13,11 +13,14 @@ public class Player extends Mob
 	private InputHandler input;
 	private boolean wasAttacking;
 	private int attackTime, attackDir;
+	
+	public Inventory inventory = new Inventory();
 
 	public Player(InputHandler input)
 	{
 		this.input = input;
 		x = y = 24;
+		
 	}
 
 	public void tick()
@@ -203,6 +206,7 @@ public class Player extends Mob
 
 	public void touchItem(ItemEntity itemEntity)
 	{
+		inventory.add(itemEntity.item);
 		itemEntity.take(this);
 	}
 

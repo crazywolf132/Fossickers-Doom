@@ -47,4 +47,8 @@ public class Tile
 	{
 		
 	}
+	public void tick(Level level, int xt, int yt)
+	{
+		
+	}
 }
