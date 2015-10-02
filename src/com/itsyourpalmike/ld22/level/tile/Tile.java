@@ -51,4 +51,9 @@ public class Tile
 	{
 		
 	}
+	
+	public void steppedOn(Level level, int xt, int yt, Entity entity)
+	{
+		
+	}
 }

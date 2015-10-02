@@ -1,5 +1,7 @@
 package com.itsyourpalmike.ld22.level.tile;
 
+import com.itsyourpalmike.ld22.entity.Entity;
+import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.Level;
@@ -16,17 +18,22 @@ public class SandTile extends Tile
 	{
 		// This render creates smooth corners and shapes, so the world isn't obviously blocky
 
-		int col = Color.get(level.sandColor, level.sandColor, level.sandColor - 110,level.sandColor - 110);
+		int col = Color.get(level.sandColor+2, level.sandColor, level.sandColor - 110,level.sandColor - 110);
 		int transitionColor = Color.get(level.sandColor - 110, level.sandColor, level.sandColor - 110, level.dirtColor);
 
 		boolean u = !level.getTile(x, y - 1).connectsToSand;
 		boolean d = !level.getTile(x, y + 1).connectsToSand;
 		boolean l = !level.getTile(x - 1, y).connectsToSand;
 		boolean r = !level.getTile(x + 1, y).connectsToSand;
+		
+		boolean steppedOn = level.getData(x, y) > 0;
 
 		if (!u && !l)
 		{
-			screen.render(x * 16 + 0, y * 16 + 0, 0, col, 0);
+			if(!steppedOn)
+				screen.render(x * 16 + 0, y * 16 + 0, 0, col, 0);
+			else
+				screen.render(x * 16 + 0, y * 16 + 0, 3+1*32, col, 0);
 		}
 		else
 		{
@@ -53,11 +60,30 @@ public class SandTile extends Tile
 
 		if (!d && !r)
 		{
-			screen.render(x * 16 + 8, y * 16 + 8, 3, col, 0);
+			if(!steppedOn)
+				screen.render(x * 16 + 8, y * 16 + 8, 3, col, 0);
+			else
+				screen.render(x * 16 + 8, y * 16 + 8, 3+1*32, col, 0);
 		}
 		else
 		{
 			screen.render(x * 16 + 8, y * 16 + 8, (r ? 13 : 12) + (d ? 2 : 1) * 32, transitionColor, 0);
+		}
+	}
+	
+	public void tick(Level level, int x, int y)
+	{
+		int d = level.getData(x, y);
+		if(d>0)
+			level.setData(x, y, d-1);
+		
+	}
+	
+	public void steppedOn(Level level, int x, int y, Entity entity)
+	{
+		if(entity instanceof Mob)
+		{
+			level.setData(x, y, 10);
 		}
 	}
 }

@@ -2,24 +2,27 @@ package com.itsyourpalmike.ld22.entity;
 
 import java.util.List;
 
+import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
+import com.itsyourpalmike.ld22.screen.InventoryMenu;
 
 public class Player extends Mob
 {
 	private InputHandler input;
-	private boolean wasAttacking;
 	private int attackTime, attackDir;
 	
 	public Inventory inventory = new Inventory();
-
-	public Player(InputHandler input)
+	public Game game;
+	
+	public Player(Game game, InputHandler input)
 	{
 		this.input = input;
 		x = y = 24;
+		this.game = game;
 		
 	}
 
@@ -30,19 +33,19 @@ public class Player extends Mob
 		// Moving the player
 		int xa = 0;
 		int ya = 0;
-		if (input.up)
+		if (input.up.down)
 		{
 			ya--;
 		}
-		if (input.down)
+		if (input.down.down)
 		{
 			ya++;
 		}
-		if (input.left)
+		if (input.left.down)
 		{
 			xa--;
 		}
-		if (input.right)
+		if (input.right.down)
 		{
 			xa++;
 		}
@@ -50,17 +53,13 @@ public class Player extends Mob
 		move(xa, ya);
 
 		// Attacking
-		if (input.attack)
+		if (input.attack.clicked)
 		{
-			if (!wasAttacking)
-			{
 				attack();
-			}
-			wasAttacking = true;
 		}
-		else
+		if (input.menu.clicked)
 		{
-			wasAttacking = false;
+			game.setMenu(new InventoryMenu(this));
 		}
 
 		if (attackTime > 0) attackTime--;

@@ -58,6 +58,12 @@ public class Entity
 			boolean stopped = true;
 			if (xa != 0 && move2(xa, 0)) stopped = false;
 			if (ya != 0 && move2(0, ya)) stopped = false;
+			if(!stopped)
+			{
+				int xt = x >> 4;
+				int yt = y >> 4;
+				level.getTile(xt, yt).steppedOn(level, xt, yt, this);
+			}
 			return !stopped;
 		}
 

@@ -15,7 +15,7 @@ public class Furniture extends Entity
 		this.x = x;
 		this.y = y;
 		xr = 3;
-		yr = 2;
+		yr = 3;
 	}
 	
 	public void tick()
@@ -51,5 +51,18 @@ public class Furniture extends Entity
 			pushDir = ((Player) entity).dir;
 			pushTime = 10;
 		}
+	}
+	
+	public void hurt(Mob mob, int dmg, int attackDir)
+	{
+		if(mob instanceof Player)
+		{
+			playerUse((Player)mob);
+		}
+	}
+
+	protected void playerUse(Player player)
+	{
+		
 	}
 }

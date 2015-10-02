@@ -50,7 +50,7 @@ public class Game extends Canvas implements Runnable
 	public void setMenu(Menu menu)
 	{
 		this.menu = menu;
-		menu.init(this, input);
+		if(menu != null) menu.init(this, input);
 	}
 
 	public void start()
@@ -67,7 +67,7 @@ public class Game extends Canvas implements Runnable
 	private void init()
 	{
 		level = new Level(128, 128);
-		player = new Player(input);
+		player = new Player(this, input);
 		player.findStartPos(level);
 		level.add(player);
 		for (int i = 0; i < 100; i++)
@@ -163,6 +163,8 @@ public class Game extends Canvas implements Runnable
 	public void tick()
 	{
 		tickCount++;
+		
+		input.tick();
 
 		if (menu != null)
 		{
@@ -245,10 +247,9 @@ public class Game extends Canvas implements Runnable
 
 		}
 
-		if (player.inventory.items.size() > 0) Font.renderFrame(screen, "inventory", 0, 0, 11, 14);
-		for (int i = 0; i < player.inventory.items.size(); i++)
+		if(menu != null)
 		{
-			player.inventory.items.get(i).renderInventory(screen, 8, (i + 1) * 8);
+			menu.render(screen);
 		}
 	}
 

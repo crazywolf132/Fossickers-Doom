@@ -2,6 +2,7 @@ package com.itsyourpalmike.ld22.screen;
 
 import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.InputHandler;
+import com.itsyourpalmike.ld22.gfx.Screen;
 
 public class Menu
 {
@@ -15,6 +16,11 @@ public class Menu
 	}
 	
 	public void tick()
+	{
+		
+	}
+
+	public void render(Screen screen)
 	{
 		
 	}

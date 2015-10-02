@@ -1,7 +1,7 @@
 package com.itsyourpalmike.ld22.entity;
 
 import com.itsyourpalmike.ld22.gfx.Color;
-import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.screen.InventoryMenu;
 
 public class Anvil extends Furniture
 {
@@ -12,5 +12,10 @@ public class Anvil extends Furniture
 		sprite = 0+8*32;
 		xr = 3;
 		yr = 3;
+	}
+	
+	protected void playerUse(Player player)
+	{
+		player.game.setMenu(new InventoryMenu(player));
 	}
 }
