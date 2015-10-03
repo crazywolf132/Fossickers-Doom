@@ -17,6 +17,12 @@ public class ResourceItem extends Item
 		this.resource = resource;
 	}
 	
+	public ResourceItem(Resource resource, int count)
+	{
+		this.resource = resource;
+		this.count = count;
+	}
+	
 	public int getColor()
 	{
 		return resource.color;

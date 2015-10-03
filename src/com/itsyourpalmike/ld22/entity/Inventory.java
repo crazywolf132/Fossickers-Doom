@@ -26,6 +26,10 @@ public class Inventory
 				has.count += toTake.count;
 			}
 		}
+		else
+		{
+			items.add(item);
+		}
 	}
 
 	private ResourceItem findResource(Resource resource)

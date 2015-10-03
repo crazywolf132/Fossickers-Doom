@@ -21,6 +21,7 @@ import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.screen.Menu;
+import com.itsyourpalmike.ld22.screen.TitleMenu;
 
 public class Game extends Canvas implements Runnable
 {
@@ -107,6 +108,8 @@ public class Game extends Canvas implements Runnable
 		{
 			e.printStackTrace();
 		}
+		
+		setMenu(new TitleMenu());
 	}
 
 	public void run()

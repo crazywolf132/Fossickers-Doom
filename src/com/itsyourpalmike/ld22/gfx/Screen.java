@@ -30,7 +30,7 @@ public class Screen
 	{
 		for(int i = 0; i < pixels.length; i++)
 		{
-			pixels[i] = 255;
+			pixels[i] = 0;
 		}
 	}
 

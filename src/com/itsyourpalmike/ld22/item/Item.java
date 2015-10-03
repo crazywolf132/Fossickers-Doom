@@ -2,8 +2,9 @@ package com.itsyourpalmike.ld22.item;
 
 import com.itsyourpalmike.ld22.entity.ItemEntity;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.screen.ListItem;
 
-public class Item
+public class Item implements ListItem
 {
 
 	public int getColor()

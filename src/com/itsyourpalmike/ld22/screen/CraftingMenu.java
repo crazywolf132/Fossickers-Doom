@@ -17,13 +17,30 @@ public class CraftingMenu extends Menu
 	private Player player;
 	private int selected = 0;
 	private Anvil anvil;
-	private List<Item> craftables = new ArrayList<Item>();
+	private List<CraftOption> craftables = new ArrayList<CraftOption>();
 	
 	public CraftingMenu(Anvil anvil, Player player)
 	{
 		this.anvil = anvil;
 		this.player = player;
-		craftables.add(new ResourceItem(Resource.stone));
+		craftables.add(new CraftOption("Upgrade Anvil 1").addRequirement(Resource.wood, 16));
+		craftables.add(new CraftOption("Upgrade Anvil 2"));
+		craftables.add(new CraftOption("Upgrade Anvil 3"));
+		craftables.add(new CraftOption("Upgrade Anvil 4"));
+		craftables.add(new CraftOption("Upgrade Anvil 5"));
+		craftables.add(new CraftOption("Upgrade Anvil 6"));
+		craftables.add(new CraftOption("Upgrade Anvil 7"));
+		craftables.add(new CraftOption("Upgrade Anvil 8"));
+		craftables.add(new CraftOption("Upgrade Anvil 9"));
+		craftables.add(new CraftOption("Upgrade Anvil 10"));
+		craftables.add(new CraftOption("Upgrade Anvil 11"));
+		craftables.add(new CraftOption("Upgrade Anvil 12"));
+		craftables.add(new CraftOption("Upgrade Anvil 13"));
+		
+		for(int i = 0; i < craftables.size(); i++)
+		{
+			craftables.get(i).checkCanCraft(player);
+		}
 	}
 
 	public void tick()
@@ -34,20 +51,15 @@ public class CraftingMenu extends Menu
 		if(input.down.clicked) selected++;
 		
 		int len = craftables.size();
+		if(len==0) selected = 0;
 		if(selected < 0) selected += len;
 		if(selected >= len) selected -= len;
 	}
 	
 	public void render(Screen screen)
 	{
-		Font.renderFrame(screen, "crafting", 1, 1, 12, 12);
-		for (int i = 0; i < craftables.size(); i++)
-		{
-			craftables.get(i).renderInventory(screen, 8*2, (i + 2) * 8);
-		}
+		Font.renderFrame(screen, "crafting", 1, 1, 18, 11);
 		
-		int yy = selected + 2;
-		Font.draw(">", screen, 1*8, yy*8, Color.get(5, 555, 555, 555));
-		Font.draw("<", screen, 12*8, yy*8, Color.get(5, 555, 555, 555));
+		renderItemList(screen, 1, 1, 18, 11, craftables, selected);
 	}
 }

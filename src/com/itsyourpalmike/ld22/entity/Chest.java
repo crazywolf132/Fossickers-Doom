@@ -1,11 +1,15 @@
 package com.itsyourpalmike.ld22.entity;
 
 import com.itsyourpalmike.ld22.gfx.Color;
-import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.Resource;
+import com.itsyourpalmike.ld22.item.ResourceItem;
+import com.itsyourpalmike.ld22.item.ToolItem;
+import com.itsyourpalmike.ld22.item.ToolType;
+import com.itsyourpalmike.ld22.screen.ContainerMenu;
 
 public class Chest extends Furniture
 {
-	public Inventory inventory;
+	public Inventory inventory = new Inventory();
 	
 	public Chest(int x, int y)
 	{
@@ -14,5 +18,19 @@ public class Chest extends Furniture
 		sprite = 2+8*32;
 		xr = 5;
 		yr = 2;
+		
+		for(int i = 0; i < 5; i++)
+		{
+			inventory.add(new ToolItem(ToolType.pickaxe, i));
+			inventory.add(new ToolItem(ToolType.hoe, i));
+			inventory.add(new ToolItem(ToolType.shovel, i));
+			inventory.add(new ToolItem(ToolType.sword, i));
+			inventory.add(new ToolItem(ToolType.pickaxe, i));
+		}
+	}
+
+	protected void playerUse(Player player)
+	{
+		player.game.setMenu(new ContainerMenu(player, "Chest", inventory));
 	}
 }

@@ -84,7 +84,7 @@ public class TreeTile extends Tile
 			int count = random.nextInt(2)+1;
 			for(int i = 0; i < count; i++)
 				level.add(new ItemEntity(new ResourceItem(Resource.wood), x * 16 + random.nextInt(10)+3, y * 16  + random.nextInt(10)+3));
-			count = random.nextInt(2)+1;
+			count = random.nextInt(random.nextInt(4) + 1);
 			for(int i = 0; i < count; i++)
 				level.add(new ItemEntity(new ResourceItem(Resource.acorn), x * 16 + random.nextInt(10)+3, y * 16  + random.nextInt(10)+3));
 			level.setTile(x, y, Tile.grass, 0);
