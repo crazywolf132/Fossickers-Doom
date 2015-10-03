@@ -1,4 +1,4 @@
-# MinicraftUltimateEdition
+# Minicraft: Ultimate Edition
 ### TODO
 * Multiplayer
 * GamePad Support
