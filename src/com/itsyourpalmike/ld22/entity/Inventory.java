@@ -11,12 +11,11 @@ public class Inventory
 {
 	public List<Item> items = new ArrayList<Item>();
 
-
 	public void add(Item item)
 	{
 		add(items.size(), item);
 	}
-	
+
 	public void add(int slot, Item item)
 	{
 		if (item instanceof ResourceItem)

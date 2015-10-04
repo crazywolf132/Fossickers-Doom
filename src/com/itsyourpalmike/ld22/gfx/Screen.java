@@ -1,9 +1,5 @@
 package com.itsyourpalmike.ld22.gfx;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 public class Screen
 {
 	public int xOffset;
@@ -25,10 +21,10 @@ public class Screen
 
 		pixels = new int[w * h];
 	}
-	
+
 	public void clear()
 	{
-		for(int i = 0; i < pixels.length; i++)
+		for (int i = 0; i < pixels.length; i++)
 		{
 			pixels[i] = 0;
 		}

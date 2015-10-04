@@ -11,7 +11,7 @@ public class AcornResource extends Resource
 		super(name, sprite, color);
 	}
 
-
+	// Plant a tree when we use an acorn - DUH!
 	public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir)
 	{
 		if(tile == Tile.grass)
@@ -19,6 +19,7 @@ public class AcornResource extends Resource
 			level.setTile(xt, yt, Tile.tree, 0);
 			return true;
 		}
+		
 		return false;
 	}
 }

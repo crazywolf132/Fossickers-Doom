@@ -63,30 +63,31 @@ public class GrassTile extends Tile
 			screen.render(x * 16 + 8, y * 16 + 8, (r ? 13 : 12) + (d ? 2 : 1) * 32, transitionColor, 0);
 		}
 	}
-	
+
+	// Spread grass onto adjacent dirt tiles
 	public void tick(Level level, int xt, int yt)
 	{
-		if(random.nextInt(10) != 0) return;
+		if (random.nextInt(10) != 0) return; // Growing offset delay thing-a-ma-bob
+		
 		int xn = xt;
 		int yn = yt;
-		
-		if(random.nextBoolean())
-			xn += random.nextInt(2) * 2 -1;
-		else
-			yn += random.nextInt(2)*2-1;
-		
-		if(level.getTile(xn, yn) == Tile.dirt)
+
+		if (random.nextBoolean()) xn += random.nextInt(2) * 2 - 1;
+		else yn += random.nextInt(2) * 2 - 1;
+
+		if (level.getTile(xn, yn) == Tile.dirt)
 		{
 			level.setTile(xn, yn, this, 0);
 		}
 	}
-	
+
+	// Turn grass to dirt when a shovel is used - AKA the player is digging
 	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
 	{
-		if(item instanceof ToolItem)
+		if (item instanceof ToolItem)
 		{
-			ToolItem tool = (ToolItem) item;
-			if(tool.type ==ToolType.shovel)
+			ToolItem tool = (ToolItem)item;
+			if (tool.type == ToolType.shovel)
 			{
 				level.setTile(xt, yt, Tile.dirt, 0);
 			}

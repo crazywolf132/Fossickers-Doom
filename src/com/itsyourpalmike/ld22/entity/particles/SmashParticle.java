@@ -4,6 +4,7 @@ import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 
+// Renders basically a curvy white X to indicate hitting a tile
 public class SmashParticle extends Entity
 {
 	private int time = 0;

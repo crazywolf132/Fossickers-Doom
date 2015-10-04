@@ -18,7 +18,7 @@ public class Resource
 
 	public Resource(String name, int sprite, int color)
 	{
-		if (name.length() > 6) throw new RuntimeException("NAme cannot be longer than six characters!");
+		if (name.length() > 6) throw new RuntimeException("Resource name cannot be longer than six characters!");
 		this.name = name;
 		this.sprite = sprite;
 		this.color = color;
@@ -29,5 +29,4 @@ public class Resource
 		
 		return false;
 	}
-
 }

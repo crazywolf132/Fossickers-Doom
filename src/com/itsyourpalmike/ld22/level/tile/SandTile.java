@@ -21,23 +21,20 @@ public class SandTile extends Tile
 	public void render(Screen screen, Level level, int x, int y)
 	{
 		// This render creates smooth corners and shapes, so the world isn't obviously blocky
-
-		int col = Color.get(level.sandColor+2, level.sandColor, level.sandColor - 110,level.sandColor - 110);
+		int col = Color.get(level.sandColor + 2, level.sandColor, level.sandColor - 110, level.sandColor - 110);
 		int transitionColor = Color.get(level.sandColor - 110, level.sandColor, level.sandColor - 110, level.dirtColor);
 
 		boolean u = !level.getTile(x, y - 1).connectsToSand;
 		boolean d = !level.getTile(x, y + 1).connectsToSand;
 		boolean l = !level.getTile(x - 1, y).connectsToSand;
 		boolean r = !level.getTile(x + 1, y).connectsToSand;
-		
+
 		boolean steppedOn = level.getData(x, y) > 0;
 
 		if (!u && !l)
 		{
-			if(!steppedOn)
-				screen.render(x * 16 + 0, y * 16 + 0, 0, col, 0);
-			else
-				screen.render(x * 16 + 0, y * 16 + 0, 3+1*32, col, 0);
+			if (!steppedOn) screen.render(x * 16 + 0, y * 16 + 0, 0, col, 0);
+			else screen.render(x * 16 + 0, y * 16 + 0, 3 + 1 * 32, col, 0);
 		}
 		else
 		{
@@ -64,41 +61,41 @@ public class SandTile extends Tile
 
 		if (!d && !r)
 		{
-			if(!steppedOn)
-				screen.render(x * 16 + 8, y * 16 + 8, 3, col, 0);
-			else
-				screen.render(x * 16 + 8, y * 16 + 8, 3+1*32, col, 0);
+			if (!steppedOn) screen.render(x * 16 + 8, y * 16 + 8, 3, col, 0);
+			else screen.render(x * 16 + 8, y * 16 + 8, 3 + 1 * 32, col, 0);
 		}
 		else
 		{
 			screen.render(x * 16 + 8, y * 16 + 8, (r ? 13 : 12) + (d ? 2 : 1) * 32, transitionColor, 0);
 		}
 	}
-	
+
+	// Make footprints in sand!!!
+	/////////////////////////////////////////////////////////////////
 	public void tick(Level level, int x, int y)
 	{
 		int d = level.getData(x, y);
-		if(d>0)
-			level.setData(x, y, d-1);
-		
+		if (d > 0) level.setData(x, y, d - 1);
 	}
-	
+
 	public void steppedOn(Level level, int x, int y, Entity entity)
 	{
-		if(entity instanceof Mob)
+		if (entity instanceof Mob)
 		{
 			level.setData(x, y, 10);
 		}
 	}
-	
+	/////////////////////////////////////////////////////////////////
+
+	// If a player digs sand with a shovel, make a hole!!! - DUH!!!
 	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
 	{
-		if(item instanceof ToolItem)
+		if (item instanceof ToolItem)
 		{
-			ToolItem tool = (ToolItem) item;
-			if(tool.type ==ToolType.shovel)
+			ToolItem tool = (ToolItem)item;
+			if (tool.type == ToolType.shovel)
 			{
-				level.setTile(xt, yt, Tile.dirt, 0);
+				level.setTile(xt, yt, Tile.hole, 0);
 			}
 		}
 	}

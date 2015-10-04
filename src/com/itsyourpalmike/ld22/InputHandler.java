@@ -7,6 +7,8 @@ import java.util.List;
 
 public class InputHandler implements KeyListener
 {
+	// KEY CLASS
+	//////////////////////////////////////////////
 	public class Key
 	{
 		public int presses, absorbs;
@@ -28,10 +30,10 @@ public class InputHandler implements KeyListener
 				}
 			}
 		}
-		
+
 		public void tick()
 		{
-			if(absorbs < presses)
+			if (absorbs < presses)
 			{
 				absorbs++;
 				clicked = true;
@@ -42,6 +44,7 @@ public class InputHandler implements KeyListener
 			}
 		}
 	}
+	//////////////////////////////////////////////
 
 	public List<Key> keys = new ArrayList<Key>();
 
@@ -56,7 +59,7 @@ public class InputHandler implements KeyListener
 	{
 		for (int i = 0; i < keys.size(); i++)
 		{
-			keys.get(i).tick();
+			keys.get(i).toggle(false);
 		}
 	}
 
@@ -97,7 +100,7 @@ public class InputHandler implements KeyListener
 		if (k.getKeyCode() == KeyEvent.VK_DOWN) down.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_LEFT) left.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_RIGHT) right.toggle(pressed);
-		
+
 		if (k.getKeyCode() == KeyEvent.VK_W) up.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_S) down.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_A) left.toggle(pressed);

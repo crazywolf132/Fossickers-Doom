@@ -36,6 +36,7 @@ public class Player extends Mob
 		// Moving the player
 		int xa = 0;
 		int ya = 0;
+
 		if (input.up.down)
 		{
 			ya--;
@@ -55,11 +56,13 @@ public class Player extends Mob
 
 		move(xa, ya);
 
-		// Attacking
+		// Pressing the attack button
 		if (input.attack.clicked)
 		{
 			attack();
 		}
+
+		// Pressing the menu button
 		if (input.menu.clicked)
 		{
 			if (!use())
@@ -73,12 +76,11 @@ public class Player extends Mob
 
 	private void attack()
 	{
-
 		walkDist += 8;
 		attackDir = dir;
 
 		attackItem = activeItem;
-		if (activeItem == null)
+		if (activeItem == null) // If we have a bare hand
 		{
 			attackTime = 5;
 			int yo = -2;
@@ -115,15 +117,13 @@ public class Player extends Mob
 			{
 				level.getTile(xt, yt).hurt(level, xt, yt, this, random.nextInt(4) + 1, attackDir);
 			}
-
 		}
-
 		else
 		{
 			attackTime = 10;
 			int yo = -2;
 
-			// Hurts entities inside of tiles within the player's attack zone
+			// Interacting w/ entities inside of tiles within the player's attack zone
 			if (dir == 0)
 			{
 				interact(x - 8, y + 4 + yo, x + 8, y + 12 + yo);
@@ -141,7 +141,7 @@ public class Player extends Mob
 				interact(x - 12, y - 8 + yo, x - 4, y + 8 + yo);
 			}
 
-			// Hurts the tile the player is facing
+			// Interacts with the tile the player is facing
 			int xt = x >> 4;
 			int yt = (y + yo) >> 4;
 			int r = 12;
@@ -153,40 +153,34 @@ public class Player extends Mob
 
 			if (xt >= 0 && yt >= 0 && xt < level.w && yt < level.h)
 			{
-
 				if (activeItem.interactOn(level.getTile(xt, yt), level, xt, yt, this, attackDir))
 				{
+					
 				}
 				else
 				{
 					level.getTile(xt, yt).interact(level, xt, yt, this, activeItem, attackDir);
-					
 				}
 
-				if(activeItem.isDepleted())
+				if (activeItem.isDepleted())
 				{
 					activeItem = null;
 				}
 			}
 
 		}
-
 	}
 
+	// Using menu button
 	private boolean use()
 	{
-
 		int yo = -2;
 
-		// Hurts entities inside of tiles within the player's attack zone
 		if (dir == 0 && use(x - 8, y + 4 + yo, x + 8, y + 12 + yo)) return true;
 		if (dir == 1 && use(x - 8, y - 12 + yo, x + 8, y - 4 + yo)) return true;
-
 		if (dir == 3 && use(x + 4, y - 8 + yo, x + 12, y + 8 + yo)) return true;
-
 		if (dir == 2 && use(x - 12, y - 8 + yo, x - 4, y + 8 + yo)) return true;
 
-		// Hurts the tile the player is facing
 		int xt = x >> 4;
 		int yt = (y + yo) >> 4;
 		int r = 12;
@@ -207,6 +201,7 @@ public class Player extends Mob
 		return false;
 	}
 
+	// Usong menu button on entities
 	private boolean use(int x0, int y0, int x1, int y1)
 	{
 		List<Entity> entities = level.getEntities(x0, y0, x1, y1);
@@ -219,7 +214,7 @@ public class Player extends Mob
 		return false;
 	}
 
-	// Hurting enemies
+	// Using the active item to interact with entities
 	private void interact(int x0, int y0, int x1, int y1)
 	{
 		List<Entity> entities = level.getEntities(x0, y0, x1, y1);
@@ -230,7 +225,7 @@ public class Player extends Mob
 		}
 	}
 
-	// Hurting enemies
+	// Hurting enemies with bare hand (random number damage)
 	private void hurt(int x0, int y0, int x1, int y1)
 	{
 		List<Entity> entities = level.getEntities(x0, y0, x1, y1);
@@ -290,7 +285,7 @@ public class Player extends Mob
 
 			if (attackItem != null)
 			{
-				attackItem.renderIcon(screen, xo + 4, yo - 4);
+				attackItem.renderIcon(screen, xo + 4, yo - 4); // Rendering item icon
 			}
 		}
 
@@ -303,7 +298,7 @@ public class Player extends Mob
 		screen.render(xo + 8 * flip1, yo + 0, xt + yt * 32, col, flip1);
 		screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, col, flip1);
 
-		if (!inWater())
+		if (!inWater()) // If we're in water, don't render lower half of the player
 		{
 			screen.render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, col, flip2);
 			screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, col, flip2);
@@ -317,7 +312,7 @@ public class Player extends Mob
 
 			if (attackItem != null)
 			{
-				attackItem.renderIcon(screen, xo - 4, yo + 4);
+				attackItem.renderIcon(screen, xo - 4, yo + 4); // Rendering item icon
 			}
 		}
 
@@ -329,7 +324,7 @@ public class Player extends Mob
 
 			if (attackItem != null)
 			{
-				attackItem.renderIcon(screen, xo + 8 + 4, yo + 4);
+				attackItem.renderIcon(screen, xo + 8 + 4, yo + 4); // Rendering item icon
 			}
 		}
 
@@ -341,11 +336,12 @@ public class Player extends Mob
 
 			if (attackItem != null)
 			{
-				attackItem.renderIcon(screen, xo + 4, yo + 8 + 4);
+				attackItem.renderIcon(screen, xo + 4, yo + 8 + 4); // Rendering item icon
 			}
 		}
 	}
 
+	// Colliding with an ItemEntity AKA picking up loot
 	public void touchItem(ItemEntity itemEntity)
 	{
 		inventory.add(itemEntity.item);
@@ -357,7 +353,7 @@ public class Player extends Mob
 		return true;
 	}
 
-	// validates a starting position so mobs don't spawn inside of walls
+	// validates a starting position so player doesn't spawn inside of walls
 	public void findStartPos(Level level)
 	{
 		while (true)

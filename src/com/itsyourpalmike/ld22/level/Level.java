@@ -36,14 +36,19 @@ public class Level
 		}
 	};
 
+	@SuppressWarnings("unchecked")
 	public Level(int w, int h)
 	{
 		this.w = w;
 		this.h = h;
+
 		byte[][] maps = NoiseMap.getMap(w, h);
+
 		tiles = maps[0];
 		data = maps[1];
+
 		entitiesInTiles = new ArrayList[w * h];
+
 		for (int i = 0; i < w * h; i++)
 		{
 			entitiesInTiles[i] = new ArrayList<Entity>();
@@ -88,10 +93,11 @@ public class Level
 				this.rowSprites.addAll(entitiesInTiles[x + y * this.w]);
 			}
 
-			if(rowSprites.size() > 0)
+			if (rowSprites.size() > 0)
 			{
 				sortAndRender(screen, rowSprites);
 			}
+			
 			this.rowSprites.clear();
 		}
 		screen.setOffset(0, 0);
@@ -101,7 +107,7 @@ public class Level
 	private void sortAndRender(Screen screen, List<Entity> list)
 	{
 		Collections.sort(list, spriteSorter);
-		for(int i = 0; i < list.size(); i++)
+		for (int i = 0; i < list.size(); i++)
 		{
 			list.get(i).render(screen);
 		}
@@ -117,19 +123,19 @@ public class Level
 	{
 		if (x < 0 || y < 0 || x >= w || y >= h) return;
 		tiles[x + y * w] = t.id;
-		data[x + y * w] = (byte) dataVal;
+		data[x + y * w] = (byte)dataVal;
 	}
-	
+
 	public int getData(int x, int y)
 	{
 		if (x < 0 || y < 0 || x >= w || y >= h) return 0;
-		return data[x + y * w]&0xff;
+		return data[x + y * w] & 0xff;
 	}
-	
+
 	public void setData(int x, int y, int val)
 	{
 		if (x < 0 || y < 0 || x >= w || y >= h) return;
-		data[x + y * w] = (byte) val;
+		data[x + y * w] = (byte)val;
 	}
 
 	// Adds entity to entities arraylist and inserts it into tile/entity spot
@@ -158,21 +164,23 @@ public class Level
 
 	public void tick()
 	{
-		for(int i = 0; i < w * h / 50; i++)
+		// Ticks tiles with delays and randomization offset
+		for (int i = 0; i < w * h / 50; i++)
 		{
 			int xt = random.nextInt(w);
 			int yt = random.nextInt(w);
 			getTile(xt, yt).tick(this, xt, yt);
 		}
-		
+
 		for (int i = 0; i < entities.size(); i++)
 		{
 			Entity e = entities.get(i);
 			int xto = e.x >> 4;
 			int yto = e.y >> 4;
-			
+
 			e.tick();
-			
+
+			// Get rid of entities (dead mob, picked up loot, etc...)
 			if (e.removed)
 			{
 				entities.remove(i--);
@@ -181,9 +189,10 @@ public class Level
 			}
 			else
 			{
-
 				int xt = e.x >> 4;
 				int yt = e.y >> 4;
+				
+				// If an entity has moved to a new tile... KEEP TRACK OF IT!!!
 				if (xto != xt || yto != yt)
 				{
 					removeEntity(xto, yto, e);
@@ -197,21 +206,23 @@ public class Level
 	public List<Entity> getEntities(int x0, int y0, int x1, int y1)
 	{
 		List<Entity> result = new ArrayList<Entity>();
+
+		int xt0 = (x0 >> 4) - 1;
+		int yt0 = (y0 >> 4) - 1;
+		int xt1 = (x1 >> 4) + 1;
+		int yt1 = (y1 >> 4) + 1;
 		
-		int xt0 = (x0 >> 4)-1;
-		int yt0 = (y0 >> 4)-1;
-		int xt1 = (x1 >> 4)+1;
-		int yt1 = (y1 >> 4)+1;
-		for(int y = yt0; y <= yt1; y++)
+		for (int y = yt0; y <= yt1; y++)
 		{
-			for(int x = xt0; x <= xt1; x++)
+			for (int x = xt0; x <= xt1; x++)
 			{
 				if (x < 0 || y < 0 || x >= w || y >= h) continue;
 				List<Entity> entities = entitiesInTiles[x + y * this.w];
-				for(int i = 0; i < entities.size(); i++)
+				
+				for (int i = 0; i < entities.size(); i++)
 				{
 					Entity e = entities.get(i);
-					if(e.intersects(x0, y0, x1, y1)) result.add(e);
+					if (e.intersects(x0, y0, x1, y1)) result.add(e);
 				}
 			}
 		}

@@ -72,6 +72,7 @@ public class NoiseMap
 				}
 
 			}
+			
 			stepSize /= 2;
 			scale *= (scaleMod + 0.8);
 			scaleMod *= 0.3;
@@ -123,7 +124,7 @@ public class NoiseMap
 				dist = dist * dist * dist * dist;
 				val = val + 1 - dist * 20;
 
-				// Creating tiles
+				// Creating basic tiles
 				if (val < -0.5)
 				{
 					map[i] = Tile.water.id;
@@ -204,7 +205,6 @@ public class NoiseMap
 		{
 			int x = random.nextInt(w);
 			int y = random.nextInt(h);
-			int col = random.nextInt(4);
 			for (int j = 0; j < 200; j++)
 			{
 				int xx = x + random.nextInt(15) - random.nextInt(15);
@@ -245,7 +245,6 @@ public class NoiseMap
 		{
 			int xx = random.nextInt(w);
 			int yy = random.nextInt(h);
-			int col = random.nextInt(4);
 			if (xx >= 0 && yy >= 0 && xx < w && yy < h)
 			{
 				if (map[xx + yy * w] == Tile.sand.id)

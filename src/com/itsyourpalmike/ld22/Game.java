@@ -36,22 +36,21 @@ public class Game extends Canvas implements Runnable
 	// Important game variables
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+	private int[] colors = new int[256];
 	private boolean running = false;
+	private int tickCount = 0;
+
+	// Important game objects
 	private InputHandler input = new InputHandler(this);
 	private Screen screen;
-
-	private int[] colors = new int[256];
-
-	private int tickCount = 0;
 	private Level level;
 	private Player player;
-
 	public Menu menu;
 
 	public void setMenu(Menu menu)
 	{
 		this.menu = menu;
-		if(menu != null) menu.init(this, input);
+		if (menu != null) menu.init(this, input);
 	}
 
 	public void start()
@@ -65,12 +64,61 @@ public class Game extends Canvas implements Runnable
 		running = false;
 	}
 
+	public void run()
+	{
+		init();
+
+		long lastTime = System.nanoTime();
+		double unprocessed = 0;
+		double nsPerTick = 1000000000.0 / 60.0;
+		long lastTimer1 = System.currentTimeMillis();
+
+		// Game Loop
+		while (running)
+		{
+			long now = System.nanoTime();
+			unprocessed += (now - lastTime) / nsPerTick;
+			lastTime = now;
+			boolean shouldRender = true;
+
+			while (unprocessed >= 1)
+			{
+				tick();
+				unprocessed -= 1;
+				shouldRender = true;
+			}
+
+			try
+			{
+				Thread.sleep(1);
+			}
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+
+			if (shouldRender)
+			{
+				render();
+			}
+
+			if (System.currentTimeMillis() - lastTimer1 > 1000)
+			{
+				lastTimer1 += 1000;
+			}
+		}
+	}
+
 	private void init()
 	{
 		level = new Level(128, 128);
+
+		// Creating the player and validating start position
 		player = new Player(this, input);
 		player.findStartPos(level);
 		level.add(player);
+
+		// Spawn in some mobs
 		for (int i = 0; i < 100; i++)
 		{
 			TestMob m = new TestMob();
@@ -108,65 +156,14 @@ public class Game extends Canvas implements Runnable
 		{
 			e.printStackTrace();
 		}
-		
+
+		// Displays the Main Menu Screen
 		setMenu(new TitleMenu());
-	}
-
-	public void run()
-	{
-		init();
-
-		long lastTime = System.nanoTime();
-		double unprocessed = 0;
-		double nsPerTick = 1000000000.0 / 60.0;
-		int frames = 0;
-		int ticks = 0;
-		long lastTimer1 = System.currentTimeMillis();
-
-		// Game Loop
-		while (running)
-		{
-			long now = System.nanoTime();
-			unprocessed += (now - lastTime) / nsPerTick;
-			lastTime = now;
-			boolean shouldRender = true;
-
-			while (unprocessed >= 1)
-			{
-				ticks++;
-				tick();
-				unprocessed -= 1;
-				shouldRender = true;
-			}
-
-			try
-			{
-				Thread.sleep(1);
-			}
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-
-			if (shouldRender)
-			{
-				frames++;
-				render();
-			}
-
-			if (System.currentTimeMillis() - lastTimer1 > 1000)
-			{
-				lastTimer1 += 1000;
-				frames = 0;
-				ticks = 0;
-			}
-		}
 	}
 
 	public void tick()
 	{
 		tickCount++;
-		
 		input.tick();
 
 		if (menu != null)
@@ -235,6 +232,7 @@ public class Game extends Canvas implements Runnable
 
 	private void renderGui()
 	{
+		// Black bar at the bottom of the screen
 		for (int y = 0; y < 2; y++)
 		{
 			for (int x = 0; x < 20; x++)
@@ -243,19 +241,22 @@ public class Game extends Canvas implements Runnable
 			}
 		}
 
+		// Player hearts
 		for (int i = 0; i < 10; i++)
 		{
 			if (i < player.health) screen.render(i * 8, screen.h - 16, 0 + 12 * 32, Color.get(000, 200, 500, 533), 0);
 			else screen.render(i * 8, screen.h - 16, 0 + 12 * 32, Color.get(000, 100, 000, 000), 0);
 
 		}
-		
-		if(player.activeItem != null)
+
+		// Player's currently equipped item
+		if (player.activeItem != null)
 		{
 			player.activeItem.renderInventory(screen, 0, screen.h - 8);
 		}
 
-		if(menu != null)
+		// Any other menu (inventory, crafting, etc)
+		if (menu != null)
 		{
 			menu.render(screen);
 		}

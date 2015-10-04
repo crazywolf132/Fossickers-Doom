@@ -7,7 +7,6 @@ import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.item.Item;
 
 public class Menu
 {
@@ -30,15 +29,17 @@ public class Menu
 
 	}
 
+	// Renders an inventory in scrollable list form (for inventory menu, crafting menu, etc...)
 	public void renderItemList(Screen screen, int xo, int yo, int x1, int y1, List<? extends ListItem> listItems, int selected)
 	{
 		boolean renderCursor = true;
-		if(selected < 0)
+		
+		if (selected < 0)
 		{
 			selected = -selected - 1;
 			renderCursor = false;
 		}
-		
+
 		int w = x1 - xo;
 		int h = y1 - yo - 1;
 		int i0 = 0;
