@@ -1,10 +1,8 @@
 package com.itsyourpalmike.ld22.entity;
 
-import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.Item;
-import com.itsyourpalmike.ld22.level.Level;
 
 // This is the entity version of actual items that are on the ground in the level
 public class ItemEntity extends Entity

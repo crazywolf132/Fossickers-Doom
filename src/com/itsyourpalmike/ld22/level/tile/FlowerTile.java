@@ -2,10 +2,14 @@ package com.itsyourpalmike.ld22.level.tile;
 
 import com.itsyourpalmike.ld22.entity.ItemEntity;
 import com.itsyourpalmike.ld22.entity.Mob;
+import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.item.Resource;
+import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.ResourceItem;
+import com.itsyourpalmike.ld22.item.ToolItem;
+import com.itsyourpalmike.ld22.item.ToolType;
+import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 
 public class FlowerTile extends GrassTile
@@ -44,5 +48,19 @@ public class FlowerTile extends GrassTile
 		level.setTile(x,y, Tile.grass, 0);
 		level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10)+3, y * 16  + random.nextInt(10)+3));
 		level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10)+3, y * 16  + random.nextInt(10)+3));
+	}
+	
+	public void interact(Level level, int x, int y, Player player, Item item, int attackDir)
+	{
+		if(item instanceof ToolItem)
+		{
+			ToolItem tool = (ToolItem) item;
+			if(tool.type ==ToolType.shovel)
+			{
+				level.setTile(x, y, Tile.dirt, 0);
+				level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10)+3, y * 16  + random.nextInt(10)+3));
+				level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10)+3, y * 16  + random.nextInt(10)+3));
+			}
+		}
 	}
 }

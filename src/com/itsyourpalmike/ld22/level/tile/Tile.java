@@ -4,7 +4,9 @@ import java.util.Random;
 
 import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.entity.Mob;
+import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.level.Level;
 
 public class Tile
@@ -19,41 +21,56 @@ public class Tile
 	public static Tile dirt = new DirtTile(5);
 	public static Tile sand = new SandTile(6);
 	public static Tile cactus = new CactusTile(7);
-	
+	public static Tile hole = new HoleTile(8);
+
 	public final byte id;
 	public boolean connectsToGrass = false;
 	public boolean connectsToSand = false;
-	
+	public boolean connectsToWater = false;
+
 	public Tile(int id)
 	{
 		this.id = (byte)id;
-		if(tiles[id]!=null) throw new RuntimeException("Duplicate tile ids!");
+		if (tiles[id] != null) throw new RuntimeException("Duplicate tile ids!");
 		tiles[id] = this;
 	}
+
 	public void render(Screen screen, Level level, int x, int y)
 	{
 	}
-	
+
 	public boolean mayPass(Level level, int x, int y, Entity e)
 	{
 		return true;
 	}
-	
+
 	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
 	{
-		
+
 	}
+
 	public void bumpedInto(Level level, int x, int y, Entity entity)
 	{
-		
+
 	}
+
 	public void tick(Level level, int xt, int yt)
 	{
-		
+
 	}
-	
+
 	public void steppedOn(Level level, int xt, int yt, Entity entity)
 	{
+
+	}
+
+	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
+	{
+	}
+
+	public boolean use(Level level, int xt, int yt, Player player, int attackDir)
+	{
 		
+		return false;
 	}
 }

@@ -1,7 +1,11 @@
 package com.itsyourpalmike.ld22.level.tile;
 
+import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.Item;
+import com.itsyourpalmike.ld22.item.ToolItem;
+import com.itsyourpalmike.ld22.item.ToolType;
 import com.itsyourpalmike.ld22.level.Level;
 
 public class GrassTile extends Tile
@@ -62,6 +66,7 @@ public class GrassTile extends Tile
 	
 	public void tick(Level level, int xt, int yt)
 	{
+		if(random.nextInt(10) != 0) return;
 		int xn = xt;
 		int yn = yt;
 		
@@ -73,6 +78,18 @@ public class GrassTile extends Tile
 		if(level.getTile(xn, yn) == Tile.dirt)
 		{
 			level.setTile(xn, yn, this, 0);
+		}
+	}
+	
+	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
+	{
+		if(item instanceof ToolItem)
+		{
+			ToolItem tool = (ToolItem) item;
+			if(tool.type ==ToolType.shovel)
+			{
+				level.setTile(xt, yt, Tile.dirt, 0);
+			}
 		}
 	}
 }

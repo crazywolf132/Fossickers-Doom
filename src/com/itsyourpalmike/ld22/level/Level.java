@@ -158,7 +158,7 @@ public class Level
 
 	public void tick()
 	{
-		for(int i = 0; i < w * h / 1000; i++)
+		for(int i = 0; i < w * h / 50; i++)
 		{
 			int xt = random.nextInt(w);
 			int yt = random.nextInt(w);

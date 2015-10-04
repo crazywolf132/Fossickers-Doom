@@ -13,9 +13,10 @@ public class Anvil extends Furniture
 		xr = 3;
 		yr = 3;
 	}
-	
-	protected void playerUse(Player player)
+
+	public boolean use(Player player, int attackDir)
 	{
 		player.game.setMenu(new CraftingMenu(this, player));
+		return true;
 	}
 }

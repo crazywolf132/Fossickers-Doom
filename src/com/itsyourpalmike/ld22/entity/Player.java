@@ -6,6 +6,7 @@ import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.screen.InventoryMenu;
@@ -14,16 +15,18 @@ public class Player extends Mob
 {
 	private InputHandler input;
 	private int attackTime, attackDir;
-	
+
 	public Inventory inventory = new Inventory();
 	public Game game;
-	
+	public Item activeItem;
+	public Item attackItem;
+
 	public Player(Game game, InputHandler input)
 	{
 		this.input = input;
 		x = y = 24;
 		this.game = game;
-		
+
 	}
 
 	public void tick()
@@ -55,11 +58,14 @@ public class Player extends Mob
 		// Attacking
 		if (input.attack.clicked)
 		{
-				attack();
+			attack();
 		}
 		if (input.menu.clicked)
 		{
-			game.setMenu(new InventoryMenu(this));
+			if (!use())
+			{
+				game.setMenu(new InventoryMenu(this));
+			}
 		}
 
 		if (attackTime > 0) attackTime--;
@@ -67,28 +73,118 @@ public class Player extends Mob
 
 	private void attack()
 	{
+
 		walkDist += 8;
 		attackDir = dir;
-		attackTime = 5;
+
+		attackItem = activeItem;
+		if (activeItem == null)
+		{
+			attackTime = 5;
+			int yo = -2;
+
+			// Hurts entities inside of tiles within the player's attack zone
+			if (dir == 0)
+			{
+				hurt(x - 8, y + 4 + yo, x + 8, y + 12 + yo);
+			}
+			if (dir == 1)
+			{
+				hurt(x - 8, y - 12 + yo, x + 8, y - 4 + yo);
+			}
+			if (dir == 3)
+			{
+				hurt(x + 4, y - 8 + yo, x + 12, y + 8 + yo);
+			}
+			if (dir == 2)
+			{
+				hurt(x - 12, y - 8 + yo, x - 4, y + 8 + yo);
+			}
+
+			// Hurts the tile the player is facing
+			int xt = x >> 4;
+			int yt = (y + yo) >> 4;
+			int r = 12;
+
+			if (attackDir == 0) yt = (y + r + yo) >> 4;
+			if (attackDir == 1) yt = (y - r + yo) >> 4;
+			if (attackDir == 2) xt = (x - r) >> 4;
+			if (attackDir == 3) xt = (x + r) >> 4;
+
+			if (xt >= 0 && yt >= 0 && xt < level.w && yt < level.h)
+			{
+				level.getTile(xt, yt).hurt(level, xt, yt, this, random.nextInt(4) + 1, attackDir);
+			}
+
+		}
+
+		else
+		{
+			attackTime = 10;
+			int yo = -2;
+
+			// Hurts entities inside of tiles within the player's attack zone
+			if (dir == 0)
+			{
+				interact(x - 8, y + 4 + yo, x + 8, y + 12 + yo);
+			}
+			if (dir == 1)
+			{
+				interact(x - 8, y - 12 + yo, x + 8, y - 4 + yo);
+			}
+			if (dir == 3)
+			{
+				interact(x + 4, y - 8 + yo, x + 12, y + 8 + yo);
+			}
+			if (dir == 2)
+			{
+				interact(x - 12, y - 8 + yo, x - 4, y + 8 + yo);
+			}
+
+			// Hurts the tile the player is facing
+			int xt = x >> 4;
+			int yt = (y + yo) >> 4;
+			int r = 12;
+
+			if (attackDir == 0) yt = (y + r + yo) >> 4;
+			if (attackDir == 1) yt = (y - r + yo) >> 4;
+			if (attackDir == 2) xt = (x - r) >> 4;
+			if (attackDir == 3) xt = (x + r) >> 4;
+
+			if (xt >= 0 && yt >= 0 && xt < level.w && yt < level.h)
+			{
+
+				if (activeItem.interactOn(level.getTile(xt, yt), level, xt, yt, this, attackDir))
+				{
+				}
+				else
+				{
+					level.getTile(xt, yt).interact(level, xt, yt, this, activeItem, attackDir);
+					
+				}
+
+				if(activeItem.isDepleted())
+				{
+					activeItem = null;
+				}
+			}
+
+		}
+
+	}
+
+	private boolean use()
+	{
+
 		int yo = -2;
 
 		// Hurts entities inside of tiles within the player's attack zone
-		if (dir == 0)
-		{
-			hurt(x - 8, y + 4 + yo, x + 8, y + 12 + yo);
-		}
-		if (dir == 1)
-		{
-			hurt(x - 8, y - 12 + yo, x + 8, y - 4 + yo);
-		}
-		if (dir == 3)
-		{
-			hurt(x + 4, y - 8 + yo, x + 12, y + 8 + yo);
-		}
-		if (dir == 2)
-		{
-			hurt(x - 12, y - 8 + yo, x - 4, y + 8 + yo);
-		}
+		if (dir == 0 && use(x - 8, y + 4 + yo, x + 8, y + 12 + yo)) return true;
+		if (dir == 1 && use(x - 8, y - 12 + yo, x + 8, y - 4 + yo)) return true;
+
+		if (dir == 3 && use(x + 4, y - 8 + yo, x + 12, y + 8 + yo)) return true;
+
+		if (dir == 2 && use(x - 12, y - 8 + yo, x - 4, y + 8 + yo)) return true;
 
 		// Hurts the tile the player is facing
 		int xt = x >> 4;
@@ -102,9 +198,36 @@ public class Player extends Mob
 
 		if (xt >= 0 && yt >= 0 && xt < level.w && yt < level.h)
 		{
-			level.getTile(xt, yt).hurt(level, xt, yt, this, random.nextInt(4) + 1, attackDir);
+			if (level.getTile(xt, yt).use(level, xt, yt, this, attackDir))
+			{
+				return true;
+			}
 		}
 
+		return false;
+	}
+
+	private boolean use(int x0, int y0, int x1, int y1)
+	{
+		List<Entity> entities = level.getEntities(x0, y0, x1, y1);
+		for (int i = 0; i < entities.size(); i++)
+		{
+			Entity e = entities.get(i);
+			if (e != this) if (e.use(this, attackDir)) return true;
+		}
+
+		return false;
+	}
+
+	// Hurting enemies
+	private void interact(int x0, int y0, int x1, int y1)
+	{
+		List<Entity> entities = level.getEntities(x0, y0, x1, y1);
+		for (int i = 0; i < entities.size(); i++)
+		{
+			Entity e = entities.get(i);
+			if (e != this) if (e.interact(this, activeItem, attackDir)) return;
+		}
 	}
 
 	// Hurting enemies
@@ -164,10 +287,15 @@ public class Player extends Mob
 		{
 			screen.render(xo + 0, yo - 4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 0);
 			screen.render(xo + 8, yo - 4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 1);
+
+			if (attackItem != null)
+			{
+				attackItem.renderIcon(screen, xo + 4, yo - 4);
+			}
 		}
 
 		// Rendering the player
-		int col = Color.get(-1, 111, 145, 543);
+		int col = Color.get(-1, 100, 220, 532);
 		if (hurtTime > 0)
 		{
 			col = Color.get(-1, 555, 555, 555);
@@ -186,6 +314,11 @@ public class Player extends Mob
 		{
 			screen.render(xo - 4, yo, 7 + 13 * 32, Color.get(-1, 555, 555, 555), 1);
 			screen.render(xo - 4, yo + 8, 7 + 13 * 32, Color.get(-1, 555, 555, 555), 3);
+
+			if (attackItem != null)
+			{
+				attackItem.renderIcon(screen, xo - 4, yo + 4);
+			}
 		}
 
 		// Rendering attack thing-a-ma-bob
@@ -193,6 +326,11 @@ public class Player extends Mob
 		{
 			screen.render(xo + 8 + 4, yo, 7 + 13 * 32, Color.get(-1, 555, 555, 555), 0);
 			screen.render(xo + 8 + 4, yo + 8, 7 + 13 * 32, Color.get(-1, 555, 555, 555), 2);
+
+			if (attackItem != null)
+			{
+				attackItem.renderIcon(screen, xo + 8 + 4, yo + 4);
+			}
 		}
 
 		// Rendering attack thing-a-ma-bob
@@ -200,6 +338,11 @@ public class Player extends Mob
 		{
 			screen.render(xo + 0, yo + 8 + 4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 2);
 			screen.render(xo + 8, yo + 8 + 4, 6 + 13 * 32, Color.get(-1, 555, 555, 555), 3);
+
+			if (attackItem != null)
+			{
+				attackItem.renderIcon(screen, xo + 4, yo + 8 + 4);
+			}
 		}
 	}
 
@@ -225,8 +368,8 @@ public class Player extends Mob
 			{
 				this.x = x * 16 + 8;
 				this.y = y * 16 + 8;
-				level.add(new Anvil(this.x-16, this.y));
-				level.add(new Chest(this.x+16, this.y));
+				level.add(new Anvil(this.x - 16, this.y));
+				level.add(new Chest(this.x + 16, this.y));
 				break;
 			}
 		}

@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.itsyourpalmike.ld22.item.Item;
-import com.itsyourpalmike.ld22.item.Resource;
 import com.itsyourpalmike.ld22.item.ResourceItem;
+import com.itsyourpalmike.ld22.item.resource.Resource;
 
 public class Inventory
 {
 	public List<Item> items = new ArrayList<Item>();
 
+
 	public void add(Item item)
+	{
+		add(items.size(), item);
+	}
+	
+	public void add(int slot, Item item)
 	{
 		if (item instanceof ResourceItem)
 		{
@@ -28,7 +34,7 @@ public class Inventory
 		}
 		else
 		{
-			items.add(item);
+			items.add(slot, item);
 		}
 	}
 

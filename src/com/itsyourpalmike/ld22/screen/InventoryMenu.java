@@ -1,9 +1,9 @@
 package com.itsyourpalmike.ld22.screen;
 
 import com.itsyourpalmike.ld22.entity.Player;
-import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.Item;
 
 public class InventoryMenu extends Menu
 {
@@ -13,6 +13,12 @@ public class InventoryMenu extends Menu
 	public InventoryMenu(Player player)
 	{
 		this.player = player;
+		
+		if(player.activeItem != null)
+		{
+			player.inventory.items.add(0, player.activeItem);
+			player.activeItem = null;
+		}
 	}
 
 	public void tick()
@@ -26,6 +32,13 @@ public class InventoryMenu extends Menu
 		if(len==0) selected = 0;
 		if(selected < 0) selected += len;
 		if(selected >= len) selected -= len;
+		
+		if(input.attack.clicked && len > 0)
+		{
+			Item item = player.inventory.items.remove(selected);
+			player.activeItem = item;
+			game.setMenu(null);
+		}
 	}
 	
 	public void render(Screen screen)

@@ -7,8 +7,8 @@ import com.itsyourpalmike.ld22.entity.particles.SmashParticle;
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.item.Resource;
 import com.itsyourpalmike.ld22.item.ResourceItem;
+import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 
 public class CactusTile extends Tile

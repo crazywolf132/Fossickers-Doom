@@ -57,7 +57,7 @@ public class TestMob extends Mob
 		int xo = x - 8;
 		int yo = y - 11;
 		
-		int col = Color.get(-1, 100, shirtColor, 532);
+		int col = Color.get(-1, 10, shirtColor, 40);
 		if(hurtTime > 0)
 		{
 			col = Color.get(-1, 555, 555, 555); // Render mob white (because it's hit)

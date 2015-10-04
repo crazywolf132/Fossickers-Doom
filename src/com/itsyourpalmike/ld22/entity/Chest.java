@@ -1,10 +1,10 @@
 package com.itsyourpalmike.ld22.entity;
 
 import com.itsyourpalmike.ld22.gfx.Color;
-import com.itsyourpalmike.ld22.item.Resource;
 import com.itsyourpalmike.ld22.item.ResourceItem;
 import com.itsyourpalmike.ld22.item.ToolItem;
 import com.itsyourpalmike.ld22.item.ToolType;
+import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.screen.ContainerMenu;
 
 public class Chest extends Furniture
@@ -29,8 +29,11 @@ public class Chest extends Furniture
 		}
 	}
 
-	protected void playerUse(Player player)
+
+
+	public boolean use(Player player, int attackDir)
 	{
 		player.game.setMenu(new ContainerMenu(player, "Chest", inventory));
+		return true;
 	}
 }

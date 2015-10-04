@@ -97,13 +97,23 @@ public class InputHandler implements KeyListener
 		if (k.getKeyCode() == KeyEvent.VK_DOWN) down.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_LEFT) left.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_RIGHT) right.toggle(pressed);
+		
+		if (k.getKeyCode() == KeyEvent.VK_W) up.toggle(pressed);
+		if (k.getKeyCode() == KeyEvent.VK_S) down.toggle(pressed);
+		if (k.getKeyCode() == KeyEvent.VK_A) left.toggle(pressed);
+		if (k.getKeyCode() == KeyEvent.VK_D) right.toggle(pressed);
 
 		if (k.getKeyCode() == KeyEvent.VK_TAB) menu.toggle(pressed);
-		if (k.getKeyCode() == KeyEvent.VK_ALT) attack.toggle(pressed);
-		if (k.getKeyCode() == KeyEvent.VK_ALT_GRAPH) attack.toggle(pressed);
+		if (k.getKeyCode() == KeyEvent.VK_ALT) menu.toggle(pressed);
+		if (k.getKeyCode() == KeyEvent.VK_ALT_GRAPH) menu.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_SPACE) attack.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_CONTROL) attack.toggle(pressed);
+		if (k.getKeyCode() == KeyEvent.VK_NUMPAD0) attack.toggle(pressed);
+		if (k.getKeyCode() == KeyEvent.VK_INSERT) attack.toggle(pressed);
+		if (k.getKeyCode() == KeyEvent.VK_ENTER) menu.toggle(pressed);
 
+		if (k.getKeyCode() == KeyEvent.VK_X) menu.toggle(pressed);
+		if (k.getKeyCode() == KeyEvent.VK_C) attack.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_X) menu.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_C) attack.toggle(pressed);
 	}

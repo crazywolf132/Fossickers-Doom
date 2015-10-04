@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 
@@ -73,6 +74,12 @@ public class Entity
 	protected boolean move2(int xa, int ya)
 	{
 		if (xa != 0 && ya != 0) throw new IllegalArgumentException("Move2 can only mone alone one axis at time!");
+		
+		int xto0 = ((x ) - xr) >> 4;
+		int yto0 = ((y ) - yr) >> 4;
+		int xto1 = ((x ) + xr) >> 4;
+		int yto1 = ((y ) + yr) >> 4;
+		
 		int xt0 = ((x + xa) - xr) >> 4;
 		int yt0 = ((y + ya) - yr) >> 4;
 		int xt1 = ((x + xa) + xr) >> 4;
@@ -83,6 +90,7 @@ public class Entity
 		{
 			for(int xt = xt0; xt<=xt1;xt++)
 			{
+				if(xt>=xto0 && xt<=xto1 && yt>=yto0 && yt<=yto1) continue;
 					level.getTile(xt, yt).bumpedInto(level, xt, yt, this);
 					if (!level.getTile(xt, yt).mayPass(level, xt, yt, this))
 					{
@@ -141,6 +149,17 @@ public class Entity
 
 	public boolean canSwim()
 	{
+		return false;
+	}
+
+	public boolean interact(Player player, Item item, int attackDir)
+	{
+		return item.interact(player, this, attackDir);
+	}
+
+	public boolean use(Player player, int attackDir)
+	{
+		
 		return false;
 	}
 }
