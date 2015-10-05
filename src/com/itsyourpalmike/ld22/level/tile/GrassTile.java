@@ -1,11 +1,14 @@
 package com.itsyourpalmike.ld22.level.tile;
 
+import com.itsyourpalmike.ld22.entity.ItemEntity;
 import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.Item;
+import com.itsyourpalmike.ld22.item.ResourceItem;
 import com.itsyourpalmike.ld22.item.ToolItem;
 import com.itsyourpalmike.ld22.item.ToolType;
+import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 
 public class GrassTile extends Tile
@@ -89,7 +92,17 @@ public class GrassTile extends Tile
 			ToolItem tool = (ToolItem)item;
 			if (tool.type == ToolType.shovel)
 			{
+				player.stamina-=4-tool.level;
 				level.setTile(xt, yt, Tile.dirt, 0);
+				if(random.nextInt(5) == 0)
+				{
+					level.add(new ItemEntity(new ResourceItem(Resource.seeds), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));	
+				}
+			}
+			if (tool.type == ToolType.hoe)
+			{
+				player.stamina-=4-tool.level;
+				level.setTile(xt, yt, Tile.farmland, 0);
 			}
 		}
 	}

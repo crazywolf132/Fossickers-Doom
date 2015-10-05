@@ -7,9 +7,9 @@ public class Anvil extends Furniture
 {
 	public Anvil(int x, int y)
 	{
-		super(x, y);
+		super("Anvil", x, y);
 		col = Color.get(-1, 000, 111, 222);
-		sprite = 0 + 8 * 32;
+		sprite = 0;
 		xr = 3;
 		yr = 3;
 	}

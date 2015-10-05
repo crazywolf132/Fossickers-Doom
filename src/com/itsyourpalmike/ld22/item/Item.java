@@ -50,4 +50,14 @@ public class Item implements ListItem
 	{
 		return false;
 	}
+
+	public boolean canAttack()
+	{
+		return false;
+	}
+
+	public int getAttackDamageBonus(Entity e)
+	{
+		return 0;
+	}
 }

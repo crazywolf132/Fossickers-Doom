@@ -36,8 +36,14 @@ public class DirtTile extends Tile
 			ToolItem tool = (ToolItem)item;
 			if (tool.type == ToolType.shovel)
 			{
+				player.stamina-=4-tool.level;
 				level.setTile(xt, yt, Tile.hole, 0);
 				level.add(new ItemEntity(new ResourceItem(Resource.dirt), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
+			}
+			if (tool.type == ToolType.hoe)
+			{
+				player.stamina-=4-tool.level;
+				level.setTile(xt, yt, Tile.farmland, 0);
 			}
 		}
 	}

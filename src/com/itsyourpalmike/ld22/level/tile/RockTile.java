@@ -3,11 +3,15 @@ package com.itsyourpalmike.ld22.level.tile;
 import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.entity.ItemEntity;
 import com.itsyourpalmike.ld22.entity.Mob;
+import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.entity.particles.SmashParticle;
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.ResourceItem;
+import com.itsyourpalmike.ld22.item.ToolItem;
+import com.itsyourpalmike.ld22.item.ToolType;
 import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 
@@ -75,14 +79,14 @@ public class RockTile extends Tile
 		}
 	}
 
-	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
+	public void hurt(Level level, int x, int y, int dmg)
 	{
 		// We use the level data array to set rock's damage/life
 		int damage = level.getData(x, y) + dmg;
 		level.add(new SmashParticle(x * 16 + 8, y * 16 + 8));
 		level.add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.get(-1, 500, 500, 500)));
 		
-		if (damage >= 32)
+		if (damage >= 50)
 		{
 			int count = random.nextInt(4) + 1;
 			
@@ -94,6 +98,25 @@ public class RockTile extends Tile
 		else
 		{
 			level.setData(x, y, damage);
+		}
+	}
+
+	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
+	{
+		hurt(level, x, y, dmg);
+	}
+	
+
+	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
+	{
+		if (item instanceof ToolItem)
+		{
+			ToolItem tool = (ToolItem)item;
+			if (tool.type == ToolType.pickaxe)
+			{
+				player.stamina -= 4 - tool.level;
+				hurt(level, xt, yt, random.nextInt(10)+((tool.level) * 5+10));
+			}
 		}
 	}
 

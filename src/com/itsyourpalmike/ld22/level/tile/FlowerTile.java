@@ -39,9 +39,12 @@ public class FlowerTile extends GrassTile
 	// If we hurt a flower with a bare hand, 2 flowers pop out???
 	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
 	{
+		int count = random.nextInt(2) + 1;
+		for (int i = 0; i < count; i++)
+		{
+			level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+		}
 		level.setTile(x, y, Tile.grass, 0);
-		level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
-		level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 	}
 
 	// If we hurt a flower with a shovel, 2 flowers pop out??? + the grass is turned to dirt!
@@ -52,8 +55,8 @@ public class FlowerTile extends GrassTile
 			ToolItem tool = (ToolItem)item;
 			if (tool.type == ToolType.shovel)
 			{
+				player.stamina-=4-tool.level;
 				level.setTile(x, y, Tile.dirt, 0);
-				level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 				level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 			}
 		}

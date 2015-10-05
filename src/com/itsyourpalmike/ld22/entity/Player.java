@@ -6,6 +6,7 @@ import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
@@ -29,22 +30,23 @@ public class Player extends Mob
 		this.input = input;
 		x = y = 24;
 		this.game = game;
+		stamina = 10;
 	}
 
 	public void tick()
 	{
 		super.tick();
 
-		if(stamina <= 0 && staminaRechargeDelay == 0 && staminaRecharge == 0)
+		if (stamina <= 0 && staminaRechargeDelay == 0 && staminaRecharge == 0)
 		{
-			staminaRechargeDelay = 60;
+			staminaRechargeDelay = 40;
 		}
-		
+
 		if (staminaRechargeDelay > 0)
 		{
 			staminaRechargeDelay--;
 		}
-		
+
 		if (staminaRechargeDelay == 0)
 		{
 			staminaRecharge++;
@@ -76,7 +78,7 @@ public class Player extends Mob
 			xa++;
 		}
 
-		if(staminaRechargeDelay%2==0) move(xa, ya);
+		if (staminaRechargeDelay % 2 == 0) move(xa, ya);
 
 		// Pressing the attack button
 		if (input.attack.clicked)
@@ -111,7 +113,7 @@ public class Player extends Mob
 		attackDir = dir;
 
 		attackItem = activeItem;
-		if (activeItem == null) // If we have a bare hand
+		if (activeItem == null || activeItem.canAttack()) // If we have a bare hand
 		{
 			attackTime = 5;
 			int yo = -2;
@@ -146,10 +148,10 @@ public class Player extends Mob
 
 			if (xt >= 0 && yt >= 0 && xt < level.w && yt < level.h)
 			{
-				level.getTile(xt, yt).hurt(level, xt, yt, this, random.nextInt(4) + 1, attackDir);
+				level.getTile(xt, yt).hurt(level, xt, yt, this, random.nextInt(3) + 1, attackDir);
 			}
 		}
-		else
+		if (activeItem != null)
 		{
 			attackTime = 10;
 			int yo = -2;
@@ -263,8 +265,20 @@ public class Player extends Mob
 		for (int i = 0; i < entities.size(); i++)
 		{
 			Entity e = entities.get(i);
-			if (e != this) entities.get(i).hurt(this, random.nextInt(4) + 1, attackDir);
+			if (e != this) entities.get(i).hurt(this, getAttackDamage(e), attackDir);
 		}
+	}
+
+	private int getAttackDamage(Entity e)
+	{
+		int dmg = random.nextInt(3) + 1;
+		if (attackItem != null)
+		{
+			dmg += attackItem.getAttackDamageBonus(e);
+		}
+
+		return dmg;
+
 	}
 
 	public void render(Screen screen)
@@ -326,6 +340,12 @@ public class Player extends Mob
 		{
 			col = Color.get(-1, 555, 555, 555);
 		}
+		
+		if(activeItem instanceof FurnitureItem)
+		{
+			yt+=2;
+		}
+		
 		screen.render(xo + 8 * flip1, yo + 0, xt + yt * 32, col, flip1);
 		screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, col, flip1);
 
@@ -369,6 +389,14 @@ public class Player extends Mob
 			{
 				attackItem.renderIcon(screen, xo + 4, yo + 8 + 4); // Rendering item icon
 			}
+		}
+		
+		if(activeItem instanceof FurnitureItem)
+		{
+			Furniture furniture = ((FurnitureItem)activeItem).furniture;
+			furniture.x = x;
+			furniture.y = yo;
+			furniture.render(screen);
 		}
 	}
 

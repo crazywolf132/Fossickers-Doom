@@ -26,6 +26,8 @@ public class Tile
 	public static Tile hole = new HoleTile(8);
 	public static Tile treeSapling = new SaplingTile(9, grass, tree);
 	public static Tile cactusSapling = new SaplingTile(10, sand, cactus);
+	public static Tile farmland = new FarmTile(11);
+	public static Tile wheat = new WheatTile(12);
 
 	public final byte id;
 	public boolean connectsToGrass = false;
