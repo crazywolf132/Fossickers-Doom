@@ -11,6 +11,7 @@ import com.itsyourpalmike.ld22.level.Level;
 
 public class Tile
 {
+	public static int tickCount = 0;
 	protected final Random random = new Random();
 
 	public static Tile[] tiles = new Tile[256];
@@ -23,6 +24,8 @@ public class Tile
 	public static Tile sand = new SandTile(6);
 	public static Tile cactus = new CactusTile(7);
 	public static Tile hole = new HoleTile(8);
+	public static Tile treeSapling = new SaplingTile(9, grass, tree);
+	public static Tile cactusSapling = new SaplingTile(10, sand, cactus);
 
 	public final byte id;
 	public boolean connectsToGrass = false;

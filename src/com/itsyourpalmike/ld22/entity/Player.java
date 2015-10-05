@@ -20,18 +20,40 @@ public class Player extends Mob
 	public Game game;
 	public Item activeItem;
 	public Item attackItem;
+	public int stamina;
+	public int staminaRecharge;
+	public int staminaRechargeDelay;
 
 	public Player(Game game, InputHandler input)
 	{
 		this.input = input;
 		x = y = 24;
 		this.game = game;
-
 	}
 
 	public void tick()
 	{
 		super.tick();
+
+		if(stamina <= 0 && staminaRechargeDelay == 0 && staminaRecharge == 0)
+		{
+			staminaRechargeDelay = 60;
+		}
+		
+		if (staminaRechargeDelay > 0)
+		{
+			staminaRechargeDelay--;
+		}
+		
+		if (staminaRechargeDelay == 0)
+		{
+			staminaRecharge++;
+			while (staminaRecharge > 10)
+			{
+				staminaRecharge -= 10;
+				if (stamina < 10) stamina++;
+			}
+		}
 
 		// Moving the player
 		int xa = 0;
@@ -54,12 +76,21 @@ public class Player extends Mob
 			xa++;
 		}
 
-		move(xa, ya);
+		if(staminaRechargeDelay%2==0) move(xa, ya);
 
 		// Pressing the attack button
 		if (input.attack.clicked)
 		{
-			attack();
+			if (stamina == 0)
+			{
+
+			}
+			else
+			{
+				stamina--;
+				staminaRecharge = 0;
+				attack();
+			}
 		}
 
 		// Pressing the menu button
@@ -155,7 +186,7 @@ public class Player extends Mob
 			{
 				if (activeItem.interactOn(level.getTile(xt, yt), level, xt, yt, this, attackDir))
 				{
-					
+
 				}
 				else
 				{

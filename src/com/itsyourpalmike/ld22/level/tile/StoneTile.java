@@ -6,7 +6,7 @@ import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.Level;
 
 // DO WE EVEN NEED THIS CLASS??? I DON'T THINK WE USE IT ANYWHERE
-// WE JUST USE ROCKTILE AND THIS ONE DOESN"T DO JACK SQUAT!!!
+// WE JUST USE ROCKTILE AND THIS ONE DOESN'T DO JACK SQUAT!!!
 
 public class StoneTile extends Tile
 {

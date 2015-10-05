@@ -1,5 +1,7 @@
 package com.itsyourpalmike.ld22.level.tile;
 
+import java.util.Random;
+
 import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
@@ -14,8 +16,12 @@ public class WaterTile extends Tile
 		connectsToWater = true;
 	}
 
+	private Random wRandom = new Random();
+
 	public void render(Screen screen, Level level, int x, int y)
 	{
+		wRandom.setSeed((tickCount + (x / 2 - y) * 4311) / 20 * 5412514 + x * 2452456 + y * 26256353);
+
 		// This render creates smooth corners and shapes, so the world isn't obviously blocky
 		int col = Color.get(005, 005, 115, 115);
 		int transitionColor1 = Color.get(3, 005, level.dirtColor - 111, level.dirtColor);
@@ -33,7 +39,7 @@ public class WaterTile extends Tile
 
 		if (!u && !l)
 		{
-			screen.render(x * 16 + 0, y * 16 + 0, 0, col, 0);
+			screen.render(x * 16 + 0, y * 16 + 0, wRandom.nextInt(4), col, wRandom.nextInt(4));
 		}
 		else
 		{
@@ -42,7 +48,7 @@ public class WaterTile extends Tile
 
 		if (!u && !r)
 		{
-			screen.render(x * 16 + 8, y * 16 + 0, 1, col, 0);
+			screen.render(x * 16 + 8, y * 16 + 0, wRandom.nextInt(4), col, wRandom.nextInt(4));
 		}
 		else
 		{
@@ -51,7 +57,7 @@ public class WaterTile extends Tile
 
 		if (!d && !l)
 		{
-			screen.render(x * 16 + 0, y * 16 + 8, 2, col, 0);
+			screen.render(x * 16 + 0, y * 16 + 8, wRandom.nextInt(4), col, wRandom.nextInt(4));
 		}
 		else
 		{
@@ -60,7 +66,7 @@ public class WaterTile extends Tile
 
 		if (!d && !r)
 		{
-			screen.render(x * 16 + 8, y * 16 + 8, 3, col, 0);
+			screen.render(x * 16 + 8, y * 16 + 8, wRandom.nextInt(4), col, wRandom.nextInt(4));
 		}
 		else
 		{

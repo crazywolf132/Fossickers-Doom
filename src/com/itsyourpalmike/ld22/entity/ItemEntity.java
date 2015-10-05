@@ -36,17 +36,17 @@ public class ItemEntity extends Entity
 	public void tick()
 	{
 		time++;
-		
+
 		if (time >= lifeTime)
 		{
 			remove();
 			return;
 		}
-		
+
 		xx += xa;
 		yy += ya;
 		zz += za;
-		
+
 		if (zz < 0)
 		{
 			zz = 0;
@@ -54,14 +54,26 @@ public class ItemEntity extends Entity
 			xa *= 0.6;
 			ya *= 0.6;
 		}
-		
+
 		za -= 0.15;
+		
+		int ox = x;
+		int oy = y;
 
 		int nx = (int)xx;
 		int ny = (int)yy;
 
+		int expectedx = nx - x;
+		int expectedy = ny - y;
+
 		move(nx - x, ny - y);
-		
+
+		int gotx = nx - ox;
+		int goty = ny - oy;
+
+		xx += gotx - expectedx;
+		yy += goty - expectedy;
+
 		if (hurtTime > 0) hurtTime--;
 	}
 
@@ -76,7 +88,7 @@ public class ItemEntity extends Entity
 		{
 			if (time / 6 % 2 == 0) return;
 		}
-		
+
 		int col = item.getColor();
 		screen.render(x - 4, y - 4, item.getSprite(), Color.get(-1, 0, 0, 0), 0);
 		screen.render(x - 4, y - 4 - (int)(zz), item.getSprite(), col, 0);

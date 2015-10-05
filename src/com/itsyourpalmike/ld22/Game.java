@@ -20,6 +20,7 @@ import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.level.Level;
+import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.screen.Menu;
 import com.itsyourpalmike.ld22.screen.TitleMenu;
 
@@ -164,6 +165,7 @@ public class Game extends Canvas implements Runnable
 	public void tick()
 	{
 		tickCount++;
+
 		input.tick();
 
 		if (menu != null)
@@ -173,6 +175,7 @@ public class Game extends Canvas implements Runnable
 		else
 		{
 			level.tick();
+			Tile.tickCount++;
 		}
 
 		if (!hasFocus()) // If we don't have focus release the keys, otherwise input can get stuck
@@ -196,10 +199,10 @@ public class Game extends Canvas implements Runnable
 		// Rendering the background tiles w proper offsets
 		int xScroll = player.x - screen.w / 2;
 		int yScroll = player.y - (screen.h - 8) / 2;
-		if (xScroll < 0) xScroll = 0;
-		if (yScroll < 0) yScroll = 0;
-		if (xScroll > level.w * 16 - screen.w) xScroll = level.w * 16 - screen.w;
-		if (yScroll > level.h * 16 - screen.h) yScroll = level.h * 16 - screen.h;
+		if (xScroll < 16) xScroll = 16;
+		if (yScroll < 16) yScroll = 16;
+		if (xScroll > level.w * 16 - screen.w) xScroll = level.w * 16 - screen.w - 16;
+		if (yScroll > level.h * 16 - screen.h) yScroll = level.h * 16 - screen.h - 16;
 		level.renderBackground(screen, xScroll, yScroll);
 		level.renderSprites(screen, xScroll, yScroll);
 		renderGui();
@@ -247,12 +250,22 @@ public class Game extends Canvas implements Runnable
 			if (i < player.health) screen.render(i * 8, screen.h - 16, 0 + 12 * 32, Color.get(000, 200, 500, 533), 0);
 			else screen.render(i * 8, screen.h - 16, 0 + 12 * 32, Color.get(000, 100, 000, 000), 0);
 
+			if (player.staminaRechargeDelay > 0)
+			{
+				if (player.staminaRechargeDelay/4%2==0) screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(000, 555, 000, 000), 0);
+				else screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(000, 110, 000, 000), 0);
+			}
+			else
+			{
+				if (i < player.stamina) screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(000, 220, 550, 553), 0);
+				else screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(000, 110, 000, 000), 0);
+			}
 		}
 
 		// Player's currently equipped item
 		if (player.activeItem != null)
 		{
-			player.activeItem.renderInventory(screen, 0, screen.h - 8);
+			player.activeItem.renderInventory(screen, 10 * 8, screen.h - 16);
 		}
 
 		// Any other menu (inventory, crafting, etc)
