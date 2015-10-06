@@ -141,6 +141,7 @@ public class Level
 	// Adds entity to entities arraylist and inserts it into tile/entity spot
 	public void add(Entity entity)
 	{
+		entity.removed = false;
 		entities.add(entity);
 		entity.init(this);
 

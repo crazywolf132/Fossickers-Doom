@@ -1,6 +1,8 @@
 package com.itsyourpalmike.ld22.entity;
 
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.FurnitureItem;
+import com.itsyourpalmike.ld22.item.PowerGloveItem;
 
 public class Furniture extends Entity
 {
@@ -9,6 +11,7 @@ public class Furniture extends Entity
 	public int col;
 	public int sprite;
 	public String name;
+	private Player shouldTake;
 
 	public Furniture(String name, int x, int y)
 	{
@@ -21,6 +24,16 @@ public class Furniture extends Entity
 
 	public void tick()
 	{
+		if (shouldTake != null)
+		{
+			if (shouldTake.activeItem instanceof PowerGloveItem)
+			{
+				remove();
+				shouldTake.inventory.add(0, shouldTake.activeItem);
+				shouldTake.activeItem = new FurnitureItem(this);
+			}
+			shouldTake = null;
+		}
 		if (pushDir == 0) move(0, 1);
 		if (pushDir == 1) move(0, -1);
 		if (pushDir == 2) move(-1, 0);
@@ -59,5 +72,11 @@ public class Furniture extends Entity
 	{
 
 		return false;
+	}
+
+	public void take(Player player)
+	{
+		shouldTake = player;
+
 	}
 }

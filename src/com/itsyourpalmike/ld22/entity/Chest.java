@@ -2,6 +2,7 @@ package com.itsyourpalmike.ld22.entity;
 
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
+import com.itsyourpalmike.ld22.item.PowerGloveItem;
 import com.itsyourpalmike.ld22.item.ResourceItem;
 import com.itsyourpalmike.ld22.item.ToolItem;
 import com.itsyourpalmike.ld22.item.ToolType;
@@ -20,6 +21,7 @@ public class Chest extends Furniture
 		xr = 5;
 		yr = 2;
 
+		inventory.add(new PowerGloveItem());
 		inventory.add(new ResourceItem(Resource.wheat, 64));
 		inventory.add(new FurnitureItem(new Anvil(0, 0)));
 		

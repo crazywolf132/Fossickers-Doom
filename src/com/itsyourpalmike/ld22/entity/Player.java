@@ -50,6 +50,10 @@ public class Player extends Mob
 		if (staminaRechargeDelay == 0)
 		{
 			staminaRecharge++;
+			if (inWater())
+			{
+				staminaRecharge = 0;
+			}
 			while (staminaRecharge > 10)
 			{
 				staminaRecharge -= 10;
@@ -77,8 +81,20 @@ public class Player extends Mob
 		{
 			xa++;
 		}
+		
+		if(inWater() && tickTime % 60 == 0)
+		{
+			if(stamina > 0) stamina--;
+			else
+			{
+				hurt(this, 1, dir^1);
+			}
+		}
 
-		if (staminaRechargeDelay % 2 == 0) move(xa, ya);
+		if (staminaRechargeDelay % 2 == 0)
+		{
+			move(xa, ya);
+		}
 
 		// Pressing the attack button
 		if (input.attack.clicked)
@@ -340,12 +356,12 @@ public class Player extends Mob
 		{
 			col = Color.get(-1, 555, 555, 555);
 		}
-		
-		if(activeItem instanceof FurnitureItem)
+
+		if (activeItem instanceof FurnitureItem)
 		{
-			yt+=2;
+			yt += 2;
 		}
-		
+
 		screen.render(xo + 8 * flip1, yo + 0, xt + yt * 32, col, flip1);
 		screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, col, flip1);
 
@@ -390,8 +406,8 @@ public class Player extends Mob
 				attackItem.renderIcon(screen, xo + 4, yo + 8 + 4); // Rendering item icon
 			}
 		}
-		
-		if(activeItem instanceof FurnitureItem)
+
+		if (activeItem instanceof FurnitureItem)
 		{
 			Furniture furniture = ((FurnitureItem)activeItem).furniture;
 			furniture.x = x;

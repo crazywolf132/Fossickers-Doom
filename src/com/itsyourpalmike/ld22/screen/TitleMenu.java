@@ -24,9 +24,11 @@ public class TitleMenu extends Menu
 		if (selected < 0) selected += len;
 		if (selected >= len) selected -= len;
 
-		if (input.attack.clicked)
+		if (input.attack.clicked || input.menu.clicked)
 		{
 			if (selected == 0) game.setMenu(null);
+			if (selected == 1) game.setMenu(new InstructionsMenu(this));
+			if (selected == 2) game.setMenu(new AboutMenu(this));
 		}
 	}
 

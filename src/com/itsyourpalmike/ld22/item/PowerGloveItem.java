@@ -1,9 +1,8 @@
 package com.itsyourpalmike.ld22.item;
 
-import java.util.Random;
-
 import com.itsyourpalmike.ld22.entity.Entity;
-import com.itsyourpalmike.ld22.entity.ItemEntity;
+import com.itsyourpalmike.ld22.entity.Furniture;
+import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
@@ -29,11 +28,17 @@ public class PowerGloveItem extends Item
 	public void renderInventory(Screen screen, int x, int y)
 	{
 		screen.render(x, y, getSprite(), getColor(), 0);
-		Font.draw("Power glove", screen, x + 8, y, Color.get(-1, 555, 555, 555));
+		Font.draw("Pwr glove", screen, x + 8, y, Color.get(-1, 555, 555, 555));
 	}
 
-	public void onTake(ItemEntity itemEntity)
+	public boolean interact(Player player, Entity entity, int attackDir)
 	{
-		
+		if(entity instanceof Furniture)
+		{
+			Furniture f = (Furniture)entity;
+			f.take(player);
+			return true;
+		}
+		return false;
 	}
 }
