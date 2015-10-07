@@ -85,14 +85,14 @@ public class RockTile extends Tile
 		int damage = level.getData(x, y) + dmg;
 		level.add(new SmashParticle(x * 16 + 8, y * 16 + 8));
 		level.add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.get(-1, 500, 500, 500)));
-		
+
 		if (damage >= 50)
 		{
 			int count = random.nextInt(4) + 1;
-			
+
 			for (int i = 0; i < count; i++)
 				level.add(new ItemEntity(new ResourceItem(Resource.stone), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
-			
+
 			level.setTile(x, y, Tile.dirt, 0);
 		}
 		else
@@ -105,7 +105,6 @@ public class RockTile extends Tile
 	{
 		hurt(level, x, y, dmg);
 	}
-	
 
 	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
 	{
@@ -114,8 +113,10 @@ public class RockTile extends Tile
 			ToolItem tool = (ToolItem)item;
 			if (tool.type == ToolType.pickaxe)
 			{
-				player.stamina -= 4 - tool.level;
-				hurt(level, xt, yt, random.nextInt(10)+((tool.level) * 5+10));
+				if (player.payStamina(4 - tool.level))
+				{
+					hurt(level, xt, yt, random.nextInt(10) + ((tool.level) * 5 + 10));
+				}
 			}
 		}
 	}

@@ -71,7 +71,7 @@ public class GrassTile extends Tile
 	public void tick(Level level, int xt, int yt)
 	{
 		if (random.nextInt(10) != 0) return; // Growing offset delay thing-a-ma-bob
-		
+
 		int xn = xt;
 		int yn = yt;
 
@@ -92,17 +92,21 @@ public class GrassTile extends Tile
 			ToolItem tool = (ToolItem)item;
 			if (tool.type == ToolType.shovel)
 			{
-				player.stamina-=4-tool.level;
-				level.setTile(xt, yt, Tile.dirt, 0);
-				if(random.nextInt(5) == 0)
+				if (player.payStamina(4 - tool.level))
 				{
-					level.add(new ItemEntity(new ResourceItem(Resource.seeds), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));	
+					level.setTile(xt, yt, Tile.dirt, 0);
+					if (random.nextInt(5) == 0)
+					{
+						level.add(new ItemEntity(new ResourceItem(Resource.seeds), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
+					}
 				}
 			}
 			if (tool.type == ToolType.hoe)
 			{
-				player.stamina-=4-tool.level;
-				level.setTile(xt, yt, Tile.farmland, 0);
+				if (player.payStamina(4 - tool.level))
+				{
+					level.setTile(xt, yt, Tile.farmland, 0);
+				}
 			}
 		}
 	}

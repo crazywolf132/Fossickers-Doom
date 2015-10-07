@@ -44,7 +44,7 @@ public class ToolItem extends Item
 	public void renderInventory(Screen screen, int x, int y)
 	{
 		screen.render(x, y, getSprite(), getColor(), 0);
-		Font.draw(LEVEL_NAMES[level] + " " + type.name, screen, x + 8, y, Color.get(-1, 555, 555, 555));
+		Font.draw(this.getName(), screen, x + 8, y, Color.get(-1, 555, 555, 555));
 	}
 
 	public void onTake(ItemEntity itemEntity)
@@ -68,5 +68,10 @@ public class ToolItem extends Item
 		}
 		
 		return 1;
+	}
+	
+	public String getName()
+	{
+		return LEVEL_NAMES[level] + " " + type.name;
 	}
 }

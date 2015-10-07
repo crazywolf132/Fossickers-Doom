@@ -55,9 +55,11 @@ public class FlowerTile extends GrassTile
 			ToolItem tool = (ToolItem)item;
 			if (tool.type == ToolType.shovel)
 			{
-				player.stamina-=4-tool.level;
-				level.setTile(x, y, Tile.dirt, 0);
-				level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+				if (player.payStamina(4 - tool.level))
+				{
+					level.setTile(x, y, Tile.dirt, 0);
+					level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+				}
 			}
 		}
 	}

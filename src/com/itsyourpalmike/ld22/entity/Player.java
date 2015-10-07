@@ -24,13 +24,17 @@ public class Player extends Mob
 	public int stamina;
 	public int staminaRecharge;
 	public int staminaRechargeDelay;
+	public int score;
+	public int maxStamina = 10;
 
 	public Player(Game game, InputHandler input)
 	{
 		this.input = input;
 		x = y = 24;
 		this.game = game;
-		stamina = 10;
+		stamina = maxStamina;
+		
+		inventory.add(new FurnitureItem(new Workbench()));
 	}
 
 	public void tick()
@@ -54,10 +58,10 @@ public class Player extends Mob
 			{
 				staminaRecharge = 0;
 			}
-			while (staminaRecharge > 10)
+			while (staminaRecharge > maxStamina)
 			{
 				staminaRecharge -= 10;
-				if (stamina < 10) stamina++;
+				if (stamina < maxStamina) stamina++;
 			}
 		}
 
@@ -435,14 +439,19 @@ public class Player extends Mob
 		{
 			int x = random.nextInt(level.w);
 			int y = random.nextInt(level.h);
-			if (level.getTile(x, y) == Tile.grass && level.getTile(x - 1, y) == Tile.grass && level.getTile(x + 1, y) == Tile.grass)
+			if (level.getTile(x, y) == Tile.grass)
 			{
 				this.x = x * 16 + 8;
 				this.y = y * 16 + 8;
-				level.add(new Anvil(this.x - 16, this.y));
-				level.add(new Chest(this.x + 16, this.y));
 				break;
 			}
 		}
+	}
+
+	public boolean payStamina(int cost)
+	{
+		if(cost > stamina) return false;
+		stamina-=cost;
+		return true;
 	}
 }

@@ -60,4 +60,9 @@ public class Item implements ListItem
 	{
 		return 0;
 	}
+
+	public String getName()
+	{
+		return "";
+	}
 }

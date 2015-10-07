@@ -51,6 +51,11 @@ public class ResourceItem extends Item
 		if (cc > 999) cc = 999;
 		Font.draw("" + cc, screen, x + 8, y, Color.get(-1, 444, 444, 444));
 	}
+	
+	public String getName()
+	{
+		return resource.name;
+	}
 
 	public void onTake(ItemEntity itemEntity)
 	{

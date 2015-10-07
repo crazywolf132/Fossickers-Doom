@@ -11,7 +11,8 @@ public class Mob extends Entity
 	protected int dir = 0;
 	public int hurtTime = 0;
 	protected int xKnockback, yKnockback;
-	public int health = 10;
+	public int maxHealth = 10;
+	public int health = maxHealth;
 	public int swimTimer = 0;
 	public int tickTime = 0;
 
@@ -103,6 +104,17 @@ public class Mob extends Entity
 		if (attackDir == 2) xKnockback = -6;
 		if (attackDir == 3) xKnockback = 6;
 		hurtTime = 10;
+	}
+	
+	public void heal(int heal)
+	{
+		// Removes health, adds particles, and sets knockback
+		if (hurtTime > 0) return;
+
+		level.add(new TextParticle("" + heal, x, y, Color.get(-1, 50, 50, 50)));
+		health += heal;
+
+		if(health > maxHealth) health = maxHealth;
 	}
 
 	public void hurt(Tile tile, int x, int y, int dmg)

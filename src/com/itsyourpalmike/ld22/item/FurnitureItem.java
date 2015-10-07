@@ -71,4 +71,9 @@ public class FurnitureItem extends Item
 	{
 		return false;
 	}
+	
+	public String getName()
+	{
+		return furniture.name;
+	}
 }

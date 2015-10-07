@@ -13,10 +13,8 @@ public class Furniture extends Entity
 	public String name;
 	private Player shouldTake;
 
-	public Furniture(String name, int x, int y)
+	public Furniture(String name)
 	{
-		this.x = x;
-		this.y = y;
 		this.name = name;
 		xr = 3;
 		yr = 3;

@@ -1,13 +1,14 @@
 package com.itsyourpalmike.ld22.screen;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.itsyourpalmike.ld22.entity.Anvil;
+import com.itsyourpalmike.ld22.crafting.Recipe;
 import com.itsyourpalmike.ld22.entity.Player;
+import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.item.resource.Resource;
+import com.itsyourpalmike.ld22.item.Item;
+import com.itsyourpalmike.ld22.item.ResourceItem;
 
 // List of craftable items - If we have the necessary resources
 // we can create the item that is selected upon click
@@ -16,31 +17,16 @@ public class CraftingMenu extends Menu
 {
 	private Player player;
 	private int selected = 0;
-	private Anvil anvil;
-	private List<CraftOption> craftables = new ArrayList<CraftOption>();
+	private List<Recipe> recipes;
 
-	public CraftingMenu(Anvil anvil, Player player)
+	public CraftingMenu(List<Recipe> recipes, Player player)
 	{
-		this.anvil = anvil;
+		this.recipes = recipes;
 		this.player = player;
 
-		craftables.add(new CraftOption("Upgrade Anvil 1").addRequirement(Resource.wood, 16));
-		craftables.add(new CraftOption("Upgrade Anvil 2"));
-		craftables.add(new CraftOption("Upgrade Anvil 3"));
-		craftables.add(new CraftOption("Upgrade Anvil 4"));
-		craftables.add(new CraftOption("Upgrade Anvil 5"));
-		craftables.add(new CraftOption("Upgrade Anvil 6"));
-		craftables.add(new CraftOption("Upgrade Anvil 7"));
-		craftables.add(new CraftOption("Upgrade Anvil 8"));
-		craftables.add(new CraftOption("Upgrade Anvil 9"));
-		craftables.add(new CraftOption("Upgrade Anvil 10"));
-		craftables.add(new CraftOption("Upgrade Anvil 11"));
-		craftables.add(new CraftOption("Upgrade Anvil 12"));
-		craftables.add(new CraftOption("Upgrade Anvil 13"));
-
-		for (int i = 0; i < craftables.size(); i++)
+		for (int i = 0; i < recipes.size(); i++)
 		{
-			craftables.get(i).checkCanCraft(player);
+			recipes.get(i).checkCanCraft(player);
 		}
 	}
 
@@ -51,16 +37,63 @@ public class CraftingMenu extends Menu
 		if (input.up.clicked) selected--;
 		if (input.down.clicked) selected++;
 
-		int len = craftables.size();
+		int len = recipes.size();
 		if (len == 0) selected = 0;
 		if (selected < 0) selected += len;
 		if (selected >= len) selected -= len;
+
+		if (input.attack.clicked && len > 0)
+		{
+			Recipe r = recipes.get(selected);
+			r.checkCanCraft(player);
+
+			if (r.canCraft)
+			{
+				r.deductCost(player);
+				r.craft(player);
+			}
+
+			for (int i = 0; i < recipes.size(); i++)
+			{
+				recipes.get(i).checkCanCraft(player);
+			}
+		}
 	}
 
 	public void render(Screen screen)
 	{
-		Font.renderFrame(screen, "crafting", 1, 1, 18, 11);
+		Font.renderFrame(screen, "have", 12, 1, 19, 3);
+		Font.renderFrame(screen, "cost", 12, 4, 19, 11);
+		Font.renderFrame(screen, "crafting", 0, 1, 11, 11);
 
-		renderItemList(screen, 1, 1, 18, 11, craftables, selected);
+		renderItemList(screen, 0, 1, 11, 11, recipes, selected);
+
+		if (recipes.size() > 0)
+		{
+			int xo = 13 * 8;
+			Recipe recipe = recipes.get(selected);
+			int hasResultItems = player.inventory.count(recipe.resultTemplate);
+			screen.render(xo, 2*8, recipe.resultTemplate.getSprite(), recipe.resultTemplate.getColor(), 0);
+			Font.draw("" + hasResultItems, screen, xo + 8, 2 * 8, Color.get(-1, 555, 555, 555));
+
+			List<Item> costs = recipe.costs;
+			for (int i = 0; i < costs.size(); i++)
+			{
+				Item item = costs.get(i);
+				int yo = (5 + i) * 8;
+
+				screen.render(xo, yo, item.getSprite(), item.getColor(), 0);
+				int requiredAmt = 1;
+				if (item instanceof ResourceItem)
+				{
+					requiredAmt = ((ResourceItem)item).count;
+				}
+				int has = player.inventory.count(item);
+				if(has > 99) has = 99;
+				Font.draw("" + requiredAmt + "/" + has, screen, xo + 8, yo, Color.get(-1, 555, 555, 555));
+			}
+		}
+
+		// renderItemList(screen, 0, 12, 4, 11, recipes.get(selected).costs, -1);
 	}
 }

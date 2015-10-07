@@ -4,20 +4,20 @@ import com.itsyourpalmike.ld22.crafting.Crafting;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.screen.CraftingMenu;
 
-public class Anvil extends Furniture
+public class Workbench extends Furniture
 {
-	public Anvil()
+	public Workbench()
 	{
-		super("Anvil");
-		col = Color.get(-1, 000, 111, 222);
-		sprite = 0;
+		super("Workbench");
+		col = Color.get(-1, 100, 321, 431);
+		sprite = 4;
 		xr = 3;
 		yr = 2;
 	}
 
 	public boolean use(Player player, int attackDir)
 	{
-		player.game.setMenu(new CraftingMenu(Crafting.anvilRecipes, player));
+		player.game.setMenu(new CraftingMenu(Crafting.workbenchRecipes, player));
 		return true;
 	}
 }

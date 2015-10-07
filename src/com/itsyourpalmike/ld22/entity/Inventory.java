@@ -24,7 +24,7 @@ public class Inventory
 			ResourceItem has = findResource(toTake.resource);
 			if (has == null)
 			{
-				items.add(toTake);
+				items.add(slot, toTake);
 			}
 			else
 			{
@@ -65,6 +65,16 @@ public class Inventory
 		ri.count -= count;
 		if (ri.count <= 0) items.remove(ri);
 		return true;
+	}
+
+	public int count(Item item)
+	{
+		if (item instanceof ResourceItem)
+		{
+			ResourceItem ri = findResource(((ResourceItem)item).resource);
+			if(ri != null) return ri.count;
+		}
+		return 0;
 	}
 
 }

@@ -68,5 +68,14 @@ public class TestMob extends Mob
 		screen.render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, col, flip2);
 		screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, col, flip2);
 	}
+	
+
+	protected void touchedBy(Entity entity)
+	{
+		if(entity instanceof Player)
+		{
+			entity.hurt(this,  1,  dir);
+		}
+	}
 
 }

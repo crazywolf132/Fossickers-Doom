@@ -26,7 +26,11 @@ public class TitleMenu extends Menu
 
 		if (input.attack.clicked || input.menu.clicked)
 		{
-			if (selected == 0) game.setMenu(null);
+			if (selected == 0)
+			{
+				game.resetGame();
+				game.setMenu(null);
+			}
 			if (selected == 1) game.setMenu(new InstructionsMenu(this));
 			if (selected == 2) game.setMenu(new AboutMenu(this));
 		}
@@ -38,12 +42,12 @@ public class TitleMenu extends Menu
 
 		int h = 2;
 		int w = 13;
-		
+
 		int titleColor = Color.get(0, 010, 131, 551);
-		
+
 		int xo = (screen.w - w * 8) / 2;
 		int yo = 24;
-		
+
 		// Rendering Minicraft logo
 		for (int y = 0; y < h; y++)
 		{
@@ -57,13 +61,13 @@ public class TitleMenu extends Menu
 		{
 			String msg = options[i];
 			int col = Color.get(0, 222, 222, 222);
-			
+
 			if (i == selected)
 			{
 				msg = "> " + msg + " <";
 				col = Color.get(0, 555, 555, 555);
 			}
-			
+
 			Font.draw(msg, screen, (screen.w - msg.length() * 8) / 2, (8 + i) * 8, col);
 		}
 

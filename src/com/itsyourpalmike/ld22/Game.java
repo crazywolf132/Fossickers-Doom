@@ -21,6 +21,7 @@ import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
+import com.itsyourpalmike.ld22.screen.DeadMenu;
 import com.itsyourpalmike.ld22.screen.Menu;
 import com.itsyourpalmike.ld22.screen.TitleMenu;
 
@@ -45,8 +46,9 @@ public class Game extends Canvas implements Runnable
 	private InputHandler input = new InputHandler(this);
 	private Screen screen;
 	private Level level;
-	private Player player;
+	public Player player;
 	public Menu menu;
+	private int playerDeadTime;
 
 	public void setMenu(Menu menu)
 	{
@@ -109,8 +111,8 @@ public class Game extends Canvas implements Runnable
 			}
 		}
 	}
-
-	private void init()
+	
+	public void resetGame()
 	{
 		level = new Level(128, 128);
 
@@ -126,7 +128,11 @@ public class Game extends Canvas implements Runnable
 			m.findStartPos(level);
 			level.add(m);
 		}
+	}
 
+	private void init()
+	{
+		
 		// Setting up colors
 		int pp = 0;
 		for (int r = 0; r < 6; r++)
@@ -158,6 +164,8 @@ public class Game extends Canvas implements Runnable
 			e.printStackTrace();
 		}
 
+		resetGame();
+		
 		// Displays the Main Menu Screen
 		setMenu(new TitleMenu());
 	}
@@ -165,6 +173,7 @@ public class Game extends Canvas implements Runnable
 	public void tick()
 	{
 		tickCount++;
+		
 
 		input.tick();
 
@@ -174,6 +183,14 @@ public class Game extends Canvas implements Runnable
 		}
 		else
 		{
+			if(player.removed)
+			{
+				playerDeadTime++;
+				if(playerDeadTime >60)
+				{
+					setMenu(new DeadMenu());
+				}
+			}
 			level.tick();
 			Tile.tickCount++;
 		}
@@ -339,4 +356,5 @@ public class Game extends Canvas implements Runnable
 			}
 		});
 	}
+
 }

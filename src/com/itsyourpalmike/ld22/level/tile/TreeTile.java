@@ -81,8 +81,6 @@ public class TreeTile extends Tile
 	{
 		hurt(level, x, y, dmg);
 	}
-	
-
 
 	public boolean mayPass(Level level, int x, int y, Entity e)
 	{
@@ -96,12 +94,14 @@ public class TreeTile extends Tile
 			ToolItem tool = (ToolItem)item;
 			if (tool.type == ToolType.axe)
 			{
-				player.stamina -= 4 - tool.level;
-				hurt(level, xt, yt, random.nextInt(10)+((tool.level) * 5+10));
+				if (player.payStamina(4 - tool.level))
+				{
+					hurt(level, xt, yt, random.nextInt(10) + ((tool.level) * 5 + 10));
+				}
 			}
 		}
 	}
-	
+
 	private void hurt(Level level, int x, int y, int dmg)
 	{
 
