@@ -70,7 +70,7 @@ public class GrassTile extends Tile
 	// Spread grass onto adjacent dirt tiles
 	public void tick(Level level, int xt, int yt)
 	{
-		if (random.nextInt(10) != 0) return; // Growing offset delay thing-a-ma-bob
+		if (random.nextInt(40) != 0) return; // Growing offset delay thing-a-ma-bob
 
 		int xn = xt;
 		int yn = yt;
@@ -85,7 +85,7 @@ public class GrassTile extends Tile
 	}
 
 	// Turn grass to dirt when a shovel is used - AKA the player is digging
-	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
+	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
 	{
 		if (item instanceof ToolItem)
 		{
@@ -95,19 +95,23 @@ public class GrassTile extends Tile
 				if (player.payStamina(4 - tool.level))
 				{
 					level.setTile(xt, yt, Tile.dirt, 0);
-					if (random.nextInt(5) == 0)
-					{
-						level.add(new ItemEntity(new ResourceItem(Resource.seeds), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
-					}
+					return true;
 				}
 			}
 			if (tool.type == ToolType.hoe)
 			{
 				if (player.payStamina(4 - tool.level))
 				{
+					if (random.nextInt(5) == 0)
+					{
+						level.add(new ItemEntity(new ResourceItem(Resource.seeds), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
+						
+					}
 					level.setTile(xt, yt, Tile.farmland, 0);
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 }

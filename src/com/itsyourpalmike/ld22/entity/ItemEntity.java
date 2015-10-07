@@ -68,8 +68,8 @@ public class ItemEntity extends Entity
 
 		move(nx - x, ny - y);
 
-		int gotx = nx - ox;
-		int goty = ny - oy;
+		int gotx = x - ox;
+		int goty = y - oy;
 
 		xx += gotx - expectedx;
 		yy += goty - expectedy;

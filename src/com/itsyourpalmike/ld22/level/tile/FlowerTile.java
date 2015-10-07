@@ -48,7 +48,7 @@ public class FlowerTile extends GrassTile
 	}
 
 	// If we hurt a flower with a shovel, 2 flowers pop out??? + the grass is turned to dirt!
-	public void interact(Level level, int x, int y, Player player, Item item, int attackDir)
+	public boolean interact(Level level, int x, int y, Player player, Item item, int attackDir)
 	{
 		if (item instanceof ToolItem)
 		{
@@ -59,8 +59,10 @@ public class FlowerTile extends GrassTile
 				{
 					level.setTile(x, y, Tile.dirt, 0);
 					level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 }

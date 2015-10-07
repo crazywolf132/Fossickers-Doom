@@ -24,10 +24,11 @@ public class InputHandler implements KeyListener
 			if (pressed != down)
 			{
 				down = pressed;
-				if (pressed)
-				{
-					presses++;
-				}
+			}
+			
+			if (pressed)
+			{
+				presses++;
 			}
 		}
 
@@ -115,8 +116,6 @@ public class InputHandler implements KeyListener
 		if (k.getKeyCode() == KeyEvent.VK_INSERT) attack.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_ENTER) menu.toggle(pressed);
 
-		if (k.getKeyCode() == KeyEvent.VK_X) menu.toggle(pressed);
-		if (k.getKeyCode() == KeyEvent.VK_C) attack.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_X) menu.toggle(pressed);
 		if (k.getKeyCode() == KeyEvent.VK_C) attack.toggle(pressed);
 	}

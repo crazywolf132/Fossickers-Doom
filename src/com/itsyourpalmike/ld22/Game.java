@@ -40,7 +40,8 @@ public class Game extends Canvas implements Runnable
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 	private int[] colors = new int[256];
 	private boolean running = false;
-	private int tickCount = 0;
+	public int tickCount = 0;
+	public int gameTime = 0;
 
 	// Important game objects
 	private InputHandler input = new InputHandler(this);
@@ -111,9 +112,10 @@ public class Game extends Canvas implements Runnable
 			}
 		}
 	}
-	
+
 	public void resetGame()
 	{
+		gameTime = 0;
 		level = new Level(128, 128);
 
 		// Creating the player and validating start position
@@ -132,7 +134,7 @@ public class Game extends Canvas implements Runnable
 
 	private void init()
 	{
-		
+
 		// Setting up colors
 		int pp = 0;
 		for (int r = 0; r < 6; r++)
@@ -165,7 +167,7 @@ public class Game extends Canvas implements Runnable
 		}
 
 		resetGame();
-		
+
 		// Displays the Main Menu Screen
 		setMenu(new TitleMenu());
 	}
@@ -173,31 +175,34 @@ public class Game extends Canvas implements Runnable
 	public void tick()
 	{
 		tickCount++;
-		
-
-		input.tick();
-
-		if (menu != null)
-		{
-			menu.tick();
-		}
-		else
-		{
-			if(player.removed)
-			{
-				playerDeadTime++;
-				if(playerDeadTime >60)
-				{
-					setMenu(new DeadMenu());
-				}
-			}
-			level.tick();
-			Tile.tickCount++;
-		}
-
 		if (!hasFocus()) // If we don't have focus release the keys, otherwise input can get stuck
 		{
 			input.releaseAll();
+		}
+		else
+		{
+			if (!player.removed) gameTime++;
+
+			input.tick();
+
+			if (menu != null)
+			{
+				menu.tick();
+			}
+			else
+			{
+				if (player.removed)
+				{
+					playerDeadTime++;
+					if (playerDeadTime > 60)
+					{
+						setMenu(new DeadMenu());
+					}
+				}
+				level.tick();
+				Tile.tickCount++;
+			}
+
 		}
 
 	}
@@ -269,7 +274,7 @@ public class Game extends Canvas implements Runnable
 
 			if (player.staminaRechargeDelay > 0)
 			{
-				if (player.staminaRechargeDelay/4%2==0) screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(000, 555, 000, 000), 0);
+				if (player.staminaRechargeDelay / 4 % 2 == 0) screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(000, 555, 000, 000), 0);
 				else screen.render(i * 8, screen.h - 8, 1 + 12 * 32, Color.get(000, 110, 000, 000), 0);
 			}
 			else

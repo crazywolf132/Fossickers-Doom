@@ -1,5 +1,8 @@
 package com.itsyourpalmike.ld22.screen;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.itsyourpalmike.ld22.crafting.Recipe;
@@ -21,13 +24,23 @@ public class CraftingMenu extends Menu
 
 	public CraftingMenu(List<Recipe> recipes, Player player)
 	{
-		this.recipes = recipes;
+		this.recipes = new ArrayList<Recipe>(recipes);
 		this.player = player;
 
 		for (int i = 0; i < recipes.size(); i++)
 		{
-			recipes.get(i).checkCanCraft(player);
+			this.recipes.get(i).checkCanCraft(player);
 		}
+		
+		Collections.sort(this.recipes, new Comparator<Recipe>()
+		{
+			public int compare(Recipe r1, Recipe r2)
+			{
+				if(r1.canCraft && !r2.canCraft) return -1;
+				if(!r1.canCraft && r2.canCraft) return 1;
+				return 0;
+			}
+		});
 	}
 
 	public void tick()
@@ -89,8 +102,13 @@ public class CraftingMenu extends Menu
 					requiredAmt = ((ResourceItem)item).count;
 				}
 				int has = player.inventory.count(item);
+				int color = Color.get(-1, 555, 555, 555);
+				if(has < requiredAmt)
+				{
+					color = Color.get(-1, 222, 222, 222);
+				}
 				if(has > 99) has = 99;
-				Font.draw("" + requiredAmt + "/" + has, screen, xo + 8, yo, Color.get(-1, 555, 555, 555));
+				Font.draw("" + requiredAmt + "/" + has, screen, xo + 8, yo, color);
 			}
 		}
 

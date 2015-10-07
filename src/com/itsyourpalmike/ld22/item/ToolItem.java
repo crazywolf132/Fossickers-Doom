@@ -12,7 +12,7 @@ import com.itsyourpalmike.ld22.gfx.Screen;
 public class ToolItem extends Item
 {
 	private Random random = new Random();
-	
+
 	public static final int MAX_LEVEL = 5;
 	public static final String[] LEVEL_NAMES = { "Wood", "Rock", "Iron", "Gold", "Gem" };
 	public static final int[] LEVEL_COLORS = { Color.get(-1, 100, 321, 431), Color.get(-1, 100, 321, 111), Color.get(-1, 100, 321, 555), Color.get(-1, 100, 321, 550), Color.get(-1, 100, 321, 055) };
@@ -49,29 +49,42 @@ public class ToolItem extends Item
 
 	public void onTake(ItemEntity itemEntity)
 	{
-		
+
 	}
+
 	public boolean canAttack()
 	{
 		return true;
 	}
-	
+
 	public int getAttackDamageBonus(Entity e)
 	{
-		if(type == ToolType.axe)
+		if (type == ToolType.axe)
 		{
-			return (level+1) * 2 + random.nextInt(4);
+			return (level + 1) * 2 + random.nextInt(4);
 		}
-		if(type == ToolType.sword)
+		if (type == ToolType.sword)
 		{
-			return (level+1) * 3 + random.nextInt(2 + level*level * 2);
+			return (level + 1) * 3 + random.nextInt(2 + level * level * 2);
 		}
-		
+
 		return 1;
 	}
-	
+
 	public String getName()
 	{
 		return LEVEL_NAMES[level] + " " + type.name;
+	}
+
+	public boolean matches(Item item)
+	{
+		if (item instanceof ToolItem)
+		{
+			ToolItem other = (ToolItem)item;
+			if (other.type != type) return false;
+			if (other.level != level) return false;
+			return true;
+		}
+		return false;
 	}
 }

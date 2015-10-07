@@ -29,7 +29,7 @@ public class DirtTile extends Tile
 	}
 
 	// If a shovel is used on dirt, that means the player is digging a hole!!! - DUH!!!
-	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
+	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
 	{
 		if (item instanceof ToolItem)
 		{
@@ -40,6 +40,7 @@ public class DirtTile extends Tile
 				{
 					level.setTile(xt, yt, Tile.hole, 0);
 					level.add(new ItemEntity(new ResourceItem(Resource.dirt), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
+					return true;
 				}
 			}
 			if (tool.type == ToolType.hoe)
@@ -47,8 +48,10 @@ public class DirtTile extends Tile
 				if (player.payStamina(4 - tool.level))
 				{
 					level.setTile(xt, yt, Tile.farmland, 0);
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 }

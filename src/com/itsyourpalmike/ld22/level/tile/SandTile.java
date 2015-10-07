@@ -91,7 +91,7 @@ public class SandTile extends Tile
 	/////////////////////////////////////////////////////////////////
 
 	// If a player digs sand with a shovel, make a hole!!! - DUH!!!
-	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
+	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
 	{
 		if (item instanceof ToolItem)
 		{
@@ -102,8 +102,10 @@ public class SandTile extends Tile
 				{
 					level.setTile(xt, yt, Tile.hole, 0);
 					level.add(new ItemEntity(new ResourceItem(Resource.sand), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 }

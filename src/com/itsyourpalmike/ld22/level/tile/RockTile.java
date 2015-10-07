@@ -106,7 +106,7 @@ public class RockTile extends Tile
 		hurt(level, x, y, dmg);
 	}
 
-	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
+	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
 	{
 		if (item instanceof ToolItem)
 		{
@@ -116,13 +116,21 @@ public class RockTile extends Tile
 				if (player.payStamina(4 - tool.level))
 				{
 					hurt(level, xt, yt, random.nextInt(10) + ((tool.level) * 5 + 10));
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 
 	public boolean mayPass(Level level, int x, int y, Entity e)
 	{
 		return false;
+	}
+	
+	public void tick(Level level, int xt, int yt)
+	{
+		int damage = level.getData(xt, yt);
+		if(damage>0)level.setData(xt, yt, damage - 1);
 	}
 }

@@ -1,5 +1,6 @@
 package com.itsyourpalmike.ld22.level.tile;
 
+import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.entity.ItemEntity;
 import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.entity.Player;
@@ -28,6 +29,10 @@ public class WheatTile extends Tile
 		if (icon >= 3)
 		{
 			col = Color.get(level.dirtColor - 121, level.dirtColor - 11, 50 + (icon) * 100, 40 + (icon - 3) * 2 * 100);
+			if(age == 50)
+			{
+				col = Color.get(0, 0, 50 + (icon) * 100, 40 + (icon - 3) * 2 * 100);	
+			}
 			icon = 3;
 		}
 
@@ -39,11 +44,12 @@ public class WheatTile extends Tile
 
 	public void tick(Level level, int xt, int yt)
 	{
+		if(random.nextInt(2) == 0) return;
 		int age = level.getData(xt, yt);
 		if (age < 50) level.setData(xt, yt, age + 1);
 	}
 
-	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
+	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
 	{
 		if (item instanceof ToolItem)
 		{
@@ -53,12 +59,27 @@ public class WheatTile extends Tile
 				if (player.payStamina(4 - tool.level))
 				{
 					level.setTile(xt, yt, Tile.dirt, 0);
+					return true;
 				}
 			}
 		}
+		return false;
+	}
+
+	public void steppedOn(Level level, int xt, int yt, Entity entity)
+	{
+		if(random.nextInt(60) != 0) return;
+		if(level.getData(xt, yt) < 2) return;
+		harvest(level, xt, yt);
 	}
 
 	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
+	{
+		
+		harvest(level, x, y);
+	}
+	
+	private void harvest(Level level, int x, int y)
 	{
 		int age = level.getData(x, y);
 		int count = random.nextInt(2);

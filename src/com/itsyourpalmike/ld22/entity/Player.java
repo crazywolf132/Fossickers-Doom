@@ -8,6 +8,10 @@ import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
+import com.itsyourpalmike.ld22.item.ResourceItem;
+import com.itsyourpalmike.ld22.item.ToolItem;
+import com.itsyourpalmike.ld22.item.ToolType;
+import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.screen.InventoryMenu;
@@ -35,6 +39,13 @@ public class Player extends Mob
 		stamina = maxStamina;
 		
 		inventory.add(new FurnitureItem(new Workbench()));
+		inventory.add(new FurnitureItem(new Anvil()));
+		inventory.add(new FurnitureItem(new Oven()));
+		inventory.add(new FurnitureItem(new Furnace()));
+		inventory.add(new ResourceItem(Resource.wood, 500));
+		inventory.add(new ResourceItem(Resource.seeds, 500));
+		inventory.add(new ToolItem(ToolType.hoe, 4));
+		inventory.add(new ToolItem(ToolType.shovel, 4));
 	}
 
 	public void tick()
@@ -133,27 +144,76 @@ public class Player extends Mob
 		attackDir = dir;
 
 		attackItem = activeItem;
+		boolean done = false;
+		
+		if (activeItem != null)
+		{
+			attackTime = 10;
+			int yo = -2;
+			int range = 12;
+
+			// Interacting w/ entities inside of tiles within the player's attack zone
+			if (dir == 0 && interact(x - 8, y + 4 + yo, x + 8, y + range + yo)) done = true;
+			if (dir == 1 && interact(x - 8, y - range + yo, x + 8, y - 4 + yo)) done = true;
+			if (dir == 3 && interact(x + 4, y - 8 + yo, x + range, y + 8 + yo)) done = true;
+			if (dir == 2 && interact(x - range, y - 8 + yo, x - 4, y + 8 + yo)) done = true;
+			if(done) return;
+
+			// Interacts with the tile the player is facing
+			int xt = x >> 4;
+			int yt = (y + yo) >> 4;
+			int r = 12;
+
+			if (attackDir == 0) yt = (y + r + yo) >> 4;
+			if (attackDir == 1) yt = (y - r + yo) >> 4;
+			if (attackDir == 2) xt = (x - r) >> 4;
+			if (attackDir == 3) xt = (x + r) >> 4;
+
+			if (xt >= 0 && yt >= 0 && xt < level.w && yt < level.h)
+			{
+				if (activeItem.interactOn(level.getTile(xt, yt), level, xt, yt, this, attackDir))
+				{
+					done = true;
+				}
+				else
+				{
+					if(level.getTile(xt, yt).interact(level, xt, yt, this, activeItem, attackDir))
+					{
+						done = true;
+					}
+				}
+
+				if (activeItem.isDepleted())
+				{
+					activeItem = null;
+				}
+			}
+		}
+		
+		if(done) return;
+		
 		if (activeItem == null || activeItem.canAttack()) // If we have a bare hand
 		{
 			attackTime = 5;
 			int yo = -2;
+			int range = 16;
 
 			// Hurts entities inside of tiles within the player's attack zone
 			if (dir == 0)
 			{
-				hurt(x - 8, y + 4 + yo, x + 8, y + 12 + yo);
+				hurt(x - 8, y + 4 + yo, x + 8, y + range + yo);
 			}
 			if (dir == 1)
 			{
-				hurt(x - 8, y - 12 + yo, x + 8, y - 4 + yo);
+				hurt(x - 8, y - range + yo, x + 8, y - 4 + yo);
 			}
 			if (dir == 3)
 			{
-				hurt(x + 4, y - 8 + yo, x + 12, y + 8 + yo);
+				hurt(x + 4, y - 8 + yo, x + range, y + 8 + yo);
 			}
 			if (dir == 2)
 			{
-				hurt(x - 12, y - 8 + yo, x - 4, y + 8 + yo);
+				hurt(x - range, y - 8 + yo, x - 4, y + 8 + yo);
 			}
 
 			// Hurts the tile the player is facing
@@ -171,57 +231,7 @@ public class Player extends Mob
 				level.getTile(xt, yt).hurt(level, xt, yt, this, random.nextInt(3) + 1, attackDir);
 			}
 		}
-		if (activeItem != null)
-		{
-			attackTime = 10;
-			int yo = -2;
-
-			// Interacting w/ entities inside of tiles within the player's attack zone
-			if (dir == 0)
-			{
-				interact(x - 8, y + 4 + yo, x + 8, y + 12 + yo);
-			}
-			if (dir == 1)
-			{
-				interact(x - 8, y - 12 + yo, x + 8, y - 4 + yo);
-			}
-			if (dir == 3)
-			{
-				interact(x + 4, y - 8 + yo, x + 12, y + 8 + yo);
-			}
-			if (dir == 2)
-			{
-				interact(x - 12, y - 8 + yo, x - 4, y + 8 + yo);
-			}
-
-			// Interacts with the tile the player is facing
-			int xt = x >> 4;
-			int yt = (y + yo) >> 4;
-			int r = 12;
-
-			if (attackDir == 0) yt = (y + r + yo) >> 4;
-			if (attackDir == 1) yt = (y - r + yo) >> 4;
-			if (attackDir == 2) xt = (x - r) >> 4;
-			if (attackDir == 3) xt = (x + r) >> 4;
-
-			if (xt >= 0 && yt >= 0 && xt < level.w && yt < level.h)
-			{
-				if (activeItem.interactOn(level.getTile(xt, yt), level, xt, yt, this, attackDir))
-				{
-
-				}
-				else
-				{
-					level.getTile(xt, yt).interact(level, xt, yt, this, activeItem, attackDir);
-				}
-
-				if (activeItem.isDepleted())
-				{
-					activeItem = null;
-				}
-			}
-
-		}
+		
 	}
 
 	// Using menu button
@@ -268,14 +278,15 @@ public class Player extends Mob
 	}
 
 	// Using the active item to interact with entities
-	private void interact(int x0, int y0, int x1, int y1)
+	private boolean interact(int x0, int y0, int x1, int y1)
 	{
 		List<Entity> entities = level.getEntities(x0, y0, x1, y1);
 		for (int i = 0; i < entities.size(); i++)
 		{
 			Entity e = entities.get(i);
-			if (e != this) if (e.interact(this, activeItem, attackDir)) return;
+			if (e != this) if (e.interact(this, activeItem, attackDir)) return true;
 		}
+		return false;
 	}
 
 	// Hurting enemies with bare hand (random number damage)

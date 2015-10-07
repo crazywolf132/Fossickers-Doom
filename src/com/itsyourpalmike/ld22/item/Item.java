@@ -65,4 +65,9 @@ public class Item implements ListItem
 	{
 		return "";
 	}
+	
+	public boolean matches(Item item)
+	{
+		return item.getClass() == getClass();
+	}
 }

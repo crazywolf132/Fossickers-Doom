@@ -1,5 +1,6 @@
 package com.itsyourpalmike.ld22.level.tile;
 
+import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
@@ -25,7 +26,7 @@ public class FarmTile extends Tile
 		screen.render(x * 16 + 8, y * 16 + 8, 2 + 32, col, 1);
 	}
 
-	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
+	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
 	{
 		if (item instanceof ToolItem)
 		{
@@ -35,8 +36,25 @@ public class FarmTile extends Tile
 				if (player.payStamina(4 - tool.level))
 				{
 					level.setTile(xt, yt, Tile.dirt, 0);
+					return true;
 				}
 			}
 		}
+		return false;
 	}
+	
+	public void tick(Level level, int xt, int yt)
+	{
+		int age = level.getData(xt, yt);
+		if(age<5)level.setData(xt, yt, age + 1);
+	}
+
+	public void steppedOn(Level level, int xt, int yt, Entity entity)
+	{
+		if(random.nextInt(60) != 0) return;
+		if(level.getData(xt, yt) < 5) return;
+		level.setTile(xt, yt, Tile.dirt, 0);
+	}
+	
+	
 }

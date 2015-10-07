@@ -25,7 +25,7 @@ public class DeadMenu extends Menu
 
 		Font.draw("You died! Aww!", screen, 2 * 8, 4 * 8, Color.get(-1, 555, 555, 555));
 
-		int seconds = game.player.tickTime / 60;
+		int seconds = game.gameTime / 60;
 		int minutes = seconds / 60;
 		int hours = minutes / 60;
 		minutes %= 60;

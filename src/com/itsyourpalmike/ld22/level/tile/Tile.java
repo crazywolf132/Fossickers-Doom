@@ -71,8 +71,9 @@ public class Tile
 
 	}
 
-	public void interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
+	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
 	{
+		return false;
 	}
 
 	public boolean use(Level level, int xt, int yt, Player player, int attackDir)
