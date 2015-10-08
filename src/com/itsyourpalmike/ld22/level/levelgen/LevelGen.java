@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 import com.itsyourpalmike.ld22.level.tile.Tile;
 
-public class NoiseMap
+public class LevelGen
 {
 	// This is magical. No idea how it works but it does
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@ public class NoiseMap
 	private int w, h;
 	private static final Random random = new Random();
 
-	public NoiseMap(int w, int h, int featureSize)
+	public LevelGen(int w, int h, int featureSize)
 	{
 		this.w = w;
 		this.h = h;
@@ -72,7 +72,7 @@ public class NoiseMap
 				}
 
 			}
-			
+
 			stepSize /= 2;
 			scale *= (scaleMod + 0.8);
 			scaleMod *= 0.3;
@@ -91,15 +91,15 @@ public class NoiseMap
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Generates the map
-	public static byte[][] getMap(int w, int h)
+	// Generates the top map
+	public static byte[][] createTopMap(int w, int h)
 	{
-		NoiseMap mnoise1 = new NoiseMap(w, h, w / 8);
-		NoiseMap mnoise2 = new NoiseMap(w, h, w / 8);
-		NoiseMap mnoise3 = new NoiseMap(w, h, w / 8);
+		LevelGen mnoise1 = new LevelGen(w, h, 16);
+		LevelGen mnoise2 = new LevelGen(w, h, 16);
+		LevelGen mnoise3 = new LevelGen(w, h, 16);
 
-		NoiseMap noise1 = new NoiseMap(w, h, w / 4);
-		NoiseMap noise2 = new NoiseMap(w, h, w / 4);
+		LevelGen noise1 = new LevelGen(w, h, 32);
+		LevelGen noise2 = new LevelGen(w, h, 32);
 
 		// Creates the map and the data
 		byte[] map = new byte[w * h];
@@ -255,17 +255,129 @@ public class NoiseMap
 
 		}
 
+		for (int i = 0; i < w * h / 10; i++)
+		{
+			int x = random.nextInt(w - 2) + 1;
+			int y = random.nextInt(h - 2) + 1;
+
+			//if (map[(x - 1) + (y - 1) * w] != Tile.rock.id) continue;
+			//if (map[(x + 1) + (y - 1) * w] != Tile.rock.id) continue;
+			//if (map[(x - 1) + (y + 1) * w] != Tile.rock.id) continue;
+			//if (map[(x + 1) + (y + 1) * w] != Tile.rock.id) continue;
+			
+			map[x + y * w] = Tile.stairsDown.id;
+		}
+
+		return new byte[][] { map, data };
+	}
+
+	// Generates the map
+	public static byte[][] createUndergroundMap(int w, int h, int depth)
+	{
+		LevelGen mnoise1 = new LevelGen(w, h, w / 16);
+		LevelGen mnoise2 = new LevelGen(w, h, w / 16);
+		LevelGen mnoise3 = new LevelGen(w, h, w / 16);
+
+		LevelGen nnoise1 = new LevelGen(w, h, w / 16);
+		LevelGen nnoise2 = new LevelGen(w, h, w / 16);
+		LevelGen nnoise3 = new LevelGen(w, h, w / 16);
+
+		LevelGen wnoise1 = new LevelGen(w, h, w / 16);
+		LevelGen wnoise2 = new LevelGen(w, h, w / 16);
+		LevelGen wnoise3 = new LevelGen(w, h, w / 16);
+
+		LevelGen noise1 = new LevelGen(w, h, 32);
+		LevelGen noise2 = new LevelGen(w, h, 32);
+
+		// Creates the map and the data
+		byte[] map = new byte[w * h];
+		byte[] data = new byte[w * h];
+
+		for (int y = 0; y < h; y++)
+		{
+			for (int x = 0; x < w; x++)
+			{
+				int i = x + y * w;
+
+				double val = Math.abs(noise1.values[i] - noise2.values[i]) * 3 - 2;
+
+				double mval = Math.abs(mnoise1.values[i] - mnoise2.values[i]);
+				mval = Math.abs(mval - mnoise3.values[i]) * 3 - 2;
+
+				double nval = Math.abs(nnoise1.values[i] - nnoise2.values[i]);
+				nval = Math.abs(nval - nnoise3.values[i]) * 3 - 2;
+
+				double wval = Math.abs(wnoise1.values[i] - wnoise2.values[i]);
+				wval = Math.abs(nval - wnoise3.values[i]) * 3 - 2;
+
+				double xd = x / (w - 1.0) * 2 - 1;
+				double yd = y / (h - 1.0) * 2 - 1;
+				if (xd < 0) xd = -xd;
+				if (yd < 0) yd = -yd;
+				double dist = xd >= yd ? xd : yd;
+				dist = dist * dist * dist * dist;
+				dist = dist * dist * dist * dist;
+				val = val + 1 - dist * 20;
+
+				// Creating basic tiles
+				if (val > -2 && wval < -2.0 + depth)
+				{
+					if (depth > 1) map[i] = Tile.lava.id;
+					else map[i] = Tile.water.id;
+				}
+				else if (val > -2 && (mval < -1.7 || nval < -1.5))
+				{
+					map[i] = Tile.dirt.id;
+				}
+				else
+				{
+					map[i] = Tile.rock.id;
+				}
+			}
+		}
+
+		// Spawning sand Tiles
+		for (int i = 0; i < w * h / 2800; i++)
+		{
+			int xs = random.nextInt(w);
+			int ys = random.nextInt(h);
+			for (int k = 0; k < 10; k++)
+			{
+				int x = xs + random.nextInt(21) - 10;
+				int y = ys + random.nextInt(21) - 10;
+				for (int j = 0; j < 100; j++)
+				{
+					int xo = x + random.nextInt(5) - random.nextInt(5);
+					int yo = y + random.nextInt(5) - random.nextInt(5);
+					for (int yy = yo - 1; yy <= yo + 1; yy++)
+					{
+						for (int xx = xo - 1; xx <= xo + 1; xx++)
+						{
+							if (xx >= 0 && yy >= 0 && xx < w && yy < h)
+							{
+								if (map[xx + yy * w] == Tile.grass.id)
+								{
+									map[xx + yy * w] = Tile.sand.id;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 		return new byte[][] { map, data };
 	}
 
 	public static void main(String[] args)
 	{
-		for (int j = 0; j < 10; j++)
+		int d = 0;
+		while (true)
 		{
 			int w = 128;
 			int h = 128;
 
-			byte[] map = NoiseMap.getMap(w, h)[0];
+			// byte[] map = LevelGen.createTopMap(w, h)[0];
+			byte[] map = LevelGen.createUndergroundMap(w, h, ++d)[0];
 
 			BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			int[] pixels = new int[w * h];
@@ -283,6 +395,7 @@ public class NoiseMap
 					if (map[i] == Tile.sand.id) pixels[i] = 0xa0a040;
 					if (map[i] == Tile.tree.id) pixels[i] = 0x003000;
 					if (map[i] == Tile.flower.id) pixels[i] = 0xffffff;
+					if (map[i] == Tile.lava.id) pixels[i] = 0xff2020;
 				}
 			}
 

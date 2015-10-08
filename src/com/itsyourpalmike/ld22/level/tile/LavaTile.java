@@ -1,31 +1,36 @@
 package com.itsyourpalmike.ld22.level.tile;
 
+import java.util.Random;
+
 import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.Level;
 
-public class HoleTile extends Tile
+public class LavaTile extends Tile
 {
-	public HoleTile(int id)
+	public LavaTile(int id)
 	{
 		super(id);
 		connectsToSand = true;
-		connectsToWater = true;
 		connectsToLava = true;
 	}
 
+	private Random wRandom = new Random();
+
 	public void render(Screen screen, Level level, int x, int y)
 	{
-		// This render creates smooth corners and shapes, so the world isn't obviously blocky
-		int col = Color.get(111, 111, 110, 110);
-		int transitionColor1 = Color.get(3, 111, level.dirtColor - 111, level.dirtColor);
-		int transitionColor2 = Color.get(3, 111, level.sandColor - 110, level.sandColor);
+		wRandom.setSeed((tickCount + (x / 2 - y) * 4311) / 20 * 5412514 + x * 2452456 + y * 26256353);
 
-		boolean u = !level.getTile(x, y - 1).connectsToLiquid();
-		boolean d = !level.getTile(x, y + 1).connectsToLiquid();
-		boolean l = !level.getTile(x - 1, y).connectsToLiquid();
-		boolean r = !level.getTile(x + 1, y).connectsToLiquid();
+		// This render creates smooth corners and shapes, so the world isn't obviously blocky
+		int col = Color.get(500, 500, 520, 550);
+		int transitionColor1 = Color.get(3, 500, level.dirtColor - 111, level.dirtColor);
+		int transitionColor2 = Color.get(3, 500, level.sandColor - 110, level.sandColor);
+
+		boolean u = !level.getTile(x, y - 1).connectsToLava;
+		boolean d = !level.getTile(x, y + 1).connectsToLava;
+		boolean l = !level.getTile(x - 1, y).connectsToLava;
+		boolean r = !level.getTile(x + 1, y).connectsToLava;
 
 		boolean su = u && level.getTile(x, y - 1).connectsToSand;
 		boolean sd = d && level.getTile(x, y + 1).connectsToSand;
@@ -34,7 +39,7 @@ public class HoleTile extends Tile
 
 		if (!u && !l)
 		{
-			screen.render(x * 16 + 0, y * 16 + 0, 0, col, 0);
+			screen.render(x * 16 + 0, y * 16 + 0, wRandom.nextInt(4), col, wRandom.nextInt(4));
 		}
 		else
 		{
@@ -43,7 +48,7 @@ public class HoleTile extends Tile
 
 		if (!u && !r)
 		{
-			screen.render(x * 16 + 8, y * 16 + 0, 1, col, 0);
+			screen.render(x * 16 + 8, y * 16 + 0, wRandom.nextInt(4), col, wRandom.nextInt(4));
 		}
 		else
 		{
@@ -52,7 +57,7 @@ public class HoleTile extends Tile
 
 		if (!d && !l)
 		{
-			screen.render(x * 16 + 0, y * 16 + 8, 2, col, 0);
+			screen.render(x * 16 + 0, y * 16 + 8, wRandom.nextInt(4), col, wRandom.nextInt(4));
 		}
 		else
 		{
@@ -61,11 +66,26 @@ public class HoleTile extends Tile
 
 		if (!d && !r)
 		{
-			screen.render(x * 16 + 8, y * 16 + 8, 3, col, 0);
+			screen.render(x * 16 + 8, y * 16 + 8, wRandom.nextInt(4), col, wRandom.nextInt(4));
 		}
 		else
 		{
 			screen.render(x * 16 + 8, y * 16 + 8, (r ? 16 : 15) + (d ? 2 : 1) * 32, (sd || sr) ? transitionColor2 : transitionColor1, 0);
+		}
+	}
+
+	// Water flows into holes
+	public void tick(Level level, int xt, int yt)
+	{
+		int xn = xt;
+		int yn = yt;
+
+		if (random.nextBoolean()) xn += random.nextInt(2) * 2 - 1;
+		else yn += random.nextInt(2) * 2 - 1;
+
+		if (level.getTile(xn, yn) == Tile.hole)
+		{
+			level.setTile(xn, yn, this, 0);
 		}
 	}
 

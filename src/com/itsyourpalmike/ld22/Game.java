@@ -47,9 +47,12 @@ public class Game extends Canvas implements Runnable
 	private InputHandler input = new InputHandler(this);
 	private Screen screen;
 	private Level level;
+	private Level[] levels = new Level[5];
+	private int currentLevel = 3;
 	public Player player;
 	public Menu menu;
 	private int playerDeadTime;
+	private int pendingLevelChange;
 
 	public void setMenu(Menu menu)
 	{
@@ -116,7 +119,17 @@ public class Game extends Canvas implements Runnable
 	public void resetGame()
 	{
 		gameTime = 0;
-		level = new Level(128, 128);
+		
+		levels = new Level[5];
+		currentLevel = 3;
+
+		levels[4] = new Level(128, 128, 1, null);
+		levels[3] = new Level(128, 128, 0, levels[4]);
+		levels[2] = new Level(128, 128, -1, levels[3]);
+		levels[1] = new Level(128, 128, -2, levels[2]);
+		levels[0] = new Level(128, 128, -3, levels[1]);
+
+		level = levels[currentLevel];
 
 		// Creating the player and validating start position
 		player = new Player(this, input);
@@ -199,12 +212,28 @@ public class Game extends Canvas implements Runnable
 						setMenu(new DeadMenu());
 					}
 				}
+				else
+				{
+					if (pendingLevelChange != 0)
+					{
+						changeLevel(pendingLevelChange);
+						pendingLevelChange = 0;
+					}
+				}
 				level.tick();
 				Tile.tickCount++;
 			}
 
 		}
 
+	}
+
+	private void changeLevel(int dir)
+	{
+		level.remove(player);
+		currentLevel+=dir;
+		level = levels[currentLevel];
+		level.add(player);
 	}
 
 	public void render()
@@ -334,6 +363,11 @@ public class Game extends Canvas implements Runnable
 		{
 			Font.draw(msg, screen, xx, yy, Color.get(5, 555, 555, 555));
 		}
+	}
+
+	public void scheduleLevelChange(int dir)
+	{
+		pendingLevelChange = dir;
 	}
 
 	public static void main(String[] args)

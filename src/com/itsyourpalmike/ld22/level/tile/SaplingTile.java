@@ -19,6 +19,7 @@ public class SaplingTile extends Tile
 		connectsToSand = onType.connectsToSand;
 		connectsToGrass = onType.connectsToGrass;
 		connectsToWater = onType.connectsToWater;
+		connectsToLava = onType.connectsToLava;
 	}
 
 	public void render(Screen screen, Level level, int x, int y)

@@ -28,11 +28,15 @@ public class Tile
 	public static Tile cactusSapling = new SaplingTile(10, sand, cactus);
 	public static Tile farmland = new FarmTile(11);
 	public static Tile wheat = new WheatTile(12);
+	public static Tile lava = new LavaTile(13);
+	public static Tile stairsDown = new StairsTile(14, false);
+	public static Tile stairsUp = new StairsTile(15, true);
 
 	public final byte id;
 	public boolean connectsToGrass = false;
 	public boolean connectsToSand = false;
 	public boolean connectsToWater = false;
+	public boolean connectsToLava = false;
 
 	public Tile(int id)
 	{
@@ -79,5 +83,10 @@ public class Tile
 	public boolean use(Level level, int xt, int yt, Player player, int attackDir)
 	{
 		return false;
+	}
+
+	public boolean connectsToLiquid()
+	{
+		return connectsToWater || connectsToLava;
 	}
 }

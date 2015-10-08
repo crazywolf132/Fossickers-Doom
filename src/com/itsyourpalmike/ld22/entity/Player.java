@@ -8,6 +8,7 @@ import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
+import com.itsyourpalmike.ld22.item.PowerGloveItem;
 import com.itsyourpalmike.ld22.item.ResourceItem;
 import com.itsyourpalmike.ld22.item.ToolItem;
 import com.itsyourpalmike.ld22.item.ToolType;
@@ -38,6 +39,7 @@ public class Player extends Mob
 		this.game = game;
 		stamina = maxStamina;
 		
+		inventory.add(new PowerGloveItem());
 		inventory.add(new FurnitureItem(new Workbench()));
 		inventory.add(new FurnitureItem(new Anvil()));
 		inventory.add(new FurnitureItem(new Oven()));
@@ -46,6 +48,7 @@ public class Player extends Mob
 		inventory.add(new ResourceItem(Resource.seeds, 500));
 		inventory.add(new ToolItem(ToolType.hoe, 4));
 		inventory.add(new ToolItem(ToolType.shovel, 4));
+		inventory.add(new ToolItem(ToolType.pickaxe, 4));
 	}
 
 	public void tick()
@@ -65,7 +68,7 @@ public class Player extends Mob
 		if (staminaRechargeDelay == 0)
 		{
 			staminaRecharge++;
-			if (inWater())
+			if (isSwimming())
 			{
 				staminaRecharge = 0;
 			}
@@ -97,7 +100,7 @@ public class Player extends Mob
 			xa++;
 		}
 		
-		if(inWater() && tickTime % 60 == 0)
+		if(isSwimming() && tickTime % 60 == 0)
 		{
 			if(stamina > 0) stamina--;
 			else
@@ -340,7 +343,7 @@ public class Player extends Mob
 
 		int xo = x - 8;
 		int yo = y - 11;
-		if (inWater())
+		if (isSwimming())
 		{
 			yo += 4;
 			int waterColor = Color.get(-1, -1, 115, 115);
@@ -380,7 +383,7 @@ public class Player extends Mob
 		screen.render(xo + 8 * flip1, yo + 0, xt + yt * 32, col, flip1);
 		screen.render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, col, flip1);
 
-		if (!inWater()) // If we're in water, don't render lower half of the player
+		if (!isSwimming()) // If we're in water, don't render lower half of the player
 		{
 			screen.render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, col, flip2);
 			screen.render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, col, flip2);
@@ -450,7 +453,7 @@ public class Player extends Mob
 		{
 			int x = random.nextInt(level.w);
 			int y = random.nextInt(level.h);
-			if (level.getTile(x, y) == Tile.grass)
+			if (level.getTile(x, y) == Tile.grass || level.getTile(x, y) == Tile.dirt)
 			{
 				this.x = x * 16 + 8;
 				this.y = y * 16 + 8;
@@ -464,5 +467,10 @@ public class Player extends Mob
 		if(cost > stamina) return false;
 		stamina-=cost;
 		return true;
+	}
+
+	public void changeLevel(int dir)
+	{
+		game.scheduleLevelChange(dir);
 	}
 }

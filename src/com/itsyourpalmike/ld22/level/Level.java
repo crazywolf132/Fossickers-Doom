@@ -8,7 +8,7 @@ import java.util.Random;
 
 import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.level.levelgen.NoiseMap;
+import com.itsyourpalmike.ld22.level.levelgen.LevelGen;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 
 public class Level
@@ -37,15 +37,36 @@ public class Level
 	};
 
 	@SuppressWarnings("unchecked")
-	public Level(int w, int h)
+	public Level(int w, int h, int level, Level parentLevel)
 	{
 		this.w = w;
 		this.h = h;
 
-		byte[][] maps = NoiseMap.getMap(w, h);
+		byte[][] maps;
+		if (level == 0) maps = LevelGen.createTopMap(w, h);
+		else if (level < 0) maps = LevelGen.createUndergroundMap(w, h, -level);
+		else maps = LevelGen.createTopMap(w, h); // Sky level
 
 		tiles = maps[0];
 		data = maps[1];
+		
+		if(parentLevel != null)
+		{
+			for(int y = 0; y < h; y++)
+			{
+				for(int x = 0; x < w; x++)
+				{
+					if(parentLevel.getTile(x, y) == Tile.stairsDown)
+					{
+						setTile(x, y, Tile.stairsUp, 0);
+						setTile(x-1, y, Tile.dirt, 0);
+						setTile(x+1, y, Tile.dirt, 0);
+						setTile(x, y-1, Tile.dirt, 0);
+						setTile(x, y+1, Tile.dirt, 0);
+					}
+				}
+			}
+		}
 
 		entitiesInTiles = new ArrayList[w * h];
 
@@ -76,6 +97,7 @@ public class Level
 
 	// Renders entities inside of tiles in the view area
 	List<Entity> rowSprites = new ArrayList<Entity>();
+
 	public void renderSprites(Screen screen, int xScroll, int yScroll)
 	{
 		int xo = xScroll >> 4;
@@ -97,7 +119,7 @@ public class Level
 			{
 				sortAndRender(screen, rowSprites);
 			}
-			
+
 			this.rowSprites.clear();
 		}
 		screen.setOffset(0, 0);
@@ -148,6 +170,14 @@ public class Level
 		insertEntity(entity.x >> 4, entity.y >> 4, entity);
 	}
 
+	public void remove(Entity e)
+	{
+		entities.remove(e);
+		int xto = e.x >> 4;
+		int yto = e.y >> 4;
+		removeEntity(xto, yto, e);
+	}
+
 	// Adding / Removing entities from tiles
 	///////////////////////////////////////////////////////////
 	private void removeEntity(int x, int y, Entity e)
@@ -192,7 +222,7 @@ public class Level
 			{
 				int xt = e.x >> 4;
 				int yt = e.y >> 4;
-				
+
 				// If an entity has moved to a new tile... KEEP TRACK OF IT!!!
 				if (xto != xt || yto != yt)
 				{
@@ -212,14 +242,14 @@ public class Level
 		int yt0 = (y0 >> 4) - 1;
 		int xt1 = (x1 >> 4) + 1;
 		int yt1 = (y1 >> 4) + 1;
-		
+
 		for (int y = yt0; y <= yt1; y++)
 		{
 			for (int x = xt0; x <= xt1; x++)
 			{
 				if (x < 0 || y < 0 || x >= w || y >= h) continue;
 				List<Entity> entities = entitiesInTiles[x + y * this.w];
-				
+
 				for (int i = 0; i < entities.size(); i++)
 				{
 					Entity e = entities.get(i);

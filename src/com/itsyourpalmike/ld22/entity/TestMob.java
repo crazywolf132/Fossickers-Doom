@@ -75,7 +75,7 @@ public class TestMob extends Mob
 	{
 		if(entity instanceof Player)
 		{
-			entity.hurt(this,  1,  dir);
+			entity.hurt(this,  1,  ((Player)entity).dir^1);
 		}
 	}
 
