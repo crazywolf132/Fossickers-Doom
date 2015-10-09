@@ -1,7 +1,5 @@
 package com.itsyourpalmike.ld22.level.tile;
 
-import com.itsyourpalmike.ld22.entity.Entity;
-import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.Level;
@@ -25,17 +23,6 @@ public class StairsTile extends Tile
 		screen.render(x * 16 + 8, y * 16 + 0, xt + 1 + 2 * 32, color, 0);
 		screen.render(x * 16 + 0, y * 16 + 8, xt + 3 * 32, color, 0);
 		screen.render(x * 16 + 8, y * 16 + 8, xt + 1 + 3 * 32, color, 0);
-	}
-
-	
-	
-	public void bumpedInto(Level level, int xt, int yt, Entity entity)
-	{
-		if (entity instanceof Player)
-		{
-			Player p = (Player)entity;
-			p.changeLevel(leadsUp ? 1 : -1);
-		}
 	}
 
 }

@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Random;
 
 import com.itsyourpalmike.ld22.entity.Entity;
+import com.itsyourpalmike.ld22.entity.Mob;
+import com.itsyourpalmike.ld22.entity.Player;
+import com.itsyourpalmike.ld22.entity.Slime;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.levelgen.LevelGen;
 import com.itsyourpalmike.ld22.level.tile.Tile;
@@ -43,26 +46,35 @@ public class Level
 		this.h = h;
 
 		byte[][] maps;
+
+		if (level == 1)
+		{
+			dirtColor = 444;
+		}
 		if (level == 0) maps = LevelGen.createTopMap(w, h);
 		else if (level < 0) maps = LevelGen.createUndergroundMap(w, h, -level);
-		else maps = LevelGen.createTopMap(w, h); // Sky level
+		else maps = LevelGen.createSkyMap(w, h); // Sky level
 
 		tiles = maps[0];
 		data = maps[1];
-		
-		if(parentLevel != null)
+
+		if (parentLevel != null)
 		{
-			for(int y = 0; y < h; y++)
+			for (int y = 0; y < h; y++)
 			{
-				for(int x = 0; x < w; x++)
+				for (int x = 0; x < w; x++)
 				{
-					if(parentLevel.getTile(x, y) == Tile.stairsDown)
+					if (parentLevel.getTile(x, y) == Tile.stairsDown)
 					{
 						setTile(x, y, Tile.stairsUp, 0);
-						setTile(x-1, y, Tile.dirt, 0);
-						setTile(x+1, y, Tile.dirt, 0);
-						setTile(x, y-1, Tile.dirt, 0);
-						setTile(x, y+1, Tile.dirt, 0);
+						setTile(x - 1, y, Tile.dirt, 0);
+						setTile(x + 1, y, Tile.dirt, 0);
+						setTile(x, y - 1, Tile.dirt, 0);
+						setTile(x, y + 1, Tile.dirt, 0);
+						setTile(x - 1, y - 1, Tile.dirt, 0);
+						setTile(x - 1, y + 1, Tile.dirt, 0);
+						setTile(x + 1, y - 1, Tile.dirt, 0);
+						setTile(x + 1, y + 1, Tile.dirt, 0);
 					}
 				}
 			}
@@ -97,6 +109,7 @@ public class Level
 
 	// Renders entities inside of tiles in the view area
 	List<Entity> rowSprites = new ArrayList<Entity>();
+	public Player player;
 
 	public void renderSprites(Screen screen, int xScroll, int yScroll)
 	{
@@ -124,6 +137,45 @@ public class Level
 		}
 		screen.setOffset(0, 0);
 	}
+
+	public void renderLight(Screen screen, int xScroll, int yScroll)
+	{
+		int xo = xScroll >> 4;
+		int yo = yScroll >> 4;
+		int w = (screen.w + 15) >> 4;
+		int h = (screen.h + 15) >> 4;
+
+		screen.setOffset(xScroll, yScroll);
+		int r = 4;
+
+		for (int y = yo - r; y <= h + yo + r; y++)
+		{
+			for (int x = xo - r; x <= w + xo + r; x++)
+			{
+				if (x < 0 || y < 0 || x >= this.w || y >= this.h) continue;
+				List<Entity> entities = entitiesInTiles[x + y * this.w];
+				for (int i = 0; i < entities.size(); i++)
+				{
+					Entity e = entities.get(i);
+					int lr = e.getLightRadius();
+
+					if (lr > 0)
+					{
+						screen.renderLight(e.x - 1, e.y - 4, lr * 8);
+					}
+				}
+				int lr = getTile(x, y).getLightRadius(this, x, y);
+				if (lr > 0) screen.renderLight(x * 16 + 8, y * 16 + 8, lr * 8);
+
+			}
+		}
+		screen.setOffset(0, 0);
+	}
+
+	// private void renderLight(Screen screen, int x, int y, int r)
+	// {
+	// screen.renderLight(x,y,r);
+	// }
 
 	/// sorts entities before rendering them
 	private void sortAndRender(Screen screen, List<Entity> list)
@@ -163,6 +215,10 @@ public class Level
 	// Adds entity to entities arraylist and inserts it into tile/entity spot
 	public void add(Entity entity)
 	{
+		if (entity instanceof Player)
+		{
+			player = (Player)entity;
+		}
 		entity.removed = false;
 		entities.add(entity);
 		entity.init(this);
@@ -195,6 +251,16 @@ public class Level
 
 	public void tick()
 	{
+		// Spawn in some mobs
+		for (int i = 0; i < 10; i++)
+		{
+			Mob m = new Slime(random.nextInt(4) + 1);
+			if (m.findStartPos(this))
+			{
+				this.add(m);
+			}
+		}
+
 		// Ticks tiles with delays and randomization offset
 		for (int i = 0; i < w * h / 50; i++)
 		{

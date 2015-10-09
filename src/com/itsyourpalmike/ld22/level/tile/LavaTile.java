@@ -93,4 +93,9 @@ public class LavaTile extends Tile
 	{
 		return e.canSwim();
 	}
+	
+	public int getLightRadius(Level level, int x, int y)
+	{
+		return 6;
+	}
 }

@@ -22,7 +22,7 @@ public class InstructionsMenu extends Menu
 
 	public void render(Screen screen)
 	{
-		screen.clear();
+		screen.clear(0);
 
 		Font.draw("HOW TO PLAY", screen, 4*8 + 4, 1*8, Color.get(0, 555, 555, 555));
 		Font.draw("Move your character", screen, 0*8 + 4, 3*8, Color.get(0, 333, 333, 333));

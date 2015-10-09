@@ -31,6 +31,7 @@ public class Player extends Mob
 	public int staminaRechargeDelay;
 	public int score;
 	public int maxStamina = 10;
+	private int onStairDelay;;
 
 	public Player(Game game, InputHandler input)
 	{
@@ -38,7 +39,7 @@ public class Player extends Mob
 		x = y = 24;
 		this.game = game;
 		stamina = maxStamina;
-		
+
 		inventory.add(new PowerGloveItem());
 		inventory.add(new FurnitureItem(new Workbench()));
 		inventory.add(new FurnitureItem(new Anvil()));
@@ -49,11 +50,31 @@ public class Player extends Mob
 		inventory.add(new ToolItem(ToolType.hoe, 4));
 		inventory.add(new ToolItem(ToolType.shovel, 4));
 		inventory.add(new ToolItem(ToolType.pickaxe, 4));
+		inventory.add(new ToolItem(ToolType.sword, 4));
 	}
 
 	public void tick()
 	{
 		super.tick();
+
+		Tile onTile = level.getTile(x >> 4, y >> 4);
+		if (onTile == Tile.stairsDown || onTile == Tile.stairsUp)
+		{
+			if (onStairDelay == 0)
+			{
+				changeLevel(onTile == Tile.stairsUp ? 1 : -1);
+				onStairDelay = 10;
+				return;
+			}
+			onStairDelay = 10;
+		}
+		else
+		{
+			if (onStairDelay > 0)
+			{
+				onStairDelay--;
+			}
+		}
 
 		if (stamina <= 0 && staminaRechargeDelay == 0 && staminaRecharge == 0)
 		{
@@ -99,13 +120,13 @@ public class Player extends Mob
 		{
 			xa++;
 		}
-		
-		if(isSwimming() && tickTime % 60 == 0)
+
+		if (isSwimming() && tickTime % 60 == 0)
 		{
-			if(stamina > 0) stamina--;
+			if (stamina > 0) stamina--;
 			else
 			{
-				hurt(this, 1, dir^1);
+				hurt(this, 1, dir ^ 1);
 			}
 		}
 
@@ -148,7 +169,7 @@ public class Player extends Mob
 
 		attackItem = activeItem;
 		boolean done = false;
-		
+
 		if (activeItem != null)
 		{
 			attackTime = 10;
@@ -160,7 +181,7 @@ public class Player extends Mob
 			if (dir == 1 && interact(x - 8, y - range + yo, x + 8, y - 4 + yo)) done = true;
 			if (dir == 3 && interact(x + 4, y - 8 + yo, x + range, y + 8 + yo)) done = true;
 			if (dir == 2 && interact(x - range, y - 8 + yo, x - 4, y + 8 + yo)) done = true;
-			if(done) return;
+			if (done) return;
 
 			// Interacts with the tile the player is facing
 			int xt = x >> 4;
@@ -180,7 +201,7 @@ public class Player extends Mob
 				}
 				else
 				{
-					if(level.getTile(xt, yt).interact(level, xt, yt, this, activeItem, attackDir))
+					if (level.getTile(xt, yt).interact(level, xt, yt, this, activeItem, attackDir))
 					{
 						done = true;
 					}
@@ -192,9 +213,9 @@ public class Player extends Mob
 				}
 			}
 		}
-		
-		if(done) return;
-		
+
+		if (done) return;
+
 		if (activeItem == null || activeItem.canAttack()) // If we have a bare hand
 		{
 			attackTime = 5;
@@ -234,7 +255,7 @@ public class Player extends Mob
 				level.getTile(xt, yt).hurt(level, xt, yt, this, random.nextInt(3) + 1, attackDir);
 			}
 		}
-		
+
 	}
 
 	// Using menu button
@@ -447,7 +468,7 @@ public class Player extends Mob
 	}
 
 	// validates a starting position so player doesn't spawn inside of walls
-	public void findStartPos(Level level)
+	public boolean findStartPos(Level level)
 	{
 		while (true)
 		{
@@ -457,20 +478,43 @@ public class Player extends Mob
 			{
 				this.x = x * 16 + 8;
 				this.y = y * 16 + 8;
-				break;
+				return true;
 			}
 		}
 	}
 
 	public boolean payStamina(int cost)
 	{
-		if(cost > stamina) return false;
-		stamina-=cost;
+		if (cost > stamina) return false;
+		stamina -= cost;
 		return true;
 	}
 
 	public void changeLevel(int dir)
 	{
 		game.scheduleLevelChange(dir);
+	}
+	
+
+	public int getLightRadius()
+	{
+		int r = 2;
+		if(activeItem != null)
+		{
+			if(activeItem instanceof FurnitureItem)
+			{
+				int rr = ((FurnitureItem)activeItem).furniture.getLightRadius();
+				if(rr > r) r = rr;
+			}
+		}
+		return r;
+	}
+	
+	protected void touchedBy(Entity entity)
+	{
+		if (!(entity instanceof Player))
+		{
+			entity.touchedBy(this);
+		}
 	}
 }

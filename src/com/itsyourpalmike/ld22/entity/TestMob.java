@@ -78,5 +78,6 @@ public class TestMob extends Mob
 			entity.hurt(this,  1,  ((Player)entity).dir^1);
 		}
 	}
+	
 
 }

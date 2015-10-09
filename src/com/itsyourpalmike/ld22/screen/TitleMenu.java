@@ -38,7 +38,7 @@ public class TitleMenu extends Menu
 
 	public void render(Screen screen)
 	{
-		screen.clear();
+		screen.clear(0);
 
 		int h = 2;
 		int w = 13;

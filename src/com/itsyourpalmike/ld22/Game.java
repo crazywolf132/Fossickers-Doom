@@ -8,13 +8,15 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.entity.Player;
-import com.itsyourpalmike.ld22.entity.TestMob;
+import com.itsyourpalmike.ld22.entity.Slime;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
@@ -22,6 +24,7 @@ import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.screen.DeadMenu;
+import com.itsyourpalmike.ld22.screen.LevelTransitionMenu;
 import com.itsyourpalmike.ld22.screen.Menu;
 import com.itsyourpalmike.ld22.screen.TitleMenu;
 
@@ -46,6 +49,7 @@ public class Game extends Canvas implements Runnable
 	// Important game objects
 	private InputHandler input = new InputHandler(this);
 	private Screen screen;
+	private Screen lightScreen;
 	private Level level;
 	private Level[] levels = new Level[5];
 	private int currentLevel = 3;
@@ -53,6 +57,7 @@ public class Game extends Canvas implements Runnable
 	public Menu menu;
 	private int playerDeadTime;
 	private int pendingLevelChange;
+	private Random random = new Random();
 
 	public void setMenu(Menu menu)
 	{
@@ -118,8 +123,9 @@ public class Game extends Canvas implements Runnable
 
 	public void resetGame()
 	{
+		playerDeadTime = 0;
 		gameTime = 0;
-		
+
 		levels = new Level[5];
 		currentLevel = 3;
 
@@ -136,13 +142,7 @@ public class Game extends Canvas implements Runnable
 		player.findStartPos(level);
 		level.add(player);
 
-		// Spawn in some mobs
-		for (int i = 0; i < 100; i++)
-		{
-			TestMob m = new TestMob();
-			m.findStartPos(level);
-			level.add(m);
-		}
+		
 	}
 
 	private void init()
@@ -173,6 +173,7 @@ public class Game extends Canvas implements Runnable
 		try
 		{
 			screen = new Screen(WIDTH, HEIGHT, new SpriteSheet(ImageIO.read(Game.class.getResourceAsStream("/icons.png"))));
+			lightScreen = new Screen(WIDTH, HEIGHT, new SpriteSheet(ImageIO.read(Game.class.getResourceAsStream("/icons.png"))));
 		}
 		catch (IOException e)
 		{
@@ -216,7 +217,7 @@ public class Game extends Canvas implements Runnable
 				{
 					if (pendingLevelChange != 0)
 					{
-						changeLevel(pendingLevelChange);
+						setMenu(new LevelTransitionMenu(pendingLevelChange));
 						pendingLevelChange = 0;
 					}
 				}
@@ -228,11 +229,13 @@ public class Game extends Canvas implements Runnable
 
 	}
 
-	private void changeLevel(int dir)
+	public void changeLevel(int dir)
 	{
 		level.remove(player);
-		currentLevel+=dir;
+		currentLevel += dir;
 		level = levels[currentLevel];
+		player.x = (player.x >> 4) * 16 + 8;
+		player.y = (player.y >> 4) * 16 + 8;
 		level.add(player);
 	}
 
@@ -254,8 +257,28 @@ public class Game extends Canvas implements Runnable
 		if (yScroll < 16) yScroll = 16;
 		if (xScroll > level.w * 16 - screen.w) xScroll = level.w * 16 - screen.w - 16;
 		if (yScroll > level.h * 16 - screen.h) yScroll = level.h * 16 - screen.h - 16;
+
+		if (currentLevel > 3)
+		{
+			int col = Color.get(20, 20, 121, 121);
+			for (int y = 0; y < 14; y++)
+			{
+				for (int x = 0; x < 24; x++)
+				{
+					screen.render(x * 8 - ((xScroll / 4) & 7), y * 8 - ((yScroll / 4) & 7), 0, col, 0);
+				}
+			}
+		}
+
 		level.renderBackground(screen, xScroll, yScroll);
 		level.renderSprites(screen, xScroll, yScroll);
+
+		if (currentLevel < 3)
+		{
+			lightScreen.clear(0);
+			level.renderLight(lightScreen, xScroll, yScroll);
+			screen.overlay(lightScreen, xScroll, yScroll);
+		}
 		renderGui();
 
 		// If the game window isn't focused display a message!

@@ -31,6 +31,8 @@ public class Tile
 	public static Tile lava = new LavaTile(13);
 	public static Tile stairsDown = new StairsTile(14, false);
 	public static Tile stairsUp = new StairsTile(15, true);
+	public static Tile infiniteFall = new InfiniteFallTile(16);
+	public static Tile cloud = new CloudTile(17);
 
 	public final byte id;
 	public boolean connectsToGrass = false;
@@ -88,5 +90,10 @@ public class Tile
 	public boolean connectsToLiquid()
 	{
 		return connectsToWater || connectsToLava;
+	}
+
+	public int getLightRadius(Level level, int x, int y)
+	{
+		return 0;
 	}
 }

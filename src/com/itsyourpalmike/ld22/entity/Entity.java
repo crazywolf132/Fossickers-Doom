@@ -163,4 +163,9 @@ public class Entity
 	{
 		return false;
 	}
+
+	public int getLightRadius()
+	{
+		return 0;
+	}
 }

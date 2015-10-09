@@ -7,6 +7,7 @@ import com.itsyourpalmike.ld22.entity.Anvil;
 import com.itsyourpalmike.ld22.entity.Chest;
 import com.itsyourpalmike.ld22.entity.Furnace;
 import com.itsyourpalmike.ld22.entity.Oven;
+import com.itsyourpalmike.ld22.entity.Torch;
 import com.itsyourpalmike.ld22.entity.Workbench;
 import com.itsyourpalmike.ld22.item.ToolType;
 import com.itsyourpalmike.ld22.item.resource.Resource;
@@ -24,6 +25,8 @@ public class Crafting
 		{
 			// WORKBENCH RECIPES
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			workbenchRecipes.add(new FurnitureRecipe(Torch.class).addCost(Resource.wood, 1).addCost(Resource.slime, 1));
+			
 			workbenchRecipes.add(new FurnitureRecipe(Oven.class).addCost(Resource.stone, 15));
 			workbenchRecipes.add(new FurnitureRecipe(Furnace.class).addCost(Resource.stone, 20));
 			workbenchRecipes.add(new FurnitureRecipe(Workbench.class).addCost(Resource.wood, 20));

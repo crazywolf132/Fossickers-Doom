@@ -26,17 +26,22 @@ public class Mob extends Entity
 	public void tick()
 	{
 		tickTime++;
-		if(level.getTile(x >> 4, y >> 4) == Tile.lava)
+		if (level.getTile(x >> 4, y >> 4) == Tile.lava)
 		{
-			hurt(this, 4, dir^1);
+			hurt(this, 4, dir ^ 1);
 		}
-		
+
 		if (health <= 0)
 		{
-			remove();
+			die();
 		}
 
 		if (hurtTime > 0) hurtTime--;
+	}
+
+	protected void die()
+	{
+		remove();
 	}
 
 	public boolean move(int xa, int ya)
@@ -45,7 +50,7 @@ public class Mob extends Entity
 		{
 			if (swimTimer++ % 2 == 0) return true;
 		}
-		
+
 		if (xKnockback < 0)
 		{
 			move2(-1, 0);
@@ -66,7 +71,7 @@ public class Mob extends Entity
 			move2(0, 1);
 			yKnockback--;
 		}
-		
+
 		if (hurtTime > 0) return true;
 
 		if (xa != 0 || ya != 0)
@@ -111,7 +116,7 @@ public class Mob extends Entity
 		if (attackDir == 3) xKnockback = 6;
 		hurtTime = 10;
 	}
-	
+
 	public void heal(int heal)
 	{
 		// Removes health, adds particles, and sets knockback
@@ -120,7 +125,7 @@ public class Mob extends Entity
 		level.add(new TextParticle("" + heal, x, y, Color.get(-1, 50, 50, 50)));
 		health += heal;
 
-		if(health > maxHealth) health = maxHealth;
+		if (health > maxHealth) health = maxHealth;
 	}
 
 	public void hurt(Tile tile, int x, int y, int dmg)
@@ -130,18 +135,22 @@ public class Mob extends Entity
 	}
 
 	// validates a starting position so mobs don't spawn inside of walls
-	public void findStartPos(Level level)
+	public boolean findStartPos(Level level)
 	{
-		while (true)
-		{
 			int x = random.nextInt(level.w);
 			int y = random.nextInt(level.h);
+			int r = 8 * 16;
+			int xx= x * 16 + 8;
+			int yy = y * 16 + 8;
+			
+			if (level.getEntities(xx - r, yy - r, xx + r, yy + r).size() > 0) return false;
 			if (level.getTile(x, y).mayPass(level, x, y, this))
 			{
-				this.x = x * 16 + 8;
-				this.y = y * 16 + 8;
-				break;
+				this.x = xx;
+				this.y = yy;
+				return true;
 			}
-		}
+		
+		return false;
 	}
 }

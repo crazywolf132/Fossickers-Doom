@@ -255,16 +255,18 @@ public class LevelGen
 
 		}
 
+		stairsLoop:
 		for (int i = 0; i < w * h / 10; i++)
 		{
 			int x = random.nextInt(w - 2) + 1;
 			int y = random.nextInt(h - 2) + 1;
 
-			//if (map[(x - 1) + (y - 1) * w] != Tile.rock.id) continue;
-			//if (map[(x + 1) + (y - 1) * w] != Tile.rock.id) continue;
-			//if (map[(x - 1) + (y + 1) * w] != Tile.rock.id) continue;
-			//if (map[(x + 1) + (y + 1) * w] != Tile.rock.id) continue;
-			
+			for (int yy = y - 1; yy <= y + 1; yy++)
+				for (int xx = x - 1; xx <= x + 1; xx++)
+				{
+					if (map[xx + yy * w] != Tile.rock.id) continue stairsLoop;
+				}
+
 			map[x + y * w] = Tile.stairsDown.id;
 		}
 
@@ -274,17 +276,17 @@ public class LevelGen
 	// Generates the map
 	public static byte[][] createUndergroundMap(int w, int h, int depth)
 	{
-		LevelGen mnoise1 = new LevelGen(w, h, w / 16);
-		LevelGen mnoise2 = new LevelGen(w, h, w / 16);
-		LevelGen mnoise3 = new LevelGen(w, h, w / 16);
+		LevelGen mnoise1 = new LevelGen(w, h, 16);
+		LevelGen mnoise2 = new LevelGen(w, h, 16);
+		LevelGen mnoise3 = new LevelGen(w, h, 16);
 
-		LevelGen nnoise1 = new LevelGen(w, h, w / 16);
-		LevelGen nnoise2 = new LevelGen(w, h, w / 16);
-		LevelGen nnoise3 = new LevelGen(w, h, w / 16);
+		LevelGen nnoise1 = new LevelGen(w, h, 16);
+		LevelGen nnoise2 = new LevelGen(w, h, 16);
+		LevelGen nnoise3 = new LevelGen(w, h, 16);
 
-		LevelGen wnoise1 = new LevelGen(w, h, w / 16);
-		LevelGen wnoise2 = new LevelGen(w, h, w / 16);
-		LevelGen wnoise3 = new LevelGen(w, h, w / 16);
+		LevelGen wnoise1 = new LevelGen(w, h, 16);
+		LevelGen wnoise2 = new LevelGen(w, h, 16);
+		LevelGen wnoise3 = new LevelGen(w, h, 16);
 
 		LevelGen noise1 = new LevelGen(w, h, 32);
 		LevelGen noise2 = new LevelGen(w, h, 32);
@@ -336,35 +338,68 @@ public class LevelGen
 			}
 		}
 
-		// Spawning sand Tiles
-		for (int i = 0; i < w * h / 2800; i++)
+		return new byte[][] { map, data };
+	}
+
+	// Generates the sky map
+	public static byte[][] createSkyMap(int w, int h)
+	{
+		LevelGen mnoise1 = new LevelGen(w, h, 8);
+		LevelGen mnoise2 = new LevelGen(w, h, 8);
+
+		LevelGen noise1 = new LevelGen(w, h, 16);
+		LevelGen noise2 = new LevelGen(w, h, 16);
+
+		// Creates the map and the data
+		byte[] map = new byte[w * h];
+		byte[] data = new byte[w * h];
+
+		for (int y = 0; y < h; y++)
 		{
-			int xs = random.nextInt(w);
-			int ys = random.nextInt(h);
-			for (int k = 0; k < 10; k++)
+			for (int x = 0; x < w; x++)
 			{
-				int x = xs + random.nextInt(21) - 10;
-				int y = ys + random.nextInt(21) - 10;
-				for (int j = 0; j < 100; j++)
+				int i = x + y * w;
+
+				double val = (noise1.values[i] - noise2.values[i]) * 3 - 2;
+				double mval = Math.abs(mnoise1.values[i] - mnoise2.values[i]);
+				// mval = Math.abs(mval * mnoise3.values[i]) * 3 - 2;
+
+				double xd = x / (w - 1.0) * 2 - 1;
+				double yd = y / (h - 1.0) * 2 - 1;
+				if (xd < 0) xd = -xd;
+				if (yd < 0) yd = -yd;
+				double dist = xd >= yd ? xd : yd;
+				dist = dist * dist * dist * dist;
+				dist = dist * dist * dist * dist;
+				val = val + 1 - dist * 20;
+
+				// Creating basic tiles
+				if (val < -0.85)
 				{
-					int xo = x + random.nextInt(5) - random.nextInt(5);
-					int yo = y + random.nextInt(5) - random.nextInt(5);
-					for (int yy = yo - 1; yy <= yo + 1; yy++)
-					{
-						for (int xx = xo - 1; xx <= xo + 1; xx++)
-						{
-							if (xx >= 0 && yy >= 0 && xx < w && yy < h)
-							{
-								if (map[xx + yy * w] == Tile.grass.id)
-								{
-									map[xx + yy * w] = Tile.sand.id;
-								}
-							}
-						}
-					}
+					map[i] = Tile.infiniteFall.id;
+				}
+				else
+				{
+					map[i] = Tile.cloud.id;
 				}
 			}
 		}
+
+		stairsLoop:
+		for (int i = 0; i < w * h / 10; i++)
+		{
+			int x = random.nextInt(w - 2) + 1;
+			int y = random.nextInt(h - 2) + 1;
+
+			for (int yy = y - 1; yy <= y + 1; yy++)
+				for (int xx = x - 1; xx <= x + 1; xx++)
+				{
+					if (map[xx + yy * w] != Tile.cloud.id) continue stairsLoop;
+				}
+
+			map[x + y * w] = Tile.stairsDown.id;
+		}
+
 		return new byte[][] { map, data };
 	}
 
@@ -376,8 +411,9 @@ public class LevelGen
 			int w = 128;
 			int h = 128;
 
+			byte[] map = LevelGen.createSkyMap(w, h)[0];
 			// byte[] map = LevelGen.createTopMap(w, h)[0];
-			byte[] map = LevelGen.createUndergroundMap(w, h, ++d)[0];
+			// byte[] map = LevelGen.createUndergroundMap(w, h, ++d)[0];
 
 			BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			int[] pixels = new int[w * h];
@@ -396,6 +432,7 @@ public class LevelGen
 					if (map[i] == Tile.tree.id) pixels[i] = 0x003000;
 					if (map[i] == Tile.flower.id) pixels[i] = 0xffffff;
 					if (map[i] == Tile.lava.id) pixels[i] = 0xff2020;
+					if (map[i] == Tile.cloud.id) pixels[i] = 0xa0a0a0;
 				}
 			}
 
