@@ -8,9 +8,7 @@ import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.Item;
-import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
-import com.itsyourpalmike.ld22.sound.Sound;
 
 public class Tile
 {
@@ -19,7 +17,8 @@ public class Tile
 
 	private static HashMap<String, Tile> tileCollection = new HashMap<String, Tile>();
 	public static Tile[] tiles = new Tile[256];
-	public static Tile blank = new DirtTile(100);
+	public static Tile blank = new Tile();
+	public static int idCounter = 0;
 
 	public final byte id;
 	public boolean connectsToGrass = false;
@@ -37,10 +36,9 @@ public class Tile
 		return tileCollection.get(name);
 	}
 
-	public Tile(int id)
+	public Tile()
 	{
-		this.id = (byte)id;
-		if (tiles[id] != null) throw new RuntimeException("Duplicate tile IDs!");
+		this.id = (byte)idCounter++;
 		tiles[id] = this;
 	}
 

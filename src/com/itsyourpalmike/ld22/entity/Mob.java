@@ -16,12 +16,19 @@ public class Mob extends Entity
 	public int health = maxHealth;
 	public int swimTimer = 0;
 	public int tickTime = 0;
+	public int spawnChance = 1;
+	public int lvl;
 
 	public Mob()
 	{
 		x = y = 8;
 		xr = 4;
 		yr = 3;
+	}
+	
+	public void setLvl(int lvl)
+	{
+		
 	}
 
 	public void tick()

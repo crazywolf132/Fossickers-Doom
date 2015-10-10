@@ -3,11 +3,13 @@ package com.itsyourpalmike.ld22.level;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import com.itsyourpalmike.ld22.entity.AirWizard;
 import com.itsyourpalmike.ld22.entity.Entity;
+import com.itsyourpalmike.ld22.entity.Furniture;
 import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.entity.Slime;
@@ -15,6 +17,7 @@ import com.itsyourpalmike.ld22.entity.Zombie;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.levelgen.LevelGen;
 import com.itsyourpalmike.ld22.level.tile.Tile;
+import com.itsyourpalmike.ld22.sound.Sound;
 
 public class Level
 {
@@ -36,6 +39,14 @@ public class Level
 	List<Entity> rowSprites = new ArrayList<Entity>();
 	public Player player;
 	public int monsterDensity = 8;
+
+	private static List<Class<? extends Mob>> mobsToSpawn = new ArrayList<Class<? extends Mob>>();
+	
+	public void addMobToLevelSpawner(Class<? extends Mob> clazz)
+	{
+		mobsToSpawn.add(clazz);
+	}
+	
 	
 	private Comparator<Entity> spriteSorter = new Comparator<Entity>()
 	{
@@ -295,7 +306,7 @@ public class Level
 		// Spawn in some mobs
 		for (int i = 0; i < count; i++)
 		{
-			Mob m;
+			Mob m = null;
 
 			int minLevel = 1;
 			int maxLevel = 1;
@@ -309,9 +320,29 @@ public class Level
 			}
 
 			int lvl = random.nextInt(maxLevel - minLevel + 1) + minLevel;
-			if (random.nextInt(2) == 0) m = new Slime(lvl);
-			else m = new Zombie(lvl);
-			if (m.findStartPos(this))
+			
+			int rnd = random.nextInt(5);
+			for(int j = 0; j < mobsToSpawn.size(); j++)
+			{
+				Mob mm = null;
+				try
+				{
+					mm = mobsToSpawn.get(j).newInstance();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+				
+				if(mm != null && rnd <= mm.spawnChance)
+				{
+					m = mm;
+					m.setLvl(lvl);
+					break;
+				}
+			}
+			
+			if (m != null && m.findStartPos(this))
 			{
 				this.add(m);
 			}

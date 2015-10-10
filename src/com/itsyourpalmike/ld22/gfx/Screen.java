@@ -8,10 +8,20 @@ public class Screen
 	public static final int BIT_MIRROR_X = 0x01;
 	public static final int BIT_MIRROR_Y = 0x02;
 
-	public final int w, h;
+	public int w, h;
 
 	private SpriteSheet sheet;
 	public int[] pixels;
+	
+	public void changeSpritesheet(int w, int h, SpriteSheet sheet)
+	{
+		System.out.println("changed spritesheer");
+		this.w = w;
+		this.h = h;
+		this.sheet = sheet;
+
+		pixels = new int[w * h];
+	}
 
 	public Screen(int w, int h, SpriteSheet sheet)
 	{

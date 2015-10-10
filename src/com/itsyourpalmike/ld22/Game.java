@@ -18,34 +18,13 @@ import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.gfx.SpriteSheet;
-import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
-import com.itsyourpalmike.ld22.level.tile.CactusTile;
-import com.itsyourpalmike.ld22.level.tile.CloudCactusTile;
-import com.itsyourpalmike.ld22.level.tile.CloudTile;
-import com.itsyourpalmike.ld22.level.tile.DirtTile;
-import com.itsyourpalmike.ld22.level.tile.FarmTile;
-import com.itsyourpalmike.ld22.level.tile.FlowerTile;
-import com.itsyourpalmike.ld22.level.tile.GrassTile;
-import com.itsyourpalmike.ld22.level.tile.HardRockTile;
-import com.itsyourpalmike.ld22.level.tile.HoleTile;
-import com.itsyourpalmike.ld22.level.tile.InfiniteFallTile;
-import com.itsyourpalmike.ld22.level.tile.LavaTile;
-import com.itsyourpalmike.ld22.level.tile.OreTile;
-import com.itsyourpalmike.ld22.level.tile.RockTile;
-import com.itsyourpalmike.ld22.level.tile.SandTile;
-import com.itsyourpalmike.ld22.level.tile.SaplingTile;
-import com.itsyourpalmike.ld22.level.tile.StairsTile;
 import com.itsyourpalmike.ld22.level.tile.Tile;
-import com.itsyourpalmike.ld22.level.tile.TreeTile;
-import com.itsyourpalmike.ld22.level.tile.WaterTile;
-import com.itsyourpalmike.ld22.level.tile.WheatTile;
 import com.itsyourpalmike.ld22.screen.DeadMenu;
 import com.itsyourpalmike.ld22.screen.LevelTransitionMenu;
 import com.itsyourpalmike.ld22.screen.Menu;
 import com.itsyourpalmike.ld22.screen.TitleMenu;
 import com.itsyourpalmike.ld22.screen.WonMenu;
-import com.itsyourpalmike.ld22.sound.Sound;
 
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
@@ -61,6 +40,7 @@ public class Game extends Canvas implements Runnable
 	public final static int SCALE = 3;
 	public final static Dimension DIMENSIONS = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
 	public final static String NAME = "Minicraft: Ultimate Edition";
+	public static Collection<MinicraftPlugin> plugins;
 	public JFrame frame;
 	
 	// Important game variables
@@ -72,10 +52,10 @@ public class Game extends Canvas implements Runnable
 	// Important game objects
 	private InputHandler input = new InputHandler(this);
 	
-	private Screen screen;
-	private Screen lightScreen;
+	public Screen screen;
+	public Screen lightScreen;
 	
-	private Level level;
+	public Level level;
 	private Level[] levels = new Level[5];
 	private int currentLevel = 3;
 	
@@ -183,21 +163,20 @@ public class Game extends Canvas implements Runnable
 	
 	private void loadPlugins()
 	{
+	}
+
+	private void init()
+	{
 		PluginManager pm = PluginManagerFactory.createPluginManager();
 		pm.addPluginsFrom(new File("C:/Users/Mike/Desktop/plugins/").toURI());
 
-		Collection<MinicraftPlugin> plugins = new PluginManagerUtil(pm).getPlugins(MinicraftPlugin.class);
+		plugins = new PluginManagerUtil(pm).getPlugins(MinicraftPlugin.class);
 		
 		for(MinicraftPlugin plugin : plugins)
 		{
 			System.out.println("Loading Plugin: \"" + plugin.getClass() +"\"");
 			plugin.onLoad(this);
 		}
-	}
-
-	private void init()
-	{
-		loadPlugins();
 		
 		// Setting up colors
 		int pp = 0;
@@ -235,6 +214,12 @@ public class Game extends Canvas implements Runnable
 
 		// Displays the Main Menu Screen
 		setMenu(new TitleMenu());
+		
+		for(MinicraftPlugin plugin : plugins)
+		{
+			plugin.ocws();
+		}
+		
 	}
 
 	public void tick()

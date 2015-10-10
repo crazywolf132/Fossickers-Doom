@@ -9,13 +9,17 @@ public class Slime extends Mob
 {
 	private int xa, ya;
 	private int jumpTime = 0;
-	private int lvl;
 
-	public Slime(int lvl)
+	public Slime()
 	{
-		this.lvl = lvl;
 		x = random.nextInt(64 * 16);
 		y = random.nextInt(64 * 16);
+		spawnChance = 1;
+	}
+	
+	public void setLvl(int lvl)
+	{
+		this.lvl = lvl;
 		health = maxHealth = lvl * lvl * 5;
 	}
 
