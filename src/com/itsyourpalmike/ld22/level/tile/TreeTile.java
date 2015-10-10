@@ -135,7 +135,7 @@ public class TreeTile extends Tile
 			for (int i = 0; i < count; i++)
 				level.add(new ItemEntity(new ResourceItem(Resource.acorn), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 
-			level.setTile(x, y, Tile.grass, 0);
+			level.setTile(x, y, Tile.get("grass"), 0);
 		}
 		else
 		{

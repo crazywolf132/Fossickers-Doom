@@ -58,7 +58,7 @@ public class WheatTile extends Tile
 			{
 				if (player.payStamina(4 - tool.level))
 				{
-					level.setTile(xt, yt, Tile.dirt, 0);
+					level.setTile(xt, yt, Tile.get("dirt"), 0);
 					return true;
 				}
 			}
@@ -104,6 +104,6 @@ public class WheatTile extends Tile
 			level.add(new ItemEntity(new ResourceItem(Resource.wheat), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 		}
 
-		level.setTile(x, y, Tile.dirt, 0);
+		level.setTile(x, y, Tile.get("dirt"), 0);
 	}
 }

@@ -103,11 +103,11 @@ public class LevelGen
 			{
 				count[result[0][i] & 0xff]++;
 			}
-			if (count[Tile.rock.id & 0xff] < 100) continue;
-			if (count[Tile.sand.id & 0xff] < 100) continue;
-			if (count[Tile.grass.id & 0xff] < 100) continue;
-			if (count[Tile.tree.id & 0xff] < 100) continue;
-			if (count[Tile.stairsDown.id & 0xff] < 2) continue;
+			if (count[Tile.get("rock").id & 0xff] < 100) continue;
+			if (count[Tile.get("sand").id & 0xff] < 100) continue;
+			if (count[Tile.get("grass").id & 0xff] < 100) continue;
+			if (count[Tile.get("tree").id & 0xff] < 100) continue;
+			if (count[Tile.get("stairsDown").id & 0xff] < 2) continue;
 
 			return result;
 		}
@@ -126,10 +126,10 @@ public class LevelGen
 			{
 				count[result[0][i] & 0xff]++;
 			}
-			if (count[Tile.rock.id & 0xff] < 100) continue;
-			if (count[Tile.dirt.id & 0xff] < 100) continue;
-			if (count[(Tile.ironOre.id & 0xff)+depth-1] < 20) continue;
-			if (depth < 3) if (count[Tile.stairsDown.id & 0xff] < 2) continue;
+			if (count[Tile.get("rock").id & 0xff] < 100) continue;
+			if (count[Tile.get("dirt").id & 0xff] < 100) continue;
+			if (count[(Tile.get("ironOre").id & 0xff)+depth-1] < 20) continue;
+			if (depth < 3) if (count[Tile.get("stairsDown").id & 0xff] < 2) continue;
 
 			return result;
 		}
@@ -148,8 +148,8 @@ public class LevelGen
 			{
 				count[result[0][i] & 0xff]++;
 			}
-			if (count[Tile.cloud.id & 0xff] < 2000) continue;
-			if (count[Tile.stairsDown.id & 0xff] < 2) continue;
+			if (count[Tile.get("cloud").id & 0xff] < 2000) continue;
+			if (count[Tile.get("stairsDown").id & 0xff] < 2) continue;
 
 			return result;
 		}
@@ -192,15 +192,15 @@ public class LevelGen
 				// Creating basic tiles
 				if (val < -0.5)
 				{
-					map[i] = Tile.water.id;
+					map[i] = Tile.get("water").id;
 				}
 				else if (val > 0.5 && mval < -1.5)
 				{
-					map[i] = Tile.rock.id;
+					map[i] = Tile.get("rock").id;
 				}
 				else
 				{
-					map[i] = Tile.grass.id;
+					map[i] = Tile.get("grass").id;
 				}
 			}
 		}
@@ -224,9 +224,9 @@ public class LevelGen
 						{
 							if (xx >= 0 && yy >= 0 && xx < w && yy < h)
 							{
-								if (map[xx + yy * w] == Tile.grass.id)
+								if (map[xx + yy * w] == Tile.get("grass").id)
 								{
-									map[xx + yy * w] = Tile.sand.id;
+									map[xx + yy * w] = Tile.get("sand").id;
 								}
 							}
 						}
@@ -251,9 +251,9 @@ public class LevelGen
 				int yy = y + random.nextInt(15) - random.nextInt(15);
 				if (xx >= 0 && yy >= 0 && xx < w && yy < h)
 				{
-					if (map[xx + yy * w] == Tile.grass.id)
+					if (map[xx + yy * w] == Tile.get("grass").id)
 					{
-						map[xx + yy * w] = Tile.tree.id;
+						map[xx + yy * w] = Tile.get("tree").id;
 					}
 				}
 			}
@@ -271,9 +271,9 @@ public class LevelGen
 				int yy = y + random.nextInt(5) - random.nextInt(5);
 				if (xx >= 0 && yy >= 0 && xx < w && yy < h)
 				{
-					if (map[xx + yy * w] == Tile.grass.id)
+					if (map[xx + yy * w] == Tile.get("grass").id)
 					{
-						map[xx + yy * w] = Tile.flower.id;
+						map[xx + yy * w] = Tile.get("flower").id;
 						data[xx + yy * w] = (byte)(col + random.nextInt(4) * 16); // creates unique flowers
 					}
 				}
@@ -287,9 +287,9 @@ public class LevelGen
 			int yy = random.nextInt(h);
 			if (xx >= 0 && yy >= 0 && xx < w && yy < h)
 			{
-				if (map[xx + yy * w] == Tile.sand.id)
+				if (map[xx + yy * w] == Tile.get("sand").id)
 				{
-					map[xx + yy * w] = Tile.cactus.id;
+					map[xx + yy * w] = Tile.get("cactus").id;
 				}
 			}
 
@@ -305,10 +305,10 @@ public class LevelGen
 			for (int yy = y - 1; yy <= y + 1; yy++)
 				for (int xx = x - 1; xx <= x + 1; xx++)
 				{
-					if (map[xx + yy * w] != Tile.rock.id) continue stairsLoop;
+					if (map[xx + yy * w] != Tile.get("rock").id) continue stairsLoop;
 				}
 
-			map[x + y * w] = Tile.stairsDown.id;
+			map[x + y * w] = Tile.get("stairsDown").id;
 			count++;
 			if (count == 4) break;
 		}
@@ -367,16 +367,16 @@ public class LevelGen
 				// Creating basic tiles
 				if (val > -2 && wval < -2.0 + (depth) / 2 * 3)
 				{
-					if (depth > 2) map[i] = Tile.lava.id;
-					else map[i] = Tile.water.id;
+					if (depth > 2) map[i] = Tile.get("lava").id;
+					else map[i] = Tile.get("water").id;
 				}
 				else if (val > -2 && (mval < -1.7 || nval < -1.4))
 				{
-					map[i] = Tile.dirt.id;
+					map[i] = Tile.get("dirt").id;
 				}
 				else
 				{
-					map[i] = Tile.rock.id;
+					map[i] = Tile.get("rock").id;
 				}
 			}
 		}
@@ -394,9 +394,9 @@ public class LevelGen
 					int yy = y + random.nextInt(5) - random.nextInt(5);
 					if (xx >= r && yy >= r && xx < w-r && yy < h-r)
 					{
-						if (map[xx + yy * w] == Tile.rock.id)
+						if (map[xx + yy * w] == Tile.get("rock").id)
 						{
-							map[xx + yy * w] = (byte)((Tile.ironOre.id & 0xff) + depth - 1);
+							map[xx + yy * w] = (byte)((Tile.get("ironOre").id & 0xff) + depth - 1);
 						}
 					}
 				}
@@ -415,10 +415,10 @@ public class LevelGen
 				for (int yy = y - 1; yy <= y + 1; yy++)
 					for (int xx = x - 1; xx <= x + 1; xx++)
 					{
-						if (map[xx + yy * w] != Tile.rock.id) continue stairsLoop;
+						if (map[xx + yy * w] != Tile.get("rock").id) continue stairsLoop;
 					}
 
-				map[x + y * w] = Tile.stairsDown.id;
+				map[x + y * w] = Tile.get("stairsDown").id;
 				count++;
 				if (count == 4) break;
 			}
@@ -458,11 +458,11 @@ public class LevelGen
 				// Creating basic tiles
 				if (val < -0.25)
 				{
-					map[i] = Tile.infiniteFall.id;
+					map[i] = Tile.get("infiniteFall").id;
 				}
 				else
 				{
-					map[i] = Tile.cloud.id;
+					map[i] = Tile.get("cloud").id;
 				}
 			}
 		}
@@ -476,10 +476,10 @@ public class LevelGen
 			for (int yy = y - 1; yy <= y + 1; yy++)
 				for (int xx = x - 1; xx <= x + 1; xx++)
 				{
-					if (map[xx + yy * w] != Tile.cloud.id) continue stairsLoop;
+					if (map[xx + yy * w] != Tile.get("cloud").id) continue stairsLoop;
 				}
 
-			map[x + y * w] = Tile.cloudCactus.id;
+			map[x + y * w] = Tile.get("cloudCactus").id;
 		}
 		
 
@@ -493,10 +493,10 @@ public class LevelGen
 			for (int yy = y - 1; yy <= y + 1; yy++)
 				for (int xx = x - 1; xx <= x + 1; xx++)
 				{
-					if (map[xx + yy * w] != Tile.cloud.id) continue stairsLoop;
+					if (map[xx + yy * w] != Tile.get("cloud").id) continue stairsLoop;
 				}
 
-			map[x + y * w] = Tile.stairsDown.id;
+			map[x + y * w] = Tile.get("stairsDown").id;
 			count++;
 			if (count == 2) break;
 		}
@@ -525,18 +525,18 @@ public class LevelGen
 					int i = x + y * w;
 
 					// Set visible colors for each tile
-					if (map[i] == Tile.water.id) pixels[i] = 0x000080;
-					if (map[i] == Tile.grass.id) pixels[i] = 0x208020;
-					if (map[i] == Tile.rock.id) pixels[i] = 0xa0a0a0;
-					if (map[i] == Tile.dirt.id) pixels[i] = 0x604040;
-					if (map[i] == Tile.sand.id) pixels[i] = 0xa0a040;
-					if (map[i] == Tile.tree.id) pixels[i] = 0x003000;
-					if (map[i] == Tile.flower.id) pixels[i] = 0xffffff;
-					if (map[i] == Tile.lava.id) pixels[i] = 0xff2020;
-					if (map[i] == Tile.cloud.id) pixels[i] = 0xa0a0a0;
-					if (map[i] == Tile.stairsDown.id) pixels[i] = 0xff00ff;
-					if (map[i] == Tile.stairsUp.id) pixels[i] = 0xff00ff;
-					if (map[i] == Tile.cloudCactus.id) pixels[i] = 0xffff00;
+					if (map[i] == Tile.get("water").id) pixels[i] = 0x000080;
+					if (map[i] == Tile.get("grass").id) pixels[i] = 0x208020;
+					if (map[i] == Tile.get("rock").id) pixels[i] = 0xa0a0a0;
+					if (map[i] == Tile.get("dirt").id) pixels[i] = 0x604040;
+					if (map[i] == Tile.get("sand").id) pixels[i] = 0xa0a040;
+					if (map[i] == Tile.get("tree").id) pixels[i] = 0x003000;
+					if (map[i] == Tile.get("flower").id) pixels[i] = 0xffffff;
+					if (map[i] == Tile.get("lava").id) pixels[i] = 0xff2020;
+					if (map[i] == Tile.get("cloud").id) pixels[i] = 0xa0a0a0;
+					if (map[i] == Tile.get("stairsDown").id) pixels[i] = 0xff00ff;
+					if (map[i] == Tile.get("stairsUp").id) pixels[i] = 0xff00ff;
+					if (map[i] == Tile.get("cloudCactus").id) pixels[i] = 0xffff00;
 				}
 			}
 

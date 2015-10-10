@@ -98,7 +98,7 @@ public class RockTile extends Tile
 			for (int i = 0; i < count; i++)
 				level.add(new ItemEntity(new ResourceItem(Resource.coal), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 
-			level.setTile(x, y, Tile.dirt, 0);
+			level.setTile(x, y, Tile.get("dirt"), 0);
 		}
 		else
 		{

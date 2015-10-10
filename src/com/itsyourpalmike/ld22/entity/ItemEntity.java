@@ -102,7 +102,7 @@ public class ItemEntity extends Entity
 
 	public void take(Player player)
 	{
-		Sound.pickup.play();
+		Sound.play("pickup");
 		player.score++;
 		item.onTake(this);
 		remove();

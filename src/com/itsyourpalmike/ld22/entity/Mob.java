@@ -27,7 +27,7 @@ public class Mob extends Entity
 	public void tick()
 	{
 		tickTime++;
-		if (level.getTile(x >> 4, y >> 4) == Tile.lava)
+		if (level.getTile(x >> 4, y >> 4) == Tile.get("lava"))
 		{
 			hurt(this, 4, dir ^ 1);
 		}
@@ -90,7 +90,7 @@ public class Mob extends Entity
 	protected boolean isSwimming()
 	{
 		Tile tile = level.getTile(x >> 4, y >> 4);
-		return tile == Tile.water || tile == Tile.lava;
+		return tile == Tile.get("water") || tile == Tile.get("lava");
 	}
 
 	public boolean blocks(Entity e)
@@ -115,7 +115,7 @@ public class Mob extends Entity
 
 			if (xd * xd + yd * yd < 80 * 80)
 			{
-				Sound.monsterHurt.play();
+				Sound.play("monsterHurt");
 			}
 		}
 

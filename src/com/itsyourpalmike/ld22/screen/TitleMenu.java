@@ -29,7 +29,7 @@ public class TitleMenu extends Menu
 		{
 			if (selected == 0)
 			{
-				Sound.test.play();
+				Sound.play("test");
 				game.resetGame();
 				game.setMenu(null);
 			}

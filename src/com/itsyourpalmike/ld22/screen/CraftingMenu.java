@@ -65,7 +65,7 @@ public class CraftingMenu extends Menu
 			{
 				r.deductCost(player);
 				r.craft(player);
-				Sound.craft.play();
+				Sound.play("craft");
 			}
 
 			for (int i = 0; i < recipes.size(); i++)

@@ -25,15 +25,15 @@ public class CloudTile extends Tile
 		int col = Color.get(444, 444, 555, 555);
 		int transitionColor = Color.get(333, 444, 555, -1);
 
-		boolean u = level.getTile(x, y - 1) == Tile.infiniteFall;
-		boolean d = level.getTile(x, y + 1) == Tile.infiniteFall;
-		boolean l = level.getTile(x - 1, y) == Tile.infiniteFall;
-		boolean r = level.getTile(x + 1, y) == Tile.infiniteFall;
+		boolean u = level.getTile(x, y - 1) == Tile.get("infiniteFall");
+		boolean d = level.getTile(x, y + 1) == Tile.get("infiniteFall");
+		boolean l = level.getTile(x - 1, y) == Tile.get("infiniteFall");
+		boolean r = level.getTile(x + 1, y) == Tile.get("infiniteFall");
 
-		boolean ul = level.getTile(x - 1, y - 1) == Tile.infiniteFall;
-		boolean dl = level.getTile(x - 1, y + 1) == Tile.infiniteFall;
-		boolean ur = level.getTile(x + 1, y - 1) == Tile.infiniteFall;
-		boolean dr = level.getTile(x + 1, y + 1) == Tile.infiniteFall;
+		boolean ul = level.getTile(x - 1, y - 1) == Tile.get("infiniteFall");
+		boolean dl = level.getTile(x - 1, y + 1) == Tile.get("infiniteFall");
+		boolean ur = level.getTile(x + 1, y - 1) == Tile.get("infiniteFall");
+		boolean dr = level.getTile(x + 1, y + 1) == Tile.get("infiniteFall");
 
 		if (!u && !l)
 		{
@@ -107,7 +107,7 @@ public class CloudTile extends Tile
 			{
 				if (player.payStamina(5))
 				{
-					//level.setTile(xt, yt, Tile.infiniteFall, 0);
+					//level.setTile(xt, yt, Tile.get("infiniteFall"), 0);
 					int count = random.nextInt(2)+1;
 					for(int i = 0; i < count; i++)
 						level.add(new ItemEntity(new ResourceItem(Resource.cloud), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));

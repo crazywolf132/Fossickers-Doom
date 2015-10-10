@@ -1,64 +1,94 @@
 package com.itsyourpalmike.ld22;
 
-import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.File;
 import java.io.IOException;
-import java.util.Random;
+import java.util.Collection;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.gfx.SpriteSheet;
+import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
+import com.itsyourpalmike.ld22.level.tile.CactusTile;
+import com.itsyourpalmike.ld22.level.tile.CloudCactusTile;
+import com.itsyourpalmike.ld22.level.tile.CloudTile;
+import com.itsyourpalmike.ld22.level.tile.DirtTile;
+import com.itsyourpalmike.ld22.level.tile.FarmTile;
+import com.itsyourpalmike.ld22.level.tile.FlowerTile;
+import com.itsyourpalmike.ld22.level.tile.GrassTile;
+import com.itsyourpalmike.ld22.level.tile.HardRockTile;
+import com.itsyourpalmike.ld22.level.tile.HoleTile;
+import com.itsyourpalmike.ld22.level.tile.InfiniteFallTile;
+import com.itsyourpalmike.ld22.level.tile.LavaTile;
+import com.itsyourpalmike.ld22.level.tile.OreTile;
+import com.itsyourpalmike.ld22.level.tile.RockTile;
+import com.itsyourpalmike.ld22.level.tile.SandTile;
+import com.itsyourpalmike.ld22.level.tile.SaplingTile;
+import com.itsyourpalmike.ld22.level.tile.StairsTile;
 import com.itsyourpalmike.ld22.level.tile.Tile;
+import com.itsyourpalmike.ld22.level.tile.TreeTile;
+import com.itsyourpalmike.ld22.level.tile.WaterTile;
+import com.itsyourpalmike.ld22.level.tile.WheatTile;
 import com.itsyourpalmike.ld22.screen.DeadMenu;
 import com.itsyourpalmike.ld22.screen.LevelTransitionMenu;
 import com.itsyourpalmike.ld22.screen.Menu;
 import com.itsyourpalmike.ld22.screen.TitleMenu;
 import com.itsyourpalmike.ld22.screen.WonMenu;
+import com.itsyourpalmike.ld22.sound.Sound;
+
+import net.xeoh.plugins.base.PluginManager;
+import net.xeoh.plugins.base.impl.PluginManagerFactory;
+import net.xeoh.plugins.base.util.PluginManagerUtil;
 
 public class Game extends Canvas implements Runnable
 {
 	private static final long serialVersionUID = 1L;
 
 	// Game constants
-	public static final String NAME = "Minicraft: Ultimate Edition";
-	public static final int HEIGHT = 120;
-	public static final int WIDTH = 160;
-	public static final int SCALE = 3;
-
+	public final static int WIDTH = 160;
+	public final static int HEIGHT = 120;
+	public final static int SCALE = 3;
+	public final static Dimension DIMENSIONS = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
+	public final static String NAME = "Minicraft: Ultimate Edition";
+	public JFrame frame;
+	
 	// Important game variables
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 	private int[] colors = new int[256];
 	private boolean running = false;
-	public int tickCount = 0;
-	public int gameTime = 0;
 
 	// Important game objects
 	private InputHandler input = new InputHandler(this);
+	
 	private Screen screen;
 	private Screen lightScreen;
+	
 	private Level level;
 	private Level[] levels = new Level[5];
 	private int currentLevel = 3;
+	
 	public Player player;
+	
 	public Menu menu;
+	
 	private int playerDeadTime;
 	private int pendingLevelChange;
-	private Random random = new Random();
 	private int wonTimer = 0;
 	public boolean hasWon = false;
+	public int tickCount = 0;
+	public int gameTime = 0;
 
 	public void setMenu(Menu menu)
 	{
@@ -150,10 +180,25 @@ public class Game extends Canvas implements Runnable
 			levels[i].trySpawn(5000);
 		}
 	}
+	
+	private void loadPlugins()
+	{
+		PluginManager pm = PluginManagerFactory.createPluginManager();
+		pm.addPluginsFrom(new File("C:/Users/Mike/Desktop/plugins/").toURI());
+
+		Collection<MinicraftPlugin> plugins = new PluginManagerUtil(pm).getPlugins(MinicraftPlugin.class);
+		
+		for(MinicraftPlugin plugin : plugins)
+		{
+			System.out.println("Loading Plugin: \"" + plugin.getClass() +"\"");
+			plugin.onLoad(this);
+		}
+	}
 
 	private void init()
 	{
-
+		loadPlugins();
+		
 		// Setting up colors
 		int pp = 0;
 		for (int r = 0; r < 6; r++)
@@ -404,32 +449,6 @@ public class Game extends Canvas implements Runnable
 	public void scheduleLevelChange(int dir)
 	{
 		pendingLevelChange = dir;
-	}
-
-	public static void main(String[] args)
-	{
-		// Creating and starting the game
-		SwingUtilities.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				Game game = new Game();
-				game.setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-				game.setMaximumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-				game.setMinimumSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
-
-				JFrame frame = new JFrame(Game.NAME);
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setLayout(new BorderLayout());
-				frame.add(game);
-				frame.pack();
-				frame.setResizable(false);
-				frame.setLocationRelativeTo(null);
-				frame.setVisible(true);
-
-				game.start();
-			}
-		});
 	}
 
 	public void won()

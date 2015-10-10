@@ -75,11 +75,11 @@ public class Player extends Mob
 		if(invulnerableTime>0)invulnerableTime--;
 
 		Tile onTile = level.getTile(x >> 4, y >> 4);
-		if (onTile == Tile.stairsDown || onTile == Tile.stairsUp)
+		if (onTile == Tile.get("stairsDown") || onTile == Tile.get("stairsUp"))
 		{
 			if (onStairDelay == 0)
 			{
-				changeLevel(onTile == Tile.stairsUp ? 1 : -1);
+				changeLevel(onTile == Tile.get("stairsUp") ? 1 : -1);
 				onStairDelay = 10;
 				return;
 			}
@@ -491,7 +491,7 @@ public class Player extends Mob
 		{
 			int x = random.nextInt(level.w);
 			int y = random.nextInt(level.h);
-			if (level.getTile(x, y) == Tile.grass || level.getTile(x, y) == Tile.dirt)
+			if (level.getTile(x, y) == Tile.get("grass") || level.getTile(x, y) == Tile.get("dirt"))
 			{
 				this.x = x * 16 + 8;
 				this.y = y * 16 + 8;
@@ -533,7 +533,7 @@ public class Player extends Mob
 	protected void die()
 	{
 		super.die();
-		Sound.playerDeath.play();
+		Sound.play("playerDeath");
 	}
 
 	protected void touchedBy(Entity entity)
@@ -549,7 +549,7 @@ public class Player extends Mob
 		// Removes health, adds particles, and sets knockback
 		if (hurtTime > 0 || invulnerableTime > 0) return;
 		
-		Sound.playerHurt.play();
+		Sound.play("playerHurt");
 		
 		level.add(new TextParticle("" + dmg, x, y, Color.get(-1, 504, 504, 504)));
 		health -= dmg;

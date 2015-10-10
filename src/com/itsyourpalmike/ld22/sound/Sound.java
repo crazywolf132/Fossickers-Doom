@@ -2,31 +2,42 @@ package com.itsyourpalmike.ld22.sound;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
+import java.net.URL;
+import java.util.HashMap;
 
 public class Sound
 {
-	public static final Sound playerHurt = new Sound("/playerhurt.wav");
-	public static final Sound playerDeath = new Sound("/death.wav");
-	public static final Sound monsterHurt = new Sound("/monsterhurt.wav");
-	public static final Sound test = new Sound("/test.wav");
-	public static final Sound pickup = new Sound("/pickup.wav");
-	public static final Sound bossdeath = new Sound("/bossdeath.wav");
-	public static final Sound craft = new Sound("/craft.wav");
+	private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
+
+	public static void load(String name, String filepath)
+	{
+		load(name, Sound.class.getResource(filepath));
+	}
 	
+	public static void load(String name, URL url)
+	{
+		sounds.put(name, new Sound(url));
+	}
+	
+	public static void play(String name)
+	{
+		sounds.get(name).play();
+	}
+
 	private AudioClip clip;
 
-	private Sound(String name)
+	private Sound(URL url)
 	{
 		try
 		{
-			clip = Applet.newAudioClip(Sound.class.getResource(name));
+			clip = Applet.newAudioClip(url);
 		}
 		catch (Throwable e)
 		{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void play()
 	{
 		try

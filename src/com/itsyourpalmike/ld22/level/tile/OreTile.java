@@ -53,7 +53,7 @@ public class OreTile extends Tile
 			
 			if (damage >= random.nextInt(10) + 3)
 			{
-				level.setTile(x, y, Tile.dirt, 0);
+				level.setTile(x, y, Tile.get("dirt"), 0);
 				count += 2;
 			}
 			else

@@ -1,5 +1,6 @@
 package com.itsyourpalmike.ld22.level.tile;
 
+import java.util.HashMap;
 import java.util.Random;
 
 import com.itsyourpalmike.ld22.entity.Entity;
@@ -9,42 +10,32 @@ import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
+import com.itsyourpalmike.ld22.sound.Sound;
 
 public class Tile
 {
 	public static int tickCount = 0;
 	protected final Random random = new Random();
 
+	private static HashMap<String, Tile> tileCollection = new HashMap<String, Tile>();
 	public static Tile[] tiles = new Tile[256];
-	public static Tile grass = new GrassTile(0);
-	public static Tile rock = new RockTile(1);
-	public static Tile water = new WaterTile(2);
-	public static Tile flower = new FlowerTile(3);
-	public static Tile tree = new TreeTile(4);
-	public static Tile dirt = new DirtTile(5);
-	public static Tile sand = new SandTile(6);
-	public static Tile cactus = new CactusTile(7);
-	public static Tile hole = new HoleTile(8);
-	public static Tile treeSapling = new SaplingTile(9, grass, tree);
-	public static Tile cactusSapling = new SaplingTile(10, sand, cactus);
-	public static Tile farmland = new FarmTile(11);
-	public static Tile wheat = new WheatTile(12);
-	public static Tile lava = new LavaTile(13);
-	public static Tile stairsDown = new StairsTile(14, false);
-	public static Tile stairsUp = new StairsTile(15, true);
-	public static Tile infiniteFall = new InfiniteFallTile(16);
-	public static Tile cloud = new CloudTile(17);
-	public static Tile hardRock = new HardRockTile(18);
-	public static Tile ironOre = new OreTile(19, Resource.ironOre);
-	public static Tile goldOre = new OreTile(20, Resource.goldOre);
-	public static Tile gemOre = new OreTile(21, Resource.gem);
-	public static Tile cloudCactus = new CloudCactusTile(22);
+	public static Tile blank = new DirtTile(100);
 
 	public final byte id;
 	public boolean connectsToGrass = false;
 	public boolean connectsToSand = false;
 	public boolean connectsToWater = false;
 	public boolean connectsToLava = false;
+	
+	public static void load(String name, Tile tile)
+	{
+		tileCollection.put(name, tile);
+	}
+	
+	public static Tile get(String name)
+	{
+		return tileCollection.get(name);
+	}
 
 	public Tile(int id)
 	{

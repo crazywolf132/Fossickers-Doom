@@ -36,7 +36,7 @@ public class Slime extends Mob
 				{
 					int xd= level.player.x-x;
 					int yd = level.player.y-y;
-					if(xd*xd+yd*yd<5000*5000)
+					if(xd*xd+yd*yd<50*50)
 					{
 						if(xd<0) xa = -1;
 						if(xd>0) xa = 1;

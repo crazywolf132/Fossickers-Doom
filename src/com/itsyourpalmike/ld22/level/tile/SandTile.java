@@ -100,7 +100,7 @@ public class SandTile extends Tile
 			{
 				if (player.payStamina(4 - tool.level))
 				{
-					level.setTile(xt, yt, Tile.hole, 0);
+					level.setTile(xt, yt, Tile.get("hole"), 0);
 					level.add(new ItemEntity(new ResourceItem(Resource.sand), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
 					return true;
 				}

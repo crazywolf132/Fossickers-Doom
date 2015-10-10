@@ -46,7 +46,7 @@ public class CloudCactusTile extends Tile
 		{
 			if (damage >= 10)
 			{
-				level.setTile(x, y, Tile.cloud, 0);
+				level.setTile(x, y, Tile.get("cloud"), 0);
 			}
 			else
 			{

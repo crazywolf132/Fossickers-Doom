@@ -79,7 +79,7 @@ public class GrassTile extends Tile
 		if (random.nextBoolean()) xn += random.nextInt(2) * 2 - 1;
 		else yn += random.nextInt(2) * 2 - 1;
 
-		if (level.getTile(xn, yn) == Tile.dirt)
+		if (level.getTile(xn, yn) == Tile.get("dirt"))
 		{
 			level.setTile(xn, yn, this, 0);
 		}
@@ -95,8 +95,8 @@ public class GrassTile extends Tile
 			{
 				if (player.payStamina(4 - tool.level))
 				{
-					level.setTile(xt, yt, Tile.dirt, 0);
-					Sound.monsterHurt.play();
+					level.setTile(xt, yt, Tile.get("dirt"), 0);
+					Sound.play("monsterHurt");
 					return true;
 				}
 			}
@@ -104,13 +104,13 @@ public class GrassTile extends Tile
 			{
 				if (player.payStamina(4 - tool.level))
 				{
-					Sound.monsterHurt.play();
+					Sound.play("monsterHurt");
 					if (random.nextInt(5) == 0)
 					{
 						level.add(new ItemEntity(new ResourceItem(Resource.seeds), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
 						
 					}
-					level.setTile(xt, yt, Tile.farmland, 0);
+					level.setTile(xt, yt, Tile.get("farmLand"), 0);
 					return true;
 				}
 			}

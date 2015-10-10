@@ -44,7 +44,7 @@ public class FlowerTile extends GrassTile
 		{
 			level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 		}
-		level.setTile(x, y, Tile.grass, 0);
+		level.setTile(x, y, Tile.get("grass"), 0);
 	}
 
 	// If we hurt a flower with a shovel, 2 flowers pop out??? + the grass is turned to dirt!
@@ -57,7 +57,7 @@ public class FlowerTile extends GrassTile
 			{
 				if (player.payStamina(4 - tool.level))
 				{
-					level.setTile(x, y, Tile.dirt, 0);
+					level.setTile(x, y, Tile.get("dirt"), 0);
 					level.add(new ItemEntity(new ResourceItem(Resource.flower), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 					return true;
 				}

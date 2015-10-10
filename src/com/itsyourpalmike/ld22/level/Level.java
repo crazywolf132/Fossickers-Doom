@@ -86,30 +86,30 @@ public class Level
 			{
 				for (int x = 0; x < w; x++)
 				{
-					if (parentLevel.getTile(x, y) == Tile.stairsDown)
+					if (parentLevel.getTile(x, y) == Tile.get("stairsDown"))
 					{
-						setTile(x, y, Tile.stairsUp, 0);
+						setTile(x, y, Tile.get("stairsUp"), 0);
 						if (level == 0)
 						{
-							setTile(x - 1, y, Tile.hardRock, 0);
-							setTile(x + 1, y, Tile.hardRock, 0);
-							setTile(x, y - 1, Tile.hardRock, 0);
-							setTile(x, y + 1, Tile.hardRock, 0);
-							setTile(x - 1, y - 1, Tile.hardRock, 0);
-							setTile(x - 1, y + 1, Tile.hardRock, 0);
-							setTile(x + 1, y - 1, Tile.hardRock, 0);
-							setTile(x + 1, y + 1, Tile.hardRock, 0);
+							setTile(x - 1, y, Tile.get("hardRock"), 0);
+							setTile(x + 1, y, Tile.get("hardRock"), 0);
+							setTile(x, y - 1, Tile.get("hardRock"), 0);
+							setTile(x, y + 1, Tile.get("hardRock"), 0);
+							setTile(x - 1, y - 1, Tile.get("hardRock"), 0);
+							setTile(x - 1, y + 1, Tile.get("hardRock"), 0);
+							setTile(x + 1, y - 1, Tile.get("hardRock"), 0);
+							setTile(x + 1, y + 1, Tile.get("hardRock"), 0);
 						}
 						else
 						{
-							setTile(x - 1, y, Tile.dirt, 0);
-							setTile(x + 1, y, Tile.dirt, 0);
-							setTile(x, y - 1, Tile.dirt, 0);
-							setTile(x, y + 1, Tile.dirt, 0);
-							setTile(x - 1, y - 1, Tile.dirt, 0);
-							setTile(x - 1, y + 1, Tile.dirt, 0);
-							setTile(x + 1, y - 1, Tile.dirt, 0);
-							setTile(x + 1, y + 1, Tile.dirt, 0);
+							setTile(x - 1, y, Tile.get("dirt"), 0);
+							setTile(x + 1, y, Tile.get("dirt"), 0);
+							setTile(x, y - 1, Tile.get("dirt"), 0);
+							setTile(x, y + 1, Tile.get("dirt"), 0);
+							setTile(x - 1, y - 1, Tile.get("dirt"), 0);
+							setTile(x - 1, y + 1, Tile.get("dirt"), 0);
+							setTile(x + 1, y - 1, Tile.get("dirt"), 0);
+							setTile(x + 1, y + 1, Tile.get("dirt"), 0);
 						}
 					}
 				}
@@ -230,7 +230,7 @@ public class Level
 
 	public Tile getTile(int x, int y)
 	{
-		if (x < 0 || y < 0 || x >= w || y >= h) return Tile.rock;
+		if (x < 0 || y < 0 || x >= w || y >= h) return Tile.get("rock");
 		return Tile.tiles[tiles[x + y * w]];
 	}
 
