@@ -14,9 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.entity.Player;
-import com.itsyourpalmike.ld22.entity.Slime;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
@@ -27,6 +25,7 @@ import com.itsyourpalmike.ld22.screen.DeadMenu;
 import com.itsyourpalmike.ld22.screen.LevelTransitionMenu;
 import com.itsyourpalmike.ld22.screen.Menu;
 import com.itsyourpalmike.ld22.screen.TitleMenu;
+import com.itsyourpalmike.ld22.screen.WonMenu;
 
 public class Game extends Canvas implements Runnable
 {
@@ -58,6 +57,8 @@ public class Game extends Canvas implements Runnable
 	private int playerDeadTime;
 	private int pendingLevelChange;
 	private Random random = new Random();
+	private int wonTimer = 0;
+	public boolean hasWon = false;
 
 	public void setMenu(Menu menu)
 	{
@@ -124,7 +125,9 @@ public class Game extends Canvas implements Runnable
 	public void resetGame()
 	{
 		playerDeadTime = 0;
+		wonTimer = 0;
 		gameTime = 0;
+		hasWon = false;
 
 		levels = new Level[5];
 		currentLevel = 3;
@@ -142,7 +145,10 @@ public class Game extends Canvas implements Runnable
 		player.findStartPos(level);
 		level.add(player);
 
-		
+		for(int i = 0; i < 5; i++)
+		{
+			levels[i].trySpawn(5000);
+		}
 	}
 
 	private void init()
@@ -195,7 +201,7 @@ public class Game extends Canvas implements Runnable
 		}
 		else
 		{
-			if (!player.removed) gameTime++;
+			if (!player.removed && !hasWon) gameTime++;
 
 			input.tick();
 
@@ -219,6 +225,13 @@ public class Game extends Canvas implements Runnable
 					{
 						setMenu(new LevelTransitionMenu(pendingLevelChange));
 						pendingLevelChange = 0;
+					}
+				}
+				if(wonTimer>0)
+				{
+					if(--wonTimer == 0)
+					{
+						setMenu(new WonMenu());
 					}
 				}
 				level.tick();
@@ -419,4 +432,9 @@ public class Game extends Canvas implements Runnable
 		});
 	}
 
+	public void won()
+	{
+		wonTimer = 60*3;
+		hasWon = true;
+	}
 }

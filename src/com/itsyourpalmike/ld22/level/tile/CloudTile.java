@@ -1,8 +1,15 @@
 package com.itsyourpalmike.ld22.level.tile;
 
 import com.itsyourpalmike.ld22.entity.Entity;
+import com.itsyourpalmike.ld22.entity.ItemEntity;
+import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.Item;
+import com.itsyourpalmike.ld22.item.ResourceItem;
+import com.itsyourpalmike.ld22.item.ToolItem;
+import com.itsyourpalmike.ld22.item.ToolType;
+import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 
 public class CloudTile extends Tile
@@ -89,5 +96,25 @@ public class CloudTile extends Tile
 	public boolean mayPass(Level level, int x, int y, Entity e)
 	{
 		return true;
+	}
+	
+	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
+	{
+		if (item instanceof ToolItem)
+		{
+			ToolItem tool = (ToolItem)item;
+			if (tool.type == ToolType.shovel)
+			{
+				if (player.payStamina(5))
+				{
+					//level.setTile(xt, yt, Tile.infiniteFall, 0);
+					int count = random.nextInt(2)+1;
+					for(int i = 0; i < count; i++)
+						level.add(new ItemEntity(new ResourceItem(Resource.cloud), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

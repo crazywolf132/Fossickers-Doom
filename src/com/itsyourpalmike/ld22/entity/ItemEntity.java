@@ -3,6 +3,7 @@ package com.itsyourpalmike.ld22.entity;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.Item;
+import com.itsyourpalmike.ld22.sound.Sound;
 
 // This is the entity version of actual items that are on the ground in the level
 public class ItemEntity extends Entity
@@ -101,6 +102,8 @@ public class ItemEntity extends Entity
 
 	public void take(Player player)
 	{
+		Sound.pickup.play();
+		player.score++;
 		item.onTake(this);
 		remove();
 	}

@@ -10,6 +10,7 @@ import com.itsyourpalmike.ld22.item.ToolItem;
 import com.itsyourpalmike.ld22.item.ToolType;
 import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
+import com.itsyourpalmike.ld22.sound.Sound;
 
 public class DirtTile extends Tile
 {
@@ -40,6 +41,7 @@ public class DirtTile extends Tile
 				{
 					level.setTile(xt, yt, Tile.hole, 0);
 					level.add(new ItemEntity(new ResourceItem(Resource.dirt), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
+					Sound.monsterHurt.play();
 					return true;
 				}
 			}
@@ -48,6 +50,7 @@ public class DirtTile extends Tile
 				if (player.payStamina(4 - tool.level))
 				{
 					level.setTile(xt, yt, Tile.farmland, 0);
+					Sound.monsterHurt.play();
 					return true;
 				}
 			}

@@ -12,6 +12,7 @@ import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.ResourceItem;
+import com.itsyourpalmike.ld22.sound.Sound;
 
 // List of craftable items - If we have the necessary resources
 // we can create the item that is selected upon click
@@ -64,6 +65,7 @@ public class CraftingMenu extends Menu
 			{
 				r.deductCost(player);
 				r.craft(player);
+				Sound.craft.play();
 			}
 
 			for (int i = 0; i < recipes.size(); i++)

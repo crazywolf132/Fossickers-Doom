@@ -7,6 +7,7 @@ import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.Item;
+import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 
 public class Tile
@@ -33,6 +34,11 @@ public class Tile
 	public static Tile stairsUp = new StairsTile(15, true);
 	public static Tile infiniteFall = new InfiniteFallTile(16);
 	public static Tile cloud = new CloudTile(17);
+	public static Tile hardRock = new HardRockTile(18);
+	public static Tile ironOre = new OreTile(19, Resource.ironOre);
+	public static Tile goldOre = new OreTile(20, Resource.goldOre);
+	public static Tile gemOre = new OreTile(21, Resource.gem);
+	public static Tile cloudCactus = new CloudCactusTile(22);
 
 	public final byte id;
 	public boolean connectsToGrass = false;

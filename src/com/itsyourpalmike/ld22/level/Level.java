@@ -6,10 +6,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
+import com.itsyourpalmike.ld22.entity.AirWizard;
 import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.entity.Slime;
+import com.itsyourpalmike.ld22.entity.Zombie;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.levelgen.LevelGen;
 import com.itsyourpalmike.ld22.level.tile.Tile;
@@ -25,9 +27,16 @@ public class Level
 	public int grassColor = 141;
 	public int dirtColor = 322;
 	public int sandColor = 550;
+	private int depth;
 
 	public List<Entity> entities = new ArrayList<Entity>();
 	public List<Entity>[] entitiesInTiles; // we keep track of what tiles entities are inside of for easy optimization / attacking
+
+	// Renders entities inside of tiles in the view area
+	List<Entity> rowSprites = new ArrayList<Entity>();
+	public Player player;
+	public int monsterDensity = 8;
+	
 	private Comparator<Entity> spriteSorter = new Comparator<Entity>()
 	{
 		// Sorts entities so that the ones farther up get rendered behind the ones farther down
@@ -42,6 +51,11 @@ public class Level
 	@SuppressWarnings("unchecked")
 	public Level(int w, int h, int level, Level parentLevel)
 	{
+		if (level < 0)
+		{
+			dirtColor = 222;
+		}
+		this.depth = level;
 		this.w = w;
 		this.h = h;
 
@@ -51,9 +65,17 @@ public class Level
 		{
 			dirtColor = 444;
 		}
-		if (level == 0) maps = LevelGen.createTopMap(w, h);
-		else if (level < 0) maps = LevelGen.createUndergroundMap(w, h, -level);
-		else maps = LevelGen.createSkyMap(w, h); // Sky level
+		if (level == 0) maps = LevelGen.createAndValidateTopMap(w, h);
+		else if (level < 0)
+		{
+			maps = LevelGen.createAndValidateUndergroundMap(w, h, -level);
+			monsterDensity = 4;
+		}
+		else
+		{
+			maps = LevelGen.createAndValidateSkyMap(w, h); // Sky level
+			monsterDensity = 4;
+		}
 
 		tiles = maps[0];
 		data = maps[1];
@@ -67,14 +89,28 @@ public class Level
 					if (parentLevel.getTile(x, y) == Tile.stairsDown)
 					{
 						setTile(x, y, Tile.stairsUp, 0);
-						setTile(x - 1, y, Tile.dirt, 0);
-						setTile(x + 1, y, Tile.dirt, 0);
-						setTile(x, y - 1, Tile.dirt, 0);
-						setTile(x, y + 1, Tile.dirt, 0);
-						setTile(x - 1, y - 1, Tile.dirt, 0);
-						setTile(x - 1, y + 1, Tile.dirt, 0);
-						setTile(x + 1, y - 1, Tile.dirt, 0);
-						setTile(x + 1, y + 1, Tile.dirt, 0);
+						if (level == 0)
+						{
+							setTile(x - 1, y, Tile.hardRock, 0);
+							setTile(x + 1, y, Tile.hardRock, 0);
+							setTile(x, y - 1, Tile.hardRock, 0);
+							setTile(x, y + 1, Tile.hardRock, 0);
+							setTile(x - 1, y - 1, Tile.hardRock, 0);
+							setTile(x - 1, y + 1, Tile.hardRock, 0);
+							setTile(x + 1, y - 1, Tile.hardRock, 0);
+							setTile(x + 1, y + 1, Tile.hardRock, 0);
+						}
+						else
+						{
+							setTile(x - 1, y, Tile.dirt, 0);
+							setTile(x + 1, y, Tile.dirt, 0);
+							setTile(x, y - 1, Tile.dirt, 0);
+							setTile(x, y + 1, Tile.dirt, 0);
+							setTile(x - 1, y - 1, Tile.dirt, 0);
+							setTile(x - 1, y + 1, Tile.dirt, 0);
+							setTile(x + 1, y - 1, Tile.dirt, 0);
+							setTile(x + 1, y + 1, Tile.dirt, 0);
+						}
 					}
 				}
 			}
@@ -85,6 +121,14 @@ public class Level
 		for (int i = 0; i < w * h; i++)
 		{
 			entitiesInTiles[i] = new ArrayList<Entity>();
+		}
+		
+		if(level == 1)
+		{
+			AirWizard aw = new AirWizard();
+			aw.x = w*8;
+			aw.y = h*8;
+			add(aw);
 		}
 	}
 
@@ -107,9 +151,6 @@ public class Level
 		screen.setOffset(0, 0);
 	}
 
-	// Renders entities inside of tiles in the view area
-	List<Entity> rowSprites = new ArrayList<Entity>();
-	public Player player;
 
 	public void renderSprites(Screen screen, int xScroll, int yScroll)
 	{
@@ -249,17 +290,37 @@ public class Level
 	}
 	///////////////////////////////////////////////////////////
 
-	public void tick()
+	public void trySpawn(int count)
 	{
 		// Spawn in some mobs
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < count; i++)
 		{
-			Mob m = new Slime(random.nextInt(4) + 1);
+			Mob m;
+
+			int minLevel = 1;
+			int maxLevel = 1;
+			if (depth < 0)
+			{
+				maxLevel = (-depth) + 1;
+			}
+			if (depth > 0)
+			{
+				minLevel = maxLevel = 4;
+			}
+
+			int lvl = random.nextInt(maxLevel - minLevel + 1) + minLevel;
+			if (random.nextInt(2) == 0) m = new Slime(lvl);
+			else m = new Zombie(lvl);
 			if (m.findStartPos(this))
 			{
 				this.add(m);
 			}
 		}
+	}
+
+	public void tick()
+	{
+		trySpawn(1);
 
 		// Ticks tiles with delays and randomization offset
 		for (int i = 0; i < w * h / 50; i++)

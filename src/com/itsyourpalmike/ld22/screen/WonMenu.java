@@ -4,11 +4,11 @@ import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
 
-public class DeadMenu extends Menu
+public class WonMenu extends Menu
 {
 	private int inputDelay = 60;
 	
-	public DeadMenu()
+	public WonMenu()
 	{
 
 	}
@@ -27,7 +27,7 @@ public class DeadMenu extends Menu
 	{
 		Font.renderFrame(screen, "", 1, 3, 18, 9);
 
-		Font.draw("You died! Aww!", screen, 2 * 8, 4 * 8, Color.get(-1, 555, 555, 555));
+		Font.draw("You're won! Yay!", screen, 2 * 8, 4 * 8, Color.get(-1, 555, 555, 555));
 
 		int seconds = game.gameTime / 60;
 		int minutes = seconds / 60;
@@ -51,6 +51,6 @@ public class DeadMenu extends Menu
 		Font.draw("Score: ", screen, 2 * 8, 6 * 8, Color.get(-1, 555, 555, 555));
 		Font.draw("" + game.player.score, screen, (2 + 6) * 8, 6 * 8, Color.get(-1, 550, 550, 550));
 
-		Font.draw("Press c to lose", screen, 2 * 8, 8 * 8, Color.get(-1, 333, 333, 333));
+		Font.draw("Press c to Win", screen, 2 * 8, 8 * 8, Color.get(-1, 333, 333, 333));
 	}
 }

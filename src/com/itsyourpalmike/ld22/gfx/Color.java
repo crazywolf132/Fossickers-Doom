@@ -8,7 +8,7 @@ public class Color
 		return (get(d) << 24) + (get(c) << 16) + (get(b) << 8) + (get(a));
 	}
 
-	private static int get(int colour)
+	public static int get(int colour)
 	{
 		if (colour < 0) return 255;
 		int r = colour / 100 % 10;

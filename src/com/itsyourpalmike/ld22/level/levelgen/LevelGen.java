@@ -91,8 +91,73 @@ public class LevelGen
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static byte[][] createAndValidateTopMap(int w, int h)
+	{
+		do
+		{
+			byte[][] result = createTopMap(w, h);
+
+			int[] count = new int[256];
+
+			for (int i = 0; i < w * h; i++)
+			{
+				count[result[0][i] & 0xff]++;
+			}
+			if (count[Tile.rock.id & 0xff] < 100) continue;
+			if (count[Tile.sand.id & 0xff] < 100) continue;
+			if (count[Tile.grass.id & 0xff] < 100) continue;
+			if (count[Tile.tree.id & 0xff] < 100) continue;
+			if (count[Tile.stairsDown.id & 0xff] < 2) continue;
+
+			return result;
+		}
+		while (true);
+	}
+
+	public static byte[][] createAndValidateUndergroundMap(int w, int h, int depth)
+	{
+		do
+		{
+			byte[][] result = createUndergroundMap(w, h, depth);
+
+			int[] count = new int[256];
+
+			for (int i = 0; i < w * h; i++)
+			{
+				count[result[0][i] & 0xff]++;
+			}
+			if (count[Tile.rock.id & 0xff] < 100) continue;
+			if (count[Tile.dirt.id & 0xff] < 100) continue;
+			if (count[(Tile.ironOre.id & 0xff)+depth-1] < 20) continue;
+			if (depth < 3) if (count[Tile.stairsDown.id & 0xff] < 2) continue;
+
+			return result;
+		}
+		while (true);
+	}
+	
+	public static byte[][] createAndValidateSkyMap(int w, int h)
+	{
+		do
+		{
+			byte[][] result = createSkyMap(w, h);
+
+			int[] count = new int[256];
+
+			for (int i = 0; i < w * h; i++)
+			{
+				count[result[0][i] & 0xff]++;
+			}
+			if (count[Tile.cloud.id & 0xff] < 2000) continue;
+			if (count[Tile.stairsDown.id & 0xff] < 2) continue;
+
+			return result;
+		}
+		while (true);
+	}
+
 	// Generates the top map
-	public static byte[][] createTopMap(int w, int h)
+	private static byte[][] createTopMap(int w, int h)
 	{
 		LevelGen mnoise1 = new LevelGen(w, h, 16);
 		LevelGen mnoise2 = new LevelGen(w, h, 16);
@@ -171,34 +236,9 @@ public class LevelGen
 		}
 
 		// Spawning dirt Tiles
-		for (int i = 0; i < w * h / 2800; i++)
-		{
-			int xs = random.nextInt(w);
-			int ys = random.nextInt(h);
-			for (int k = 0; k < 10; k++)
-			{
-				int x = xs + random.nextInt(21) - 10;
-				int y = ys + random.nextInt(21) - 10;
-				for (int j = 0; j < 100; j++)
-				{
-					int xo = x + random.nextInt(5) - random.nextInt(5);
-					int yo = y + random.nextInt(5) - random.nextInt(5);
-					for (int yy = yo - 1; yy <= yo + 1; yy++)
-					{
-						for (int xx = xo - 1; xx <= xo + 1; xx++)
-						{
-							if (xx >= 0 && yy >= 0 && xx < w && yy < h)
-							{
-								if (map[xx + yy * w] == Tile.grass.id)
-								{
-									map[xx + yy * w] = Tile.dirt.id;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+		/*
+		 * for (int i = 0; i < w * h / 2800; i++) { int xs = random.nextInt(w); int ys = random.nextInt(h); for (int k = 0; k < 10; k++) { int x = xs + random.nextInt(21) - 10; int y = ys + random.nextInt(21) - 10; for (int j = 0; j < 100; j++) { int xo = x + random.nextInt(5) - random.nextInt(5); int yo = y + random.nextInt(5) - random.nextInt(5); for (int yy = yo - 1; yy <= yo + 1; yy++) { for (int xx = xo - 1; xx <= xo + 1; xx++) { if (xx >= 0 && yy >= 0 && xx < w && yy < h) { if (map[xx + yy * w] == Tile.grass.id) { map[xx + yy * w] = Tile.dirt.id; } } } } } } }
+		 */
 
 		// Spawning tree Tiles
 		for (int i = 0; i < w * h / 400; i++)
@@ -255,8 +295,9 @@ public class LevelGen
 
 		}
 
+		int count = 0;
 		stairsLoop:
-		for (int i = 0; i < w * h / 10; i++)
+		for (int i = 0; i < w * h / 100; i++)
 		{
 			int x = random.nextInt(w - 2) + 1;
 			int y = random.nextInt(h - 2) + 1;
@@ -268,13 +309,15 @@ public class LevelGen
 				}
 
 			map[x + y * w] = Tile.stairsDown.id;
+			count++;
+			if (count == 4) break;
 		}
 
 		return new byte[][] { map, data };
 	}
 
 	// Generates the map
-	public static byte[][] createUndergroundMap(int w, int h, int depth)
+	private static byte[][] createUndergroundMap(int w, int h, int depth)
 	{
 		LevelGen mnoise1 = new LevelGen(w, h, 16);
 		LevelGen mnoise2 = new LevelGen(w, h, 16);
@@ -322,12 +365,12 @@ public class LevelGen
 				val = val + 1 - dist * 20;
 
 				// Creating basic tiles
-				if (val > -2 && wval < -2.0 + depth)
+				if (val > -2 && wval < -2.0 + (depth) / 2 * 3)
 				{
-					if (depth > 1) map[i] = Tile.lava.id;
+					if (depth > 2) map[i] = Tile.lava.id;
 					else map[i] = Tile.water.id;
 				}
-				else if (val > -2 && (mval < -1.7 || nval < -1.5))
+				else if (val > -2 && (mval < -1.7 || nval < -1.4))
 				{
 					map[i] = Tile.dirt.id;
 				}
@@ -338,17 +381,57 @@ public class LevelGen
 			}
 		}
 
+		{
+			int r = 2;
+			for (int i = 0; i < w * h / 400; i++)
+			{
+				int x = random.nextInt(w);
+				int y = random.nextInt(h);
+				
+				for (int j = 0; j < 30; j++)
+				{
+					int xx = x + random.nextInt(5) - random.nextInt(5);
+					int yy = y + random.nextInt(5) - random.nextInt(5);
+					if (xx >= r && yy >= r && xx < w-r && yy < h-r)
+					{
+						if (map[xx + yy * w] == Tile.rock.id)
+						{
+							map[xx + yy * w] = (byte)((Tile.ironOre.id & 0xff) + depth - 1);
+						}
+					}
+				}
+			}
+		}
+
+		if (depth < 3)
+		{
+			int count = 0;
+			stairsLoop:
+			for (int i = 0; i < w * h / 100; i++)
+			{
+				int x = random.nextInt(w - 20) + 10;
+				int y = random.nextInt(h - 20) + 10;
+
+				for (int yy = y - 1; yy <= y + 1; yy++)
+					for (int xx = x - 1; xx <= x + 1; xx++)
+					{
+						if (map[xx + yy * w] != Tile.rock.id) continue stairsLoop;
+					}
+
+				map[x + y * w] = Tile.stairsDown.id;
+				count++;
+				if (count == 4) break;
+			}
+		}
+
 		return new byte[][] { map, data };
 	}
 
 	// Generates the sky map
 	public static byte[][] createSkyMap(int w, int h)
 	{
-		LevelGen mnoise1 = new LevelGen(w, h, 8);
-		LevelGen mnoise2 = new LevelGen(w, h, 8);
-
-		LevelGen noise1 = new LevelGen(w, h, 16);
-		LevelGen noise2 = new LevelGen(w, h, 16);
+		LevelGen noise1 = new LevelGen(w, h, 8);
+		LevelGen noise2 = new LevelGen(w, h, 8);
 
 		// Creates the map and the data
 		byte[] map = new byte[w * h];
@@ -360,9 +443,7 @@ public class LevelGen
 			{
 				int i = x + y * w;
 
-				double val = (noise1.values[i] - noise2.values[i]) * 3 - 2;
-				double mval = Math.abs(mnoise1.values[i] - mnoise2.values[i]);
-				// mval = Math.abs(mval * mnoise3.values[i]) * 3 - 2;
+				double val = Math.abs(noise1.values[i] - noise2.values[i]) * 3 - 2;
 
 				double xd = x / (w - 1.0) * 2 - 1;
 				double yd = y / (h - 1.0) * 2 - 1;
@@ -371,10 +452,11 @@ public class LevelGen
 				double dist = xd >= yd ? xd : yd;
 				dist = dist * dist * dist * dist;
 				dist = dist * dist * dist * dist;
+				val = -val*1-2.2;
 				val = val + 1 - dist * 20;
 
 				// Creating basic tiles
-				if (val < -0.85)
+				if (val < -0.25)
 				{
 					map[i] = Tile.infiniteFall.id;
 				}
@@ -384,9 +466,26 @@ public class LevelGen
 				}
 			}
 		}
-
+		
 		stairsLoop:
-		for (int i = 0; i < w * h / 10; i++)
+		for (int i = 0; i < w * h/50; i++)
+		{
+			int x = random.nextInt(w - 2) + 1;
+			int y = random.nextInt(h - 2) + 1;
+
+			for (int yy = y - 1; yy <= y + 1; yy++)
+				for (int xx = x - 1; xx <= x + 1; xx++)
+				{
+					if (map[xx + yy * w] != Tile.cloud.id) continue stairsLoop;
+				}
+
+			map[x + y * w] = Tile.cloudCactus.id;
+		}
+		
+
+		int count = 0;
+		stairsLoop:
+		for (int i = 0; i < w * h; i++)
 		{
 			int x = random.nextInt(w - 2) + 1;
 			int y = random.nextInt(h - 2) + 1;
@@ -398,6 +497,8 @@ public class LevelGen
 				}
 
 			map[x + y * w] = Tile.stairsDown.id;
+			count++;
+			if (count == 2) break;
 		}
 
 		return new byte[][] { map, data };
@@ -411,9 +512,9 @@ public class LevelGen
 			int w = 128;
 			int h = 128;
 
-			byte[] map = LevelGen.createSkyMap(w, h)[0];
-			// byte[] map = LevelGen.createTopMap(w, h)[0];
-			// byte[] map = LevelGen.createUndergroundMap(w, h, ++d)[0];
+			byte[] map = LevelGen.createAndValidateSkyMap(w, h)[0];
+			// byte[] map = LevelGen.createAndValidateTopMap(w, h)[0];
+			//byte[] map = LevelGen.createAndValidateUndergroundMap(w, h, ++d)[0];
 
 			BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			int[] pixels = new int[w * h];
@@ -433,6 +534,9 @@ public class LevelGen
 					if (map[i] == Tile.flower.id) pixels[i] = 0xffffff;
 					if (map[i] == Tile.lava.id) pixels[i] = 0xff2020;
 					if (map[i] == Tile.cloud.id) pixels[i] = 0xa0a0a0;
+					if (map[i] == Tile.stairsDown.id) pixels[i] = 0xff00ff;
+					if (map[i] == Tile.stairsUp.id) pixels[i] = 0xff00ff;
+					if (map[i] == Tile.cloudCactus.id) pixels[i] = 0xffff00;
 				}
 			}
 

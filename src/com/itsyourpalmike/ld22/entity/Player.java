@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.InputHandler;
+import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
@@ -16,6 +17,7 @@ import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.screen.InventoryMenu;
+import com.itsyourpalmike.ld22.sound.Sound;
 
 public class Player extends Mob
 {
@@ -32,6 +34,7 @@ public class Player extends Mob
 	public int score;
 	public int maxStamina = 10;
 	private int onStairDelay;;
+	public int invulnerableTime = 0;
 
 	public Player(Game game, InputHandler input)
 	{
@@ -40,22 +43,36 @@ public class Player extends Mob
 		this.game = game;
 		stamina = maxStamina;
 
-		inventory.add(new PowerGloveItem());
 		inventory.add(new FurnitureItem(new Workbench()));
-		inventory.add(new FurnitureItem(new Anvil()));
+		inventory.add(new PowerGloveItem());
+		/*inventory.add(new ToolItem(ToolType.sword, 4));
+		inventory.add(new ResourceItem(Resource.bread, 200));
+		inventory.add(new FurnitureItem(new Lantern()));
+		inventory.add(new FurnitureItem(new Lantern()));
+		inventory.add(new FurnitureItem(new Lantern()));
+		inventory.add(new FurnitureItem(new Lantern()));
+		inventory.add(new FurnitureItem(new Lantern()));
+		inventory.add(new FurnitureItem(new Lantern()));
+		inventory.add(new FurnitureItem(new Lantern()));*/
+		//inventory.add(new ToolItem(ToolType.shovel, 4));
+		//inventory.add(new ToolItem(ToolType.pickaxe, 4));
+		/*inventory.add(new FurnitureItem(new Anvil()));
 		inventory.add(new FurnitureItem(new Oven()));
+		inventory.add(new FurnitureItem(new Lantern()));
 		inventory.add(new FurnitureItem(new Furnace()));
 		inventory.add(new ResourceItem(Resource.wood, 500));
 		inventory.add(new ResourceItem(Resource.seeds, 500));
 		inventory.add(new ToolItem(ToolType.hoe, 4));
 		inventory.add(new ToolItem(ToolType.shovel, 4));
 		inventory.add(new ToolItem(ToolType.pickaxe, 4));
-		inventory.add(new ToolItem(ToolType.sword, 4));
+		inventory.add(new ToolItem(ToolType.sword, 4));*/
 	}
 
 	public void tick()
 	{
 		super.tick();
+		
+		if(invulnerableTime>0)invulnerableTime--;
 
 		Tile onTile = level.getTile(x >> 4, y >> 4);
 		if (onTile == Tile.stairsDown || onTile == Tile.stairsUp)
@@ -220,7 +237,7 @@ public class Player extends Mob
 		{
 			attackTime = 5;
 			int yo = -2;
-			int range = 16;
+			int range = 20;
 
 			// Hurts entities inside of tiles within the player's attack zone
 			if (dir == 0)
@@ -478,9 +495,12 @@ public class Player extends Mob
 			{
 				this.x = x * 16 + 8;
 				this.y = y * 16 + 8;
+
 				return true;
 			}
 		}
+		
+		
 	}
 
 	public boolean payStamina(int cost)
@@ -498,7 +518,7 @@ public class Player extends Mob
 
 	public int getLightRadius()
 	{
-		int r = 2;
+		int r = 3;
 		if(activeItem != null)
 		{
 			if(activeItem instanceof FurnitureItem)
@@ -510,11 +530,41 @@ public class Player extends Mob
 		return r;
 	}
 	
+	protected void die()
+	{
+		super.die();
+		Sound.playerDeath.play();
+	}
+
 	protected void touchedBy(Entity entity)
 	{
 		if (!(entity instanceof Player))
 		{
 			entity.touchedBy(this);
 		}
+	}
+	
+	protected void doHurt(int dmg, int attackDir)
+	{
+		// Removes health, adds particles, and sets knockback
+		if (hurtTime > 0 || invulnerableTime > 0) return;
+		
+		Sound.playerHurt.play();
+		
+		level.add(new TextParticle("" + dmg, x, y, Color.get(-1, 504, 504, 504)));
+		health -= dmg;
+
+		if (attackDir == 0) yKnockback = 6;
+		if (attackDir == 1) yKnockback = -6;
+		if (attackDir == 2) xKnockback = -6;
+		if (attackDir == 3) xKnockback = 6;
+		hurtTime = 10;
+		invulnerableTime = 30;
+	}
+
+	public void gameWon()
+	{
+		level.player.invulnerableTime = 60 * 5;
+		game.won();
 	}
 }

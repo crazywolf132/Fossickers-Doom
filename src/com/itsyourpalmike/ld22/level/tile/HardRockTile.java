@@ -15,9 +15,9 @@ import com.itsyourpalmike.ld22.item.ToolType;
 import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 
-public class RockTile extends Tile
+public class HardRockTile extends Tile
 {
-	public RockTile(int id)
+	public HardRockTile(int id)
 	{
 		super(id);
 	}
@@ -25,8 +25,8 @@ public class RockTile extends Tile
 	public void render(Screen screen, Level level, int x, int y)
 	{
 		// This render creates smooth corners and shapes, so the world isn't obviously blocky
-		int col = Color.get(444, 444, 333, 333);
-		int transitionColor = Color.get(111, 444, 555, level.dirtColor);
+		int col = Color.get(334, 334, 223, 223);
+		int transitionColor = Color.get(001, 334, 445, level.dirtColor);
 
 		boolean u = level.getTile(x, y - 1) != this;
 		boolean d = level.getTile(x, y + 1) != this;
@@ -86,7 +86,7 @@ public class RockTile extends Tile
 		level.add(new SmashParticle(x * 16 + 8, y * 16 + 8));
 		level.add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.get(-1, 500, 500, 500)));
 
-		if (damage >= 50)
+		if (damage >= 200)
 		{
 			int count = random.nextInt(4) + 1;
 
@@ -108,7 +108,7 @@ public class RockTile extends Tile
 
 	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
 	{
-		hurt(level, x, y, dmg);
+		hurt(level, x, y, 0);
 	}
 
 	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
@@ -116,7 +116,7 @@ public class RockTile extends Tile
 		if (item instanceof ToolItem)
 		{
 			ToolItem tool = (ToolItem)item;
-			if (tool.type == ToolType.pickaxe)
+			if (tool.type == ToolType.pickaxe && tool.level == 4)
 			{
 				if (player.payStamina(4 - tool.level))
 				{

@@ -4,21 +4,15 @@ import com.itsyourpalmike.ld22.crafting.Crafting;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.screen.CraftingMenu;
 
-public class Torch extends Furniture
+public class Lantern extends Furniture
 {
-	public Torch()
+	public Lantern()
 	{
-		super("Torch");
-		col = Color.get(-1, 000, 332, 442);
+		super("Lantern");
+		col = Color.get(-1, 000, 111, 555);
 		sprite = 5;
 		xr = 3;
 		yr = 2;
-	}
-
-	public boolean use(Player player, int attackDir)
-	{
-		player.game.setMenu(new CraftingMenu(Crafting.ovenRecipes, player));
-		return true;
 	}
 
 	public int getLightRadius()

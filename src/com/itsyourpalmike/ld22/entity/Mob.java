@@ -4,6 +4,7 @@ import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
+import com.itsyourpalmike.ld22.sound.Sound;
 
 public class Mob extends Entity
 {
@@ -107,6 +108,17 @@ public class Mob extends Entity
 		// Removes health, adds particles, and sets knockback
 		if (hurtTime > 0) return;
 
+		if (level.player != null)
+		{
+			int xd = level.player.x - x;
+			int yd = level.player.y - y;
+
+			if (xd * xd + yd * yd < 80 * 80)
+			{
+				Sound.monsterHurt.play();
+			}
+		}
+
 		level.add(new TextParticle("" + dmg, x, y, Color.get(-1, 500, 500, 500)));
 		health -= dmg;
 
@@ -137,20 +149,28 @@ public class Mob extends Entity
 	// validates a starting position so mobs don't spawn inside of walls
 	public boolean findStartPos(Level level)
 	{
-			int x = random.nextInt(level.w);
-			int y = random.nextInt(level.h);
-			int r = 8 * 16;
-			int xx= x * 16 + 8;
-			int yy = y * 16 + 8;
-			
-			if (level.getEntities(xx - r, yy - r, xx + r, yy + r).size() > 0) return false;
-			if (level.getTile(x, y).mayPass(level, x, y, this))
-			{
-				this.x = xx;
-				this.y = yy;
-				return true;
-			}
-		
+		int x = random.nextInt(level.w);
+		int y = random.nextInt(level.h);
+		int xx = x * 16 + 8;
+		int yy = y * 16 + 8;
+
+		if (level.player != null)
+		{
+			int xd = level.player.x - xx;
+			int yd = level.player.y - yy;
+			if (xd * xd + yd * yd < 80 * 80) return false;
+		}
+
+		int r = level.monsterDensity * 16;
+		if (level.getEntities(xx - r, yy - r, xx + r, yy + r).size() > 0) return false;
+
+		if (level.getTile(x, y).mayPass(level, x, y, this))
+		{
+			this.x = xx;
+			this.y = yy;
+			return true;
+		}
+
 		return false;
 	}
 }

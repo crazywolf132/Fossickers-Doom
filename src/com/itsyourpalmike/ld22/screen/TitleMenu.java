@@ -3,6 +3,7 @@ package com.itsyourpalmike.ld22.screen;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.sound.Sound;
 
 public class TitleMenu extends Menu
 {
@@ -28,6 +29,7 @@ public class TitleMenu extends Menu
 		{
 			if (selected == 0)
 			{
+				Sound.test.play();
 				game.resetGame();
 				game.setMenu(null);
 			}
