@@ -89,7 +89,8 @@ public class CraftingMenu extends Menu
 			int xo = 13 * 8;
 			Recipe recipe = recipes.get(selected);
 			int hasResultItems = player.inventory.count(recipe.resultTemplate);
-			screen.render(xo, 2*8, recipe.resultTemplate.getSprite(), recipe.resultTemplate.getColor(), 0);
+			recipe.resultTemplate.renderIcon(screen, xo, 2*8);
+			//screen.render(xo, 2*8, recipe.resultTemplate.getSprite(), recipe.resultTemplate.getColor(), 0);
 			Font.draw("" + hasResultItems, screen, xo + 8, 2 * 8, Color.get(-1, 555, 555, 555));
 
 			List<Item> iCosts = new ArrayList<Item>();
@@ -104,7 +105,7 @@ public class CraftingMenu extends Menu
 				Item item = costs.get(i);
 				int yo = (5 + i) * 8;
 
-				screen.render(xo, yo, item.getSprite(), item.getColor(), 0);
+				item.renderIcon(screen, xo, yo);
 				int requiredAmt = 1;
 				if (item instanceof ResourceItem)
 				{

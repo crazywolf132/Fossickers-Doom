@@ -21,4 +21,5 @@ public class ToolRecipe extends Recipe
 		player.inventory.add(0, new ToolItem(type, level));
 	}
 
+	
 }

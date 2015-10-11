@@ -57,7 +57,7 @@ public class ItemEntity extends Entity
 		}
 
 		za -= 0.15;
-		
+
 		int ox = x;
 		int oy = y;
 
@@ -91,8 +91,19 @@ public class ItemEntity extends Entity
 		}
 
 		int col = item.getColor();
-		screen.render(x - 4, y - 4, item.getSprite(), Color.get(-1, 0, 0, 0), 0);
-		screen.render(x - 4, y - 4 - (int)(zz), item.getSprite(), col, 0);
+		
+		
+		if (item.sheet != null)
+		{
+			screen.render(x - 4, y - 4, item.getSprite(), Color.get(-1, 0, 0, 0), 0, item.sheet);
+			screen.render(x - 4, y - 4 - (int)(zz), item.getSprite(), col, 0, item.sheet);
+		}
+		else
+		{
+			screen.render(x - 4, y - 4, item.getSprite(), Color.get(-1, 0, 0, 0), 0);
+			screen.render(x - 4, y - 4 - (int)(zz), item.getSprite(), col, 0);
+		}
+		
 	}
 
 	protected void touchedBy(Entity entity)

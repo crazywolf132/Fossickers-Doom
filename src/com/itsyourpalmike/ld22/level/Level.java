@@ -337,7 +337,6 @@ public class Level
 				{
 					m = mm;
 					m.setLvl(lvl);
-					break;
 				}
 			}
 			

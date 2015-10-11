@@ -13,7 +13,7 @@ public class ResourceRecipe extends Recipe
 	
 	public ResourceRecipe(String resource)
 	{
-		super(null);
+		super(new ResourceItem(Resource.get(resource)));
 		this.resource = resource;
 	}
 

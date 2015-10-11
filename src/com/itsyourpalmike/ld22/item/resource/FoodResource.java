@@ -1,6 +1,7 @@
 package com.itsyourpalmike.ld22.item.resource;
 
 import com.itsyourpalmike.ld22.entity.Player;
+import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 
@@ -11,7 +12,15 @@ public class FoodResource extends Resource
 	
 	public FoodResource(String name, int sprite, int color, int heal, int staminaCost)
 	{
-		super(name, sprite, color);
+		super(name, sprite, color, null);
+		this.heal = heal;
+		this.staminaCost = staminaCost;
+	}
+	
+	
+	public FoodResource(String name, int sprite, int color, SpriteSheet sheet, int heal, int staminaCost)
+	{
+		super(name, sprite, color, sheet);
 		this.heal = heal;
 		this.staminaCost = staminaCost;
 	}

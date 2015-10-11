@@ -3,8 +3,12 @@ package com.itsyourpalmike.ld22.level.tile;
 import java.util.Random;
 
 import com.itsyourpalmike.ld22.entity.Entity;
+import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.Item;
+import com.itsyourpalmike.ld22.item.ToolItem;
+import com.itsyourpalmike.ld22.item.ToolType;
 import com.itsyourpalmike.ld22.level.Level;
 
 public class WaterTile extends Tile
@@ -72,6 +76,11 @@ public class WaterTile extends Tile
 		{
 			screen.render(x * 16 + 8, y * 16 + 8, (r ? 16 : 15) + (d ? 2 : 1) * 32, (sd || sr) ? transitionColor2 : transitionColor1, 0);
 		}
+	}
+	
+	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
+	{
+		return item.interactOn(this, level, xt, yt, player, attackDir);
 	}
 
 	// Water flows into holes

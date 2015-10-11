@@ -4,12 +4,15 @@ import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.entity.ItemEntity;
 import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.screen.ListItem;
 
 public class Item implements ListItem
 {
+	public SpriteSheet sheet = null;
+	
 	public int getColor()
 	{
 		return 0;

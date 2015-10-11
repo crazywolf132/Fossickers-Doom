@@ -51,7 +51,7 @@ public class CactusTile extends Tile
 			int count = random.nextInt(2) + 1;
 
 			for (int i = 0; i < count; i++)
-				level.add(new ItemEntity(new ResourceItem(Resource.get("cactusFlower")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+				level.add(new ItemEntity(new ResourceItem(Resource.get("Cactus")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 
 			level.setTile(x, y, Tile.get("sand"), 0);
 		}

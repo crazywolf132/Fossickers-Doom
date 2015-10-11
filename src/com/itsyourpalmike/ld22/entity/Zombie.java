@@ -115,11 +115,6 @@ public class Zombie extends Mob
 		{
 			entity.hurt(this, lvl + 1, ((Player)entity).dir ^ 1);
 		}
-		
-		if(level.player != null)
-		{
-			level.player.score+=50*lvl;
-		}
 	}
 	
 	protected void die()
@@ -130,6 +125,11 @@ public class Zombie extends Mob
 
 		for (int i = 0; i < count; i++)
 			level.add(new ItemEntity(new ResourceItem(Resource.get("cloth")), x + random.nextInt(11) - 5, y + random.nextInt(11) - 5));
+
+		if(level.player != null)
+		{
+			level.player.score+=50*lvl;
+		}
 	}
 
 }

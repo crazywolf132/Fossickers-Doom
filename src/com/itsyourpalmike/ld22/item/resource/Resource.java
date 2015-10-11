@@ -3,10 +3,9 @@ package com.itsyourpalmike.ld22.item.resource;
 import java.util.HashMap;
 
 import com.itsyourpalmike.ld22.entity.Player;
-import com.itsyourpalmike.ld22.gfx.Color;
+import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
-import com.itsyourpalmike.ld22.sound.Sound;
 
 public class Resource
 {
@@ -25,10 +24,21 @@ public class Resource
 	public final String name;
 	public final int sprite;
 	public final int color;
+	public SpriteSheet sheet;
+	
+	public Resource(String name, int sprite, int color, SpriteSheet sheet)
+	{
+		this.sheet = sheet;
+		if (name.length() > 6) throw new RuntimeException("Resource name cannot be longer than six characters!");
+		this.name = name;
+		this.sprite = sprite;
+		this.color = color;
+	}
 
 	public Resource(String name, int sprite, int color)
 	{
-		if (name.length() > 6) throw new RuntimeException("Resource name cannot be longer than six characters!");
+		this.sheet = null;
+		if (name.length() > 7) throw new RuntimeException("Resource name cannot be longer than 7 characters!");
 		this.name = name;
 		this.sprite = sprite;
 		this.color = color;

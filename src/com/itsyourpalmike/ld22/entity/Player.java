@@ -7,12 +7,11 @@ import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.FishingRodItem;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.PowerGloveItem;
 import com.itsyourpalmike.ld22.item.ResourceItem;
-import com.itsyourpalmike.ld22.item.ToolItem;
-import com.itsyourpalmike.ld22.item.ToolType;
 import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
@@ -45,27 +44,9 @@ public class Player extends Mob
 
 		inventory.add(new FurnitureItem(new Workbench()));
 		inventory.add(new PowerGloveItem());
-		inventory.add(new ToolItem(ToolType.sword, 4));
-		inventory.add(new ResourceItem(Resource.get("bread"), 200));
-		inventory.add(new FurnitureItem(new Lantern()));
-		inventory.add(new FurnitureItem(new Lantern()));
-		inventory.add(new FurnitureItem(new Lantern()));
-		inventory.add(new FurnitureItem(new Lantern()));
-		inventory.add(new FurnitureItem(new Lantern()));
-		inventory.add(new FurnitureItem(new Lantern()));
-		inventory.add(new FurnitureItem(new Lantern()));
-		inventory.add(new ToolItem(ToolType.shovel, 4));
-		inventory.add(new ToolItem(ToolType.pickaxe, 4));
-		inventory.add(new FurnitureItem(new Anvil()));
+		inventory.add(new FishingRodItem());
+		inventory.add(new ResourceItem(Resource.get("fish")));
 		inventory.add(new FurnitureItem(new Oven()));
-		inventory.add(new FurnitureItem(new Lantern()));
-		inventory.add(new FurnitureItem(new Furnace()));
-		inventory.add(new ResourceItem(Resource.get("wood"), 500));
-		inventory.add(new ResourceItem(Resource.get("seeds"), 500));
-		inventory.add(new ToolItem(ToolType.hoe, 4));
-		inventory.add(new ToolItem(ToolType.shovel, 4));
-		inventory.add(new ToolItem(ToolType.pickaxe, 4));
-		inventory.add(new ToolItem(ToolType.sword, 4));
 	}
 
 	public void tick()
@@ -495,8 +476,6 @@ public class Player extends Mob
 			{
 				this.x = x * 16 + 8;
 				this.y = y * 16 + 8;
-				
-				level.setTile(x, y-1, Tile.get("stairsUp"), 0);
 
 				return true;
 			}
