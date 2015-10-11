@@ -9,16 +9,15 @@ import com.itsyourpalmike.ld22.level.tile.Tile;
 
 public class PlantableResource extends Resource
 {
-	private List<Tile> sourceTiles;
-	private Tile targetTile;
-	
+	private List<String> sourceTiles;
+	private String targetTile;
 
-	public PlantableResource(String name, int sprite, int color, Tile targetTile, Tile ... sourceTiles1)
+	public PlantableResource(String name, int sprite, int color, String targetTile, String... sourceTiles1)
 	{
 		this(name, sprite, color, targetTile, Arrays.asList(sourceTiles1));
 	}
-	
-	public PlantableResource(String name, int sprite, int color, Tile targetTile, List<Tile> sourceTiles)
+
+	public PlantableResource(String name, int sprite, int color, String targetTile, List<String> sourceTiles)
 	{
 		super(name, sprite, color);
 		this.sourceTiles = sourceTiles;
@@ -28,12 +27,15 @@ public class PlantableResource extends Resource
 	// Plant a tree when we use an acorn - DUH!
 	public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir)
 	{
-		if(sourceTiles.contains(tile))
+		for (int i = 0; i < sourceTiles.size(); i++)
 		{
-			level.setTile(xt, yt, targetTile, 0);
-			return true;
+			if (Tile.get(sourceTiles.get(i)) == tile)
+			{
+				level.setTile(xt, yt, Tile.get(targetTile), 0);
+				return true;
+			}
 		}
-		
+
 		return false;
 	}
 }

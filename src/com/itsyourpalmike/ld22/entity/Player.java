@@ -45,27 +45,27 @@ public class Player extends Mob
 
 		inventory.add(new FurnitureItem(new Workbench()));
 		inventory.add(new PowerGloveItem());
-		/*inventory.add(new ToolItem(ToolType.sword, 4));
-		inventory.add(new ResourceItem(Resource.bread, 200));
+		inventory.add(new ToolItem(ToolType.sword, 4));
+		inventory.add(new ResourceItem(Resource.get("bread"), 200));
 		inventory.add(new FurnitureItem(new Lantern()));
 		inventory.add(new FurnitureItem(new Lantern()));
 		inventory.add(new FurnitureItem(new Lantern()));
 		inventory.add(new FurnitureItem(new Lantern()));
 		inventory.add(new FurnitureItem(new Lantern()));
 		inventory.add(new FurnitureItem(new Lantern()));
-		inventory.add(new FurnitureItem(new Lantern()));*/
-		//inventory.add(new ToolItem(ToolType.shovel, 4));
-		//inventory.add(new ToolItem(ToolType.pickaxe, 4));
-		/*inventory.add(new FurnitureItem(new Anvil()));
+		inventory.add(new FurnitureItem(new Lantern()));
+		inventory.add(new ToolItem(ToolType.shovel, 4));
+		inventory.add(new ToolItem(ToolType.pickaxe, 4));
+		inventory.add(new FurnitureItem(new Anvil()));
 		inventory.add(new FurnitureItem(new Oven()));
 		inventory.add(new FurnitureItem(new Lantern()));
 		inventory.add(new FurnitureItem(new Furnace()));
-		inventory.add(new ResourceItem(Resource.wood, 500));
-		inventory.add(new ResourceItem(Resource.seeds, 500));
+		inventory.add(new ResourceItem(Resource.get("wood"), 500));
+		inventory.add(new ResourceItem(Resource.get("seeds"), 500));
 		inventory.add(new ToolItem(ToolType.hoe, 4));
 		inventory.add(new ToolItem(ToolType.shovel, 4));
 		inventory.add(new ToolItem(ToolType.pickaxe, 4));
-		inventory.add(new ToolItem(ToolType.sword, 4));*/
+		inventory.add(new ToolItem(ToolType.sword, 4));
 	}
 
 	public void tick()
@@ -495,6 +495,8 @@ public class Player extends Mob
 			{
 				this.x = x * 16 + 8;
 				this.y = y * 16 + 8;
+				
+				level.setTile(x, y-1, Tile.get("stairsUp"), 0);
 
 				return true;
 			}

@@ -21,6 +21,11 @@ public class AirWizard extends Mob
 		health = maxHealth = 2000;
 	}
 
+	public boolean canSpawn(int level)
+	{
+		return random.nextInt(5) == 0;
+	}
+
 	public void tick()
 	{
 		super.tick();

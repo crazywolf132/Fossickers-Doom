@@ -23,6 +23,12 @@ public class Slime extends Mob
 		health = maxHealth = lvl * lvl * 5;
 	}
 
+	public boolean canSpawn(int level)
+	{
+		return random.nextInt(5) <= 1;
+	}
+
+
 	public void tick()
 	{
 		super.tick();
@@ -68,7 +74,7 @@ public class Slime extends Mob
 		int count = random.nextInt(2) + 1;
 
 		for (int i = 0; i < count; i++)
-			level.add(new ItemEntity(new ResourceItem(Resource.slime), x + random.nextInt(11) - 5, y + random.nextInt(11) - 5));
+			level.add(new ItemEntity(new ResourceItem(Resource.get("SLIME")), x + random.nextInt(11) - 5, y + random.nextInt(11) - 5));
 		
 		if(level.player != null)
 		{

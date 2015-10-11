@@ -12,6 +12,7 @@ import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.ResourceItem;
+import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.sound.Sound;
 
 // List of craftable items - If we have the necessary resources
@@ -91,7 +92,13 @@ public class CraftingMenu extends Menu
 			screen.render(xo, 2*8, recipe.resultTemplate.getSprite(), recipe.resultTemplate.getColor(), 0);
 			Font.draw("" + hasResultItems, screen, xo + 8, 2 * 8, Color.get(-1, 555, 555, 555));
 
-			List<Item> costs = recipe.costs;
+			List<Item> iCosts = new ArrayList<Item>();
+			for(int j = 0; j < recipe.costs.size(); j++)
+			{
+				iCosts.add(new ResourceItem(Resource.get(recipe.costs.get(j).name), recipe.costs.get(j).count));
+			}
+			
+			List<Item> costs = iCosts;
 			for (int i = 0; i < costs.size(); i++)
 			{
 				Item item = costs.get(i);

@@ -9,16 +9,16 @@ import com.itsyourpalmike.ld22.item.resource.Resource;
 
 public class ResourceRecipe extends Recipe
 {
-	private Resource resource;
+	private String resource;
 	
-	public ResourceRecipe(Resource resource)
+	public ResourceRecipe(String resource)
 	{
-		super(new ResourceItem(resource, 1));
+		super(null);
 		this.resource = resource;
 	}
 
 	public void craft(Player player)
 	{
-		player.inventory.add(0, new ResourceItem(resource, 1));
+		player.inventory.add(0, new ResourceItem(Resource.get(resource), 1));
 	}
 }

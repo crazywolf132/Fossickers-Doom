@@ -42,7 +42,7 @@ public class Level
 
 	private static List<Class<? extends Mob>> mobsToSpawn = new ArrayList<Class<? extends Mob>>();
 	
-	public void addMobToLevelSpawner(Class<? extends Mob> clazz)
+	public static void addMobToLevelSpawner(Class<? extends Mob> clazz)
 	{
 		mobsToSpawn.add(clazz);
 	}
@@ -321,7 +321,6 @@ public class Level
 
 			int lvl = random.nextInt(maxLevel - minLevel + 1) + minLevel;
 			
-			int rnd = random.nextInt(5);
 			for(int j = 0; j < mobsToSpawn.size(); j++)
 			{
 				Mob mm = null;
@@ -334,7 +333,7 @@ public class Level
 					e.printStackTrace();
 				}
 				
-				if(mm != null && rnd <= mm.spawnChance)
+				if(mm != null && mm.canSpawn(this.depth))
 				{
 					m = mm;
 					m.setLvl(lvl);

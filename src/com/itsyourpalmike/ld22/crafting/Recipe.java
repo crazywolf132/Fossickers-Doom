@@ -8,13 +8,25 @@ import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.Item;
-import com.itsyourpalmike.ld22.screen.ListItem;
 import com.itsyourpalmike.ld22.item.ResourceItem;
 import com.itsyourpalmike.ld22.item.resource.Resource;
+import com.itsyourpalmike.ld22.screen.ListItem;
 
 public abstract class Recipe implements ListItem
 {
-	public List<Item> costs = new ArrayList<Item>();
+	public class ItemTemplate
+	{
+		public String name;
+		public int count;
+		
+		public ItemTemplate(String name, int count)
+		{
+			this.name = name;
+			this.count = count;
+		}
+	}
+	
+	public List<ItemTemplate> costs = new ArrayList<ItemTemplate>();
 	public boolean canCraft = false;
 	public Item resultTemplate;
 
@@ -23,9 +35,9 @@ public abstract class Recipe implements ListItem
 		this.resultTemplate = resultTemplate;
 	}
 
-	public Recipe addCost(Resource resource, int count)
+	public Recipe addCost(String resource, int count)
 	{
-		costs.add(new ResourceItem(resource, count));
+		costs.add(new ItemTemplate(resource, count));
 		return this;
 	}
 
@@ -34,7 +46,7 @@ public abstract class Recipe implements ListItem
 	{
 		for (int i = 0; i < costs.size(); i++)
 		{
-			Item item = costs.get(i);
+			Item item = new ResourceItem(Resource.get(costs.get(i).name), costs.get(i).count);
 			if (item instanceof ResourceItem)
 			{
 				ResourceItem ri = ((ResourceItem)item);
@@ -63,7 +75,7 @@ public abstract class Recipe implements ListItem
 	{
 		for (int i = 0; i < costs.size(); i++)
 		{
-			Item item = costs.get(i);
+			Item item = new ResourceItem(Resource.get(costs.get(i).name), costs.get(i).count);
 			if (item instanceof ResourceItem)
 			{
 				ResourceItem ri = ((ResourceItem)item);

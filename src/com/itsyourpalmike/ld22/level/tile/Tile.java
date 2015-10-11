@@ -28,12 +28,12 @@ public class Tile
 	
 	public static void load(String name, Tile tile)
 	{
-		tileCollection.put(name, tile);
+		tileCollection.put(name.toUpperCase(), tile);
 	}
 	
 	public static Tile get(String name)
 	{
-		return tileCollection.get(name);
+		return tileCollection.get(name.toUpperCase());
 	}
 
 	public Tile()

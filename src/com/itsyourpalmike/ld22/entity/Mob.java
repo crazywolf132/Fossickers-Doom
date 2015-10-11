@@ -180,4 +180,9 @@ public class Mob extends Entity
 
 		return false;
 	}
+
+	public boolean canSpawn(int level)
+	{
+		return false;
+	}
 }

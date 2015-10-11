@@ -12,7 +12,7 @@ public class Screen
 
 	private SpriteSheet sheet;
 	public int[] pixels;
-	
+
 	public void changeSpritesheet(int w, int h, SpriteSheet sheet)
 	{
 		System.out.println("changed spritesheer");
@@ -32,6 +32,13 @@ public class Screen
 		pixels = new int[w * h];
 	}
 
+	public Screen(int w, int h)
+	{
+		this.w = w;
+		this.h = h;
+		pixels = new int[w * h];
+	}
+
 	public void clear(int color)
 	{
 		for (int i = 0; i < pixels.length; i++)
@@ -40,8 +47,13 @@ public class Screen
 		}
 	}
 
-	// Renders a single sprite / image
 	public void render(int xp, int yp, int tile, int colors, int bits)
+	{
+		render(xp, yp, tile, colors, bits, sheet);
+	}
+
+	// Renders a single sprite / image
+	public void render(int xp, int yp, int tile, int colors, int bits, SpriteSheet altSheet)
 	{
 		xp -= xOffset;
 		yp -= yOffset;
@@ -50,7 +62,7 @@ public class Screen
 
 		int xTile = tile % 32;
 		int yTile = tile / 32;
-		int toffs = xTile * 8 + yTile * 8 * sheet.width;
+		int toffs = xTile * 8 + yTile * 8 * altSheet.width;
 
 		for (int y = 0; y < 8; y++)
 		{
@@ -70,7 +82,7 @@ public class Screen
 					xs = 7 - x;
 				}
 
-				int col = (colors >> (sheet.pixels[xs + ys * sheet.width + toffs] * 8)) & 255;
+				int col = (colors >> (altSheet.pixels[xs + ys * altSheet.width + toffs] * 8)) & 255;
 				if (col < 255) pixels[(x + xp) + (y + yp) * w] = col;
 			}
 		}
