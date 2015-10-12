@@ -1,6 +1,6 @@
 package com.itsyourpalmike.ld22.item;
 
-import com.itsyourpalmike.ld22.entity.ArrowEntity;
+import com.itsyourpalmike.ld22.entity.Arrow;
 import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
@@ -45,7 +45,7 @@ public class BowItem extends Item
 	{
 		if (player.payStamina(1) && player.inventory.hasResources(Resource.get("arrow"), 1))
 		{
-			player.level.add(new ArrowEntity(player));
+			player.level.add(new Arrow(player));
 			player.inventory.removeResource(Resource.get("arrow"), 1);
 			return true;
 		}
@@ -56,7 +56,7 @@ public class BowItem extends Item
 	{
 		if (player.payStamina(1) && player.inventory.hasResources(Resource.get("arrow"), 1))
 		{
-			player.level.add(new ArrowEntity(player));
+			player.level.add(new Arrow(player));
 			player.inventory.removeResource(Resource.get("arrow"), 1);
 			return true;
 		}

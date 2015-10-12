@@ -9,7 +9,7 @@ import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 import com.itsyourpalmike.ld22.sound.Sound;
 
 // This is the entity version of actual items that are on the ground in the level
-public class ArrowEntity extends Entity
+public class Arrow extends Entity
 {
 	private int lifeTime;
 	public double xa, ya;
@@ -18,7 +18,7 @@ public class ArrowEntity extends Entity
 	private Mob owner;
 	private int dir;
 
-	public ArrowEntity(Mob owner)
+	public Arrow(Mob owner)
 	{
 		this.owner = owner;
 
@@ -47,8 +47,8 @@ public class ArrowEntity extends Entity
 			this.ya = 1;
 		}
 
-		xa *= 2.5;
-		ya *= 2.5;
+		xa *= 3.5;
+		ya *= 3.5;
 
 		lifeTime = 60 * 10 + random.nextInt(30);
 	}
@@ -77,13 +77,6 @@ public class ArrowEntity extends Entity
 			{
 				e.hurt(owner, random.nextInt(5)+1, dir);
 				this.remove();
-
-				int xd = level.player.x - x;
-				int yd = level.player.y - y;
-				if (xd * xd + yd * yd < 80 * 80)
-				{
-					Sound.play("monsterHurt");
-				}
 			}
 		}
 
@@ -91,13 +84,6 @@ public class ArrowEntity extends Entity
 		{
 			owner.level.getTile(x / 16, y / 16).hurt(level, x / 16, y / 16, owner, 1, dir);
 			remove();
-
-			int xd = level.player.x - x;
-			int yd = level.player.y - y;
-			if (xd * xd + yd * yd < 80 * 80)
-			{
-				Sound.play("monsterHurt");
-			}
 		}
 	}
 

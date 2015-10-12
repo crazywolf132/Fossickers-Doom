@@ -3,6 +3,7 @@ package com.itsyourpalmike.ld22.entity.particles;
 import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.sound.Sound;
 
 // Renders basically a curvy white X to indicate hitting a tile
@@ -10,10 +11,17 @@ public class SmashParticle extends Entity
 {
 	private int time = 0;
 
-	public SmashParticle(int x, int y)
+	public SmashParticle(Level level, int x, int y)
 	{
 		this.x = x;
 		this.y = y;
+		
+		int xd = level.player.x - x;
+		int yd = level.player.y - y;
+		if (xd * xd + yd * yd < 85* 85)
+		{
+			Sound.play("monsterHurt");
+		}
 	}
 
 	public void tick()

@@ -120,7 +120,7 @@ public class Mob extends Entity
 			int xd = level.player.x - x;
 			int yd = level.player.y - y;
 
-			if (xd * xd + yd * yd < 80 * 80)
+			if (xd * xd + yd * yd < 85 * 85)
 			{
 				Sound.play("monsterHurt");
 			}

@@ -39,7 +39,7 @@ public class CloudCactusTile extends Tile
 	{
 		// We use the level data array to set rock's damage/life
 		int damage = level.getData(x, y) + 1;
-		level.add(new SmashParticle(x * 16 + 8, y * 16 + 8));
+		level.add(new SmashParticle(level, x * 16 + 8, y * 16 + 8));
 		level.add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.get(-1, 500, 500, 500)));
 
 		if(dmg>0)
