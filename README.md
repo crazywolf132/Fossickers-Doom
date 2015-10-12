@@ -16,3 +16,5 @@
 - [x] Cooked Fish
 - [x] Bow
 - [x] Arrow
+
+*Send Feedback & Suggestions To:* ItsYourPalMike@gmail.com
