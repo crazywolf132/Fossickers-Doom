@@ -4,6 +4,8 @@
 
 *Minicraft: Ultimate Edition* is a mod by Mike Sock (@ItsYourPalMike).
 
+![screenshot](http://ludumdare.com/compo/wp-content/compo2/87574/398-shot0.png "screenshot")
+
 ### Features A Plugin/Mod/Texture Loading System
 * **Let's you customize your Minicraft experience!**
 
