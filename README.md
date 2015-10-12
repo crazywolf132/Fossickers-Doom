@@ -5,7 +5,7 @@
 *Minicraft: Ultimate Edition* is a mod by Mike Sock (@ItsYourPalMike).
 
 ### Features A Plugin/Mod/Texture Loading System
-**Let's you customize your Minicraft experience!**
+* **Let's you customize your Minicraft experience!**
 
 ## Stuff To Add:
 - [x] Creeper 
