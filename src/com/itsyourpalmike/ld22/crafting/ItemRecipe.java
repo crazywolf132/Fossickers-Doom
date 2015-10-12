@@ -1,11 +1,7 @@
 package com.itsyourpalmike.ld22.crafting;
 
 import com.itsyourpalmike.ld22.entity.Player;
-import com.itsyourpalmike.ld22.gfx.Color;
-import com.itsyourpalmike.ld22.gfx.Font;
-import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.Item;
-import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 
 public class ItemRecipe extends Recipe
 {

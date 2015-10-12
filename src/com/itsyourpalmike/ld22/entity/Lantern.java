@@ -1,8 +1,6 @@
 package com.itsyourpalmike.ld22.entity;
 
-import com.itsyourpalmike.ld22.crafting.Crafting;
 import com.itsyourpalmike.ld22.gfx.Color;
-import com.itsyourpalmike.ld22.screen.CraftingMenu;
 
 public class Lantern extends Furniture
 {

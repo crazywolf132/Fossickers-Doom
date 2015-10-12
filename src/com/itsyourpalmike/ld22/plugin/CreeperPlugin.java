@@ -11,12 +11,9 @@ import com.itsyourpalmike.ld22.sound.Sound;
 public class CreeperPlugin implements MinicraftPlugin
 {
 	public static SpriteSheet creeperSheet;
-	private Game game;
 
 	public void onLoad(Game game)
 	{
-		this.game = game;
-
 		try
 		{
 			creeperSheet = new SpriteSheet(ImageIO.read(CreeperPlugin.class.getResource("/creeper.png")));

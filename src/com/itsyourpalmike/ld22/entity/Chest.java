@@ -1,12 +1,6 @@
 package com.itsyourpalmike.ld22.entity;
 
 import com.itsyourpalmike.ld22.gfx.Color;
-import com.itsyourpalmike.ld22.item.FurnitureItem;
-import com.itsyourpalmike.ld22.item.PowerGloveItem;
-import com.itsyourpalmike.ld22.item.ResourceItem;
-import com.itsyourpalmike.ld22.item.ToolItem;
-import com.itsyourpalmike.ld22.item.ToolType;
-import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.screen.ContainerMenu;
 
 public class Chest extends Furniture

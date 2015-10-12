@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.ResourceItem;
-import com.itsyourpalmike.ld22.item.ToolItem;
-import com.itsyourpalmike.ld22.item.ToolType;
 import com.itsyourpalmike.ld22.item.resource.Resource;
 
 public class Inventory

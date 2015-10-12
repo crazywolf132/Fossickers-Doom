@@ -8,7 +8,6 @@ import com.itsyourpalmike.ld22.level.Level;
 public class SaplingTile extends Tile
 {
 	private String onType, growsTo;
-	private int bgColor;
 	
 	public SaplingTile(String onType, String growsTo)
 	{

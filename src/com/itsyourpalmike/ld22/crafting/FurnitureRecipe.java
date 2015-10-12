@@ -2,7 +2,6 @@ package com.itsyourpalmike.ld22.crafting;
 
 import com.itsyourpalmike.ld22.entity.Furniture;
 import com.itsyourpalmike.ld22.entity.Player;
-import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
 
 public class FurnitureRecipe extends Recipe

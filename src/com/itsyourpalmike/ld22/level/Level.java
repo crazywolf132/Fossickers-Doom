@@ -3,21 +3,16 @@ package com.itsyourpalmike.ld22.level;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import com.itsyourpalmike.ld22.entity.AirWizard;
 import com.itsyourpalmike.ld22.entity.Entity;
-import com.itsyourpalmike.ld22.entity.Furniture;
 import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.entity.Player;
-import com.itsyourpalmike.ld22.entity.Slime;
-import com.itsyourpalmike.ld22.entity.Zombie;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.levelgen.LevelGen;
 import com.itsyourpalmike.ld22.level.tile.Tile;
-import com.itsyourpalmike.ld22.sound.Sound;
 
 public class Level
 {

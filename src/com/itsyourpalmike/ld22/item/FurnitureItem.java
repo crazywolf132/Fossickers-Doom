@@ -1,8 +1,5 @@
 package com.itsyourpalmike.ld22.item;
 
-import java.util.Random;
-
-import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.entity.Furniture;
 import com.itsyourpalmike.ld22.entity.ItemEntity;
 import com.itsyourpalmike.ld22.entity.Player;

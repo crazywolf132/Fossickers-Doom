@@ -14,7 +14,6 @@ public class SmashParticle extends Entity
 	{
 		this.x = x;
 		this.y = y;
-		Sound.play("monsterHurt");
 	}
 
 	public void tick()

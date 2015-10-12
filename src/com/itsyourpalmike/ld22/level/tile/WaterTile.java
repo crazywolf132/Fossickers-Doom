@@ -7,8 +7,6 @@ import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.item.Item;
-import com.itsyourpalmike.ld22.item.ToolItem;
-import com.itsyourpalmike.ld22.item.ToolType;
 import com.itsyourpalmike.ld22.level.Level;
 
 public class WaterTile extends Tile

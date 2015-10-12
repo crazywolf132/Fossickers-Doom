@@ -2,8 +2,6 @@ package com.itsyourpalmike.ld22.entity;
 
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.item.ResourceItem;
-import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.sound.Sound;
 
 public class AirWizard extends Mob

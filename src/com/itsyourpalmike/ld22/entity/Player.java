@@ -7,6 +7,7 @@ import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.BowItem;
 import com.itsyourpalmike.ld22.item.FishingRodItem;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
@@ -45,8 +46,10 @@ public class Player extends Mob
 		inventory.add(new FurnitureItem(new Workbench()));
 		inventory.add(new PowerGloveItem());
 		inventory.add(new FishingRodItem());
-		inventory.add(new ResourceItem(Resource.get("fish")));
+		inventory.add(new ResourceItem(Resource.get("r.fish")));
 		inventory.add(new FurnitureItem(new Oven()));
+		inventory.add(new BowItem());
+		inventory.add(new ResourceItem(Resource.get("Arrow"), 50));
 	}
 
 	public void tick()

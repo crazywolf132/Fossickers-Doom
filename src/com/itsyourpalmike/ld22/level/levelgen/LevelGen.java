@@ -506,7 +506,6 @@ public class LevelGen
 
 	public static void main(String[] args)
 	{
-		int d = 0;
 		while (true)
 		{
 			int w = 128;
