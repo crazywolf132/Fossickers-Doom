@@ -8,7 +8,8 @@ import com.itsyourpalmike.ld22.crafting.ItemRecipe;
 import com.itsyourpalmike.ld22.crafting.ResourceRecipe;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.SpriteSheet;
-import com.itsyourpalmike.ld22.item.FishingRodItem;
+import com.itsyourpalmike.ld22.item.Bow;
+import com.itsyourpalmike.ld22.item.FishingRod;
 import com.itsyourpalmike.ld22.item.resource.FoodResource;
 import com.itsyourpalmike.ld22.item.resource.Resource;
 
@@ -33,7 +34,8 @@ public class UltimatePlugin implements MinicraftPlugin
 		
 		try
 		{
-			Crafting.workbenchRecipes.add(new ItemRecipe(FishingRodItem.class).addCost("wood", 5).addCost("cloth", 3));
+			Crafting.workbenchRecipes.add(new ItemRecipe(FishingRod.class).addCost("wood", 5).addCost("cloth", 5));
+			Crafting.workbenchRecipes.add(new ItemRecipe(Bow.class).addCost("wood", 5).addCost("cloth", 5));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("Arrow").addCost("wood", 1).addCost("stone", 1));
 			Crafting.ovenRecipes.add(new ResourceRecipe("C.FISH").addCost("r.fish", 1).addCost("coal", 1));
 		}

@@ -6,7 +6,6 @@ import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
-import com.itsyourpalmike.ld22.sound.Sound;
 
 // This is the entity version of actual items that are on the ground in the level
 public class Arrow extends Entity
