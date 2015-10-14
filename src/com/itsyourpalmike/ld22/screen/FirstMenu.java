@@ -35,7 +35,6 @@ public class FirstMenu extends Menu
 		{
 			if (selected == toggles.length)
 			{
-				System.out.println(toggles.length);
 				for(int i = toggles.length-1; i >= 0; i--)
 				{
 					if(toggles[i] == false)
@@ -104,7 +103,9 @@ public class FirstMenu extends Menu
 			}
 		}
 
-		Font.draw("Disable and enable", screen, 8, 8, Color.get(0, 111, 111, 111));
-		Font.draw("Minicraft plugins", screen, 12, 16, Color.get(0, 111, 111, 111));
+		Font.draw("Disable", screen, 8, 8, Color.get(0, 500, 500, 500));
+		Font.draw("and", screen, 8 + (8*8), 8, Color.get(0, 444, 444, 444));
+		Font.draw("enable", screen, 8 + (8*8) +(4*8), 8, Color.get(0, 050, 050, 050));
+		Font.draw("Minicraft plugins", screen, 12, 16, Color.get(0, 444, 444, 444));
 	}
 }
