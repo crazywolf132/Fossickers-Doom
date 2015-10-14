@@ -45,11 +45,6 @@ public class Player extends Mob
 
 		inventory.add(new FurnitureItem(new Workbench()));
 		inventory.add(new PowerGloveItem());
-		inventory.add(new FishingRod());
-		inventory.add(new ResourceItem(Resource.get("r.fish")));
-		inventory.add(new FurnitureItem(new Oven()));
-		inventory.add(new Bow());
-		inventory.add(new ResourceItem(Resource.get("Arrow"), 50));
 	}
 
 	public void tick()

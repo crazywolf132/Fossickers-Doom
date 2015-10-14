@@ -24,6 +24,7 @@ import com.itsyourpalmike.ld22.plugin.MinicraftPlugin;
 import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 import com.itsyourpalmike.ld22.plugin.VanilllaPlugin;
 import com.itsyourpalmike.ld22.screen.DeadMenu;
+import com.itsyourpalmike.ld22.screen.FirstMenu;
 import com.itsyourpalmike.ld22.screen.LevelTransitionMenu;
 import com.itsyourpalmike.ld22.screen.Menu;
 import com.itsyourpalmike.ld22.screen.TitleMenu;
@@ -39,7 +40,7 @@ public class Game extends Canvas implements Runnable
 	public final static int SCALE = 3;
 	public final static Dimension DIMENSIONS = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
 	public final static String NAME = "Minicraft: Ultimate Edition";
-	public static Collection<MinicraftPlugin> plugins;
+	public static ArrayList<MinicraftPlugin> plugins;
 	public JFrame frame;
 
 	// Important game variables
@@ -160,6 +161,26 @@ public class Game extends Canvas implements Runnable
 		}
 	}
 
+	public void startGameForTheFirstTime()
+	{
+		// PluginManager pm = PluginManagerFactory.createPluginManager();
+		// pm.addPluginsFrom(new File("C:/Users/Mike/Desktop/plugins/").toURI());
+		// plugins = new PluginManagerUtil(pm).getPlugins(MinicraftPlugin.class);
+
+		plugins.add(0,new VanilllaPlugin());
+		
+		for (MinicraftPlugin plugin : plugins)
+		{
+			plugin.onLoad(this);
+			System.out.println("Loaded:\"" + plugin.getName() + "\"");
+		}
+
+		resetGame();
+
+		// Displays the Main Menu Screen
+		setMenu(new TitleMenu());
+	}
+
 	private void init()
 	{
 		// Setting up colors
@@ -192,28 +213,18 @@ public class Game extends Canvas implements Runnable
 		{
 			e.printStackTrace();
 		}
-
-		// PluginManager pm = PluginManagerFactory.createPluginManager();
-		// pm.addPluginsFrom(new File("C:/Users/Mike/Desktop/plugins/").toURI());
-		// plugins = new PluginManagerUtil(pm).getPlugins(MinicraftPlugin.class);
+		
 		plugins = new ArrayList<MinicraftPlugin>();
-		plugins.add(new VanilllaPlugin());
 		plugins.add(new UltimatePlugin());
 		plugins.add(new CreeperPlugin());
-		for (MinicraftPlugin plugin : plugins)
-		{
-			plugin.onLoad(this);
-			System.out.println("Loaded:\"" + plugin.getName() + "\"");
-		}
-
-		resetGame();
-
-		// Displays the Main Menu Screen
-		setMenu(new TitleMenu());
+		
+		player = new Player(this, input);
+		setMenu(new FirstMenu(this));
 	}
 
 	public void tick()
 	{
+		
 		tickCount++;
 		if (!hasFocus()) // If we don't have focus release the keys, otherwise input can get stuck
 		{
@@ -282,6 +293,35 @@ public class Game extends Canvas implements Runnable
 			requestFocus();
 			return;
 		}
+		
+
+		if(menu instanceof FirstMenu)
+		{
+			renderMenu();
+			// Drawing the screen pixels to the game
+			for (int y = 0; y < screen.h; y++)
+			{
+				for (int x = 0; x < screen.w; x++)
+				{
+					pixels[x + y * WIDTH] = colors[screen.pixels[x + y * screen.w]];
+				}
+			}
+
+			// Rendering the screen
+			Graphics g = bs.getDrawGraphics();
+			g.fillRect(0, 0, getWidth(), getHeight());
+
+			int ww = WIDTH * SCALE;
+			int hh = HEIGHT * SCALE;
+			int xo = (getWidth() - ww) / 2;
+			int yo = (getHeight() - hh) / 2;
+
+			g.drawImage(image, xo, yo, ww, hh, null);
+			g.dispose();
+			bs.show();
+			return;
+		}
+		
 
 		// Rendering the background tiles w proper offsets
 		int xScroll = player.x - screen.w / 2;
@@ -375,6 +415,11 @@ public class Game extends Canvas implements Runnable
 			player.activeItem.renderInventory(screen, 10 * 8, screen.h - 16);
 		}
 
+		renderMenu();
+	}
+	
+	public void renderMenu()
+	{
 		// Any other menu (inventory, crafting, etc)
 		if (menu != null)
 		{
