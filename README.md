@@ -6,6 +6,10 @@
 
 ![screenshot](http://ludumdare.com/compo/wp-content/compo2/87574/398-shot0.png "screenshot")
 
+## Download The Latest Version:
+##### [AdFly Link (Click "Skip Ad" In Top Right Corner)](http://adf.ly/1Q2T65)
+##### [Direct Download (Via Google Drive)](https://drive.google.com/open?id=0B7M84SGJhrOOX0taSE4wNDk5WE0)
+
 ### Features A Plugin/Mod/Texture Loading System
 * **Let's you customize your Minicraft experience!**
 
