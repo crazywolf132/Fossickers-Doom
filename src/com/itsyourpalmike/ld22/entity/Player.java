@@ -42,6 +42,10 @@ public class Player extends Mob
 		x = y = 24;
 		this.game = game;
 		stamina = maxStamina;
+	}
+	
+	public void initializeInventory()
+	{
 
 		inventory.add(new FurnitureItem(new Workbench()));
 		inventory.add(new PowerGloveItem());

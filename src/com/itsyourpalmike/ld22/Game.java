@@ -154,6 +154,7 @@ public class Game extends Canvas implements Runnable
 		player = new Player(this, input);
 		player.findStartPos(level);
 		level.add(player);
+		player.initializeInventory();
 
 		for (int i = 0; i < 5; i++)
 		{

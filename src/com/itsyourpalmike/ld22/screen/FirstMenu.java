@@ -35,9 +35,9 @@ public class FirstMenu extends Menu
 		{
 			if (selected == toggles.length)
 			{
-				for(int i = toggles.length-1; i >= 0; i--)
+				for (int i = toggles.length - 1; i >= 0; i--)
 				{
-					if(toggles[i] == false)
+					if (toggles[i] == false)
 					{
 						Game.plugins.remove(i);
 					}
@@ -46,7 +46,7 @@ public class FirstMenu extends Menu
 			}
 			else
 			{
-				toggles[selected] = !toggles[selected ];
+				toggles[selected] = !toggles[selected];
 			}
 		}
 	}
@@ -62,15 +62,15 @@ public class FirstMenu extends Menu
 
 		int xo = (screen.w - w * 8) / 2;
 		int yo = 24;
-		for (int i = 0; i < toggles.length+1; i++)
+		for (int i = 0; i < toggles.length + 1; i++)
 		{
 			String msg = "";
 			if (i == toggles.length)
 			{
 				int cnt = 0;
-				for(int j = 0; j < toggles.length; j++)
+				for (int j = 0; j < toggles.length; j++)
 				{
-					if(toggles[j]) cnt++;
+					if (toggles[j]) cnt++;
 				}
 				String s = (cnt == 0 || cnt > 1) ? "s" : "";
 				msg = "Play With " + cnt + " plugin" + s;
@@ -88,14 +88,14 @@ public class FirstMenu extends Menu
 			{
 				msg = Game.plugins.get(i).getName();
 				int col = 0;
-				
-				if(toggles[i] == true) col = Color.get(0, 040, 040, 040);
+
+				if (toggles[i] == true) col = Color.get(0, 040, 040, 040);
 				else col = Color.get(0, 300, 300, 300);
 
 				if (i == selected)
 				{
 					msg = "> " + msg + " <";
-					if(toggles[i] == true) col = Color.get(0, 050, 050, 050);
+					if (toggles[i] == true) col = Color.get(0, 050, 050, 050);
 					else col = Color.get(0, 500, 500, 500);
 				}
 
@@ -103,9 +103,9 @@ public class FirstMenu extends Menu
 			}
 		}
 
-		Font.draw("Disable", screen, 8, 8, Color.get(0, 500, 500, 500));
-		Font.draw("and", screen, 8 + (8*8), 8, Color.get(0, 444, 444, 444));
-		Font.draw("enable", screen, 8 + (8*8) +(4*8), 8, Color.get(0, 050, 050, 050));
+		Font.draw("Disable", screen, (8 * 8) + (4 * 8), 8, Color.get(0, 500, 500, 500));
+		Font.draw("and", screen, (8 * 8), 8, Color.get(0, 444, 444, 444));
+		Font.draw("enable", screen, 8 , 8, Color.get(0, 050, 050, 050));
 		Font.draw("Minicraft plugins", screen, 12, 16, Color.get(0, 444, 444, 444));
 	}
 }

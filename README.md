@@ -16,5 +16,6 @@
 - [x] Cooked Fish
 - [x] Bow
 - [x] Arrow
+- [x] Golden Apple
 
 *Send Feedback & Suggestions To:* ItsYourPalMike@gmail.com
