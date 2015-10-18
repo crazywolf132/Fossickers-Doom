@@ -10,6 +10,7 @@ import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.item.Bow;
 import com.itsyourpalmike.ld22.item.FishingRod;
+import com.itsyourpalmike.ld22.item.resource.DyeResource;
 import com.itsyourpalmike.ld22.item.resource.FoodResource;
 import com.itsyourpalmike.ld22.item.resource.PlantableResource;
 import com.itsyourpalmike.ld22.item.resource.Resource;
@@ -34,11 +35,16 @@ public class UltimatePlugin implements MinicraftPlugin
 		Resource.load(new PlantableResource("salvia", 0 + 4 * 32, Color.get(-1, 10, 115, 445), "salvia", "grass"));
 		Resource.load(new PlantableResource("b.rose", 0 + 4 * 32, Color.get(-1, 10, 111, 000), "b.rose", "grass"));
 		
-		Resource.load(new Resource("white", 2 + 4 * 32, Color.get(-1, 555, 555, 555)));
-		Resource.load(new Resource("red", 2 + 4 * 32, Color.get(-1, 400, 400, 400)));
-		Resource.load(new Resource("blue", 2 + 4 * 32, Color.get(-1, 115, 115, 115)));
-		Resource.load(new Resource("black", 2 + 4 * 32, Color.get(-1, 111, 111, 111)));
-		Resource.load(new Resource("green", 2 + 4 * 32, Color.get(-1, 40, 40, 40)));
+		Resource.load(new DyeResource("white", 2 + 4 * 32, 555));
+		Resource.load(new DyeResource("red", 2 + 4 * 32, 400));
+		Resource.load(new DyeResource("blue", 2 + 4 * 32, 115));
+		Resource.load(new DyeResource("black", 2 + 4 * 32, 111));
+		Resource.load(new DyeResource("green", 2 + 4 * 32, 40));
+		Resource.load(new DyeResource("pink", 2 + 4 * 32, 522));
+		Resource.load(new DyeResource("purple", 2 + 4 * 32, 313));
+		Resource.load(new DyeResource("yellow", 2 + 4 * 32, 440));
+		Resource.load(new DyeResource("orange", 2 + 4 * 32, 520));
+		Resource.load(new DyeResource("gray", 2 + 4 * 32, 222));
 		
 		try
 		{
@@ -49,6 +55,7 @@ public class UltimatePlugin implements MinicraftPlugin
 			e.printStackTrace();
 		}
 		
+		Resource.load(new Resource("star", 35, Color.get(-1, 110, 440, 440), ultimateSheet));
 		Resource.load(new Resource("R.fish", 32, Color.get(-1, 0, 135, 245), ultimateSheet));
 		Resource.load(new FoodResource("C.FISH", 32, Color.get(-1, 0, 511, 410), ultimateSheet, 2, 5));
 		Resource.load(new Resource("Arrow", 33, Color.get(-1, 555, 555, 321), ultimateSheet));
@@ -66,6 +73,11 @@ public class UltimatePlugin implements MinicraftPlugin
 			Crafting.workbenchRecipes.add(new ResourceRecipe("blue").addCost("salvia", 3));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("black").addCost("b.rose", 3));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("green").addCost("cactus", 3));
+			Crafting.workbenchRecipes.add(new ResourceRecipe("pink").addCost("red", 1).addCost("white", 1));
+			Crafting.workbenchRecipes.add(new ResourceRecipe("purple").addCost("red", 1).addCost("blue", 1));
+			Crafting.workbenchRecipes.add(new ResourceRecipe("yellow").addCost("star", 1));
+			Crafting.workbenchRecipes.add(new ResourceRecipe("orange").addCost("red", 1).addCost("yellow", 1));
+			Crafting.workbenchRecipes.add(new ResourceRecipe("gray").addCost("white", 1).addCost("black", 1));
 			
 			Crafting.ovenRecipes.add(new ResourceRecipe("C.FISH").addCost("r.fish", 1).addCost("coal", 1));
 		}

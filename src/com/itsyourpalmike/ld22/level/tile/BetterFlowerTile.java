@@ -20,6 +20,7 @@ public class BetterFlowerTile extends GrassTile
 	{
 		super();
 		connectsToGrass = true;
+		 type = -1;
 	}
 	
 	public BetterFlowerTile(int type)
@@ -36,6 +37,7 @@ public class BetterFlowerTile extends GrassTile
 		int shape = (data / 16) % 2;
 		flowerColor = data%16;
 		if(type != -1) flowerColor = type;
+		
 
 		int flowerCol = 0;
 		if(flowerColor == 0) flowerCol = Color.get(10, level.grassColor, 555, 440);
@@ -53,6 +55,11 @@ public class BetterFlowerTile extends GrassTile
 	// If we hurt a flower with a bare hand, 2 flowers pop out???
 	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
 	{
+		int data = level.getData(x, y);
+		int shape = (data / 16) % 2;
+		flowerColor = data%16;
+		if(type != -1) flowerColor = type;
+		
 		int count = random.nextInt(2) + 1;
 		for (int i = 0; i < count; i++)
 		{
@@ -79,6 +86,12 @@ public class BetterFlowerTile extends GrassTile
 				if (player.payStamina(4 - tool.level))
 				{
 					level.setTile(x, y, Tile.get("dirt"), 0);
+					
+					int data = level.getData(x, y);
+					int shape = (data / 16) % 2;
+					flowerColor = data%16;
+					if(type != -1) flowerColor = type;
+					
 					if(flowerColor == 0)
 						level.add(new ItemEntity(new ResourceItem(Resource.get("daisy")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 								if(flowerColor == 1)

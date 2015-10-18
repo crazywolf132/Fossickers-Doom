@@ -7,9 +7,12 @@ import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.FishingRod;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.PowerGloveItem;
+import com.itsyourpalmike.ld22.item.ResourceItem;
+import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.screen.InventoryMenu;
@@ -31,6 +34,7 @@ public class Player extends Mob
 	public int maxStamina = 10;
 	private int onStairDelay;
 	public int invulnerableTime = 0;
+	public int shirtColor = 220;
 
 	public Player(Game game, InputHandler input)
 	{
@@ -42,9 +46,19 @@ public class Player extends Mob
 	
 	public void initializeInventory()
 	{
-
 		inventory.add(new FurnitureItem(new Workbench()));
 		inventory.add(new PowerGloveItem());
+		inventory.add(new FishingRod());
+		inventory.add(new ResourceItem(Resource.get("white"), 99));
+		inventory.add(new ResourceItem(Resource.get("red"), 99));
+		inventory.add(new ResourceItem(Resource.get("blue"), 99));
+		inventory.add(new ResourceItem(Resource.get("black"), 99));
+		inventory.add(new ResourceItem(Resource.get("green"), 99));
+		inventory.add(new ResourceItem(Resource.get("pink"), 99));
+		inventory.add(new ResourceItem(Resource.get("purple"), 99));
+		inventory.add(new ResourceItem(Resource.get("yellow"), 99));
+		inventory.add(new ResourceItem(Resource.get("orange"), 99));
+		inventory.add(new ResourceItem(Resource.get("gray"), 99));
 	}
 
 	public void tick()
@@ -386,7 +400,7 @@ public class Player extends Mob
 		}
 
 		// Rendering the player
-		int col = Color.get(-1, 100, 220, 532);
+		int col = Color.get(-1, 100, shirtColor, 532);
 		if (hurtTime > 0)
 		{
 			col = Color.get(-1, 555, 555, 555);
