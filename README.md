@@ -21,6 +21,15 @@
 - [x] Bow
 - [x] Arrow
 - [x] Golden Apple
+- [x] Daisy
+- [x] Rose
+- [x] Salvia
+- [x] Black Rose
+- [x] White Dye
+- [x] Red Dye
+- [x] Blue Dye
+- [x] Black Dye
+- [x] Green Dye
 
 *Send Feedback & Suggestions To:* ItsYourPalMike@gmail.com
 

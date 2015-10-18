@@ -1,5 +1,6 @@
 package com.itsyourpalmike.ld22.screen;
 
+import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
@@ -10,6 +11,8 @@ public class TitleMenu extends Menu
 	private int selected = 0;
 
 	private static final String[] options = { "Start game", "How to play", "About" };
+	private int ticker = 0;
+	private boolean flash = false;
 
 	public TitleMenu()
 	{
@@ -73,6 +76,20 @@ public class TitleMenu extends Menu
 			Font.draw(msg, screen, (screen.w - msg.length() * 8) / 2, (8 + i) * 8, col);
 		}
 
+		String s = (Game.plugins.size() - 1 == 1) ? "" : "s";
+		String pluginMsg = Game.plugins.size() - 1 + " plugin" + s + " loaded";
+		if (Game.plugins.size() - 1 > 0)
+		{
+			ticker++;
+			if (ticker == 180)
+			{
+				flash = !flash;
+				ticker = 0;
+			}
+
+			if (flash) Font.draw(pluginMsg, screen, (screen.w - pluginMsg.length() * 8) / 2, 1, Color.get(0, 222, 222, 222));
+			else Font.draw(pluginMsg, screen, (screen.w - pluginMsg.length() * 8) / 2, 1, Color.get(0, 333, 333, 333));
+		}
 		Font.draw("(Arrow keys,X and C)", screen, 0, screen.h - 8, Color.get(0, 111, 111, 111));
 	}
 }

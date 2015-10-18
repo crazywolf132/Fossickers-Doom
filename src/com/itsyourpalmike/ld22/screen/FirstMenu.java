@@ -4,7 +4,6 @@ import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.sound.Sound;
 
 public class FirstMenu extends Menu
 {
@@ -15,7 +14,7 @@ public class FirstMenu extends Menu
 	public FirstMenu(Game game)
 	{
 		this.game = game;
-		toggles = new boolean[game.plugins.size()];
+		toggles = new boolean[Game.plugins.size()];
 		for (int i = 0; i < toggles.length; i++)
 		{
 			toggles[i] = true;
@@ -27,7 +26,7 @@ public class FirstMenu extends Menu
 		if (input.up.clicked) selected--;
 		if (input.down.clicked) selected++;
 
-		int len = game.plugins.size() + 1;
+		int len = Game.plugins.size() + 1;
 		if (selected < 0) selected += len;
 		if (selected >= len) selected -= len;
 
@@ -55,13 +54,6 @@ public class FirstMenu extends Menu
 	{
 		screen.clear(0);
 
-		int h = 2;
-		int w = 13;
-
-		int titleColor = Color.get(0, 010, 131, 551);
-
-		int xo = (screen.w - w * 8) / 2;
-		int yo = 24;
 		for (int i = 0; i < toggles.length + 1; i++)
 		{
 			String msg = "";

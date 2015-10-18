@@ -7,13 +7,9 @@ import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.item.Bow;
-import com.itsyourpalmike.ld22.item.FishingRod;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.PowerGloveItem;
-import com.itsyourpalmike.ld22.item.ResourceItem;
-import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.screen.InventoryMenu;
@@ -33,7 +29,7 @@ public class Player extends Mob
 	public int staminaRechargeDelay;
 	public int score;
 	public int maxStamina = 10;
-	private int onStairDelay;;
+	private int onStairDelay;
 	public int invulnerableTime = 0;
 
 	public Player(Game game, InputHandler input)
