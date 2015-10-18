@@ -36,8 +36,6 @@ public class BetterFlowerTile extends GrassTile
 		int shape = (data / 16) % 2;
 		flowerColor = data%16;
 		if(type != -1) flowerColor = type;
-		
-		flowerColor = 1;
 
 		int flowerCol = 0;
 		if(flowerColor == 0) flowerCol = Color.get(10, level.grassColor, 555, 440);
@@ -58,7 +56,6 @@ public class BetterFlowerTile extends GrassTile
 		int count = random.nextInt(2) + 1;
 		for (int i = 0; i < count; i++)
 		{
-			System.out.println("The flowers color is " +flowerColor);
 			if(flowerColor == 0)
 	level.add(new ItemEntity(new ResourceItem(Resource.get("daisy")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 			if(flowerColor == 1)
