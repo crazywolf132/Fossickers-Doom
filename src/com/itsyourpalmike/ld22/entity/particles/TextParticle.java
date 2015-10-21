@@ -20,11 +20,11 @@ public class TextParticle extends Entity
 		this.x = x;
 		this.y = y;
 		this.col = col;
-		
+
 		xx = x;
 		yy = y;
 		zz = 2;
-		
+
 		xa = random.nextGaussian() * 0.3;
 		ya = random.nextGaussian() * 0.2;
 		za = random.nextFloat() * 0.7 + 2;
@@ -33,16 +33,16 @@ public class TextParticle extends Entity
 	public void tick()
 	{
 		time++;
-		
+
 		if (time > 60)
 		{
 			remove();
 		}
-		
+
 		xx += xa;
 		yy += ya;
 		zz += za;
-		
+
 		if (zz < 0)
 		{
 			zz = 0;
@@ -50,7 +50,7 @@ public class TextParticle extends Entity
 			xa *= 0.6;
 			ya *= 0.6;
 		}
-		
+
 		za -= 0.15;
 
 		x = (int)xx;

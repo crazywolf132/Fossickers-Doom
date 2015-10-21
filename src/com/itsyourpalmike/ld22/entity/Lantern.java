@@ -17,6 +17,5 @@ public class Lantern extends Furniture
 	{
 		return 8;
 	}
-	
-	
+
 }

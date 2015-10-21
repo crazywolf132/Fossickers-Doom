@@ -16,13 +16,14 @@ public class BetterFlowerTile extends GrassTile
 {
 	int type = -1;
 	int flowerColor;
+
 	public BetterFlowerTile()
 	{
 		super();
 		connectsToGrass = true;
-		 type = -1;
+		type = -1;
 	}
-	
+
 	public BetterFlowerTile(int type)
 	{
 		super();
@@ -35,15 +36,14 @@ public class BetterFlowerTile extends GrassTile
 		super.render(screen, level, x, y); // Render the grass
 		int data = level.getData(x, y);
 		int shape = (data / 16) % 2;
-		flowerColor = data%16;
-		if(type != -1) flowerColor = type;
-		
+		flowerColor = data % 16;
+		if (type != -1) flowerColor = type;
 
 		int flowerCol = 0;
-		if(flowerColor == 0) flowerCol = Color.get(10, level.grassColor, 555, 440);
-		if(flowerColor == 1) flowerCol = Color.get(10, level.grassColor, 511, 400);
-		if(flowerColor == 2) flowerCol = Color.get(10, level.grassColor, 115, 445);
-		if(flowerColor == 3) flowerCol = Color.get(10, level.grassColor, 111, 000);
+		if (flowerColor == 0) flowerCol = Color.get(10, level.grassColor, 555, 440);
+		if (flowerColor == 1) flowerCol = Color.get(10, level.grassColor, 511, 400);
+		if (flowerColor == 2) flowerCol = Color.get(10, level.grassColor, 115, 445);
+		if (flowerColor == 3) flowerCol = Color.get(10, level.grassColor, 111, 000);
 
 		// Unique flower shapes (TL, TR, BL, BR)
 		if (shape == 0) screen.render(x * 16 + 0, y * 16 + 0, 1 + 1 * 32, flowerCol, 0);
@@ -56,21 +56,16 @@ public class BetterFlowerTile extends GrassTile
 	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
 	{
 		int data = level.getData(x, y);
-		int shape = (data / 16) % 2;
-		flowerColor = data%16;
-		if(type != -1) flowerColor = type;
-		
+		flowerColor = data % 16;
+		if (type != -1) flowerColor = type;
+
 		int count = random.nextInt(2) + 1;
 		for (int i = 0; i < count; i++)
 		{
-			if(flowerColor == 0)
-	level.add(new ItemEntity(new ResourceItem(Resource.get("daisy")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
-			if(flowerColor == 1)
-	level.add(new ItemEntity(new ResourceItem(Resource.get("rose")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
-			if(flowerColor == 2)
-	level.add(new ItemEntity(new ResourceItem(Resource.get("salvia")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
-			if(flowerColor == 3)
-	level.add(new ItemEntity(new ResourceItem(Resource.get("b.rose")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+			if (flowerColor == 0) level.add(new ItemEntity(new ResourceItem(Resource.get("daisy")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+			if (flowerColor == 1) level.add(new ItemEntity(new ResourceItem(Resource.get("rose")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+			if (flowerColor == 2) level.add(new ItemEntity(new ResourceItem(Resource.get("salvia")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+			if (flowerColor == 3) level.add(new ItemEntity(new ResourceItem(Resource.get("b.rose")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 		}
 		level.setTile(x, y, Tile.get("grass"), 0);
 	}
@@ -86,20 +81,15 @@ public class BetterFlowerTile extends GrassTile
 				if (player.payStamina(4 - tool.level))
 				{
 					level.setTile(x, y, Tile.get("dirt"), 0);
-					
+
 					int data = level.getData(x, y);
-					int shape = (data / 16) % 2;
-					flowerColor = data%16;
-					if(type != -1) flowerColor = type;
-					
-					if(flowerColor == 0)
-						level.add(new ItemEntity(new ResourceItem(Resource.get("daisy")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
-								if(flowerColor == 1)
-						level.add(new ItemEntity(new ResourceItem(Resource.get("rose")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
-								if(flowerColor == 2)
-						level.add(new ItemEntity(new ResourceItem(Resource.get("salvia")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
-								if(flowerColor == 3)
-						level.add(new ItemEntity(new ResourceItem(Resource.get("b.rose")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+					flowerColor = data % 16;
+					if (type != -1) flowerColor = type;
+
+					if (flowerColor == 0) level.add(new ItemEntity(new ResourceItem(Resource.get("daisy")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+					if (flowerColor == 1) level.add(new ItemEntity(new ResourceItem(Resource.get("rose")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+					if (flowerColor == 2) level.add(new ItemEntity(new ResourceItem(Resource.get("salvia")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+					if (flowerColor == 3) level.add(new ItemEntity(new ResourceItem(Resource.get("b.rose")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 					return true;
 				}
 			}

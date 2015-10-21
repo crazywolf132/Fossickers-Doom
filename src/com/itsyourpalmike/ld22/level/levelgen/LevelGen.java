@@ -128,14 +128,14 @@ public class LevelGen
 			}
 			if (count[Tile.get("rock").id & 0xff] < 100) continue;
 			if (count[Tile.get("dirt").id & 0xff] < 100) continue;
-			if (count[(Tile.get("ironOre").id & 0xff)+depth-1] < 20) continue;
+			if (count[(Tile.get("ironOre").id & 0xff) + depth - 1] < 20) continue;
 			if (depth < 3) if (count[Tile.get("stairsDown").id & 0xff] < 2) continue;
 
 			return result;
 		}
 		while (true);
 	}
-	
+
 	public static byte[][] createAndValidateSkyMap(int w, int h)
 	{
 		do
@@ -387,12 +387,12 @@ public class LevelGen
 			{
 				int x = random.nextInt(w);
 				int y = random.nextInt(h);
-				
+
 				for (int j = 0; j < 30; j++)
 				{
 					int xx = x + random.nextInt(5) - random.nextInt(5);
 					int yy = y + random.nextInt(5) - random.nextInt(5);
-					if (xx >= r && yy >= r && xx < w-r && yy < h-r)
+					if (xx >= r && yy >= r && xx < w - r && yy < h - r)
 					{
 						if (map[xx + yy * w] == Tile.get("rock").id)
 						{
@@ -452,7 +452,7 @@ public class LevelGen
 				double dist = xd >= yd ? xd : yd;
 				dist = dist * dist * dist * dist;
 				dist = dist * dist * dist * dist;
-				val = -val*1-2.2;
+				val = -val * 1 - 2.2;
 				val = val + 1 - dist * 20;
 
 				// Creating basic tiles
@@ -466,9 +466,9 @@ public class LevelGen
 				}
 			}
 		}
-		
+
 		stairsLoop:
-		for (int i = 0; i < w * h/50; i++)
+		for (int i = 0; i < w * h / 50; i++)
 		{
 			int x = random.nextInt(w - 2) + 1;
 			int y = random.nextInt(h - 2) + 1;
@@ -481,7 +481,6 @@ public class LevelGen
 
 			map[x + y * w] = Tile.get("cloudCactus").id;
 		}
-		
 
 		int count = 0;
 		stairsLoop:
@@ -513,7 +512,7 @@ public class LevelGen
 
 			byte[] map = LevelGen.createAndValidateSkyMap(w, h)[0];
 			// byte[] map = LevelGen.createAndValidateTopMap(w, h)[0];
-			//byte[] map = LevelGen.createAndValidateUndergroundMap(w, h, ++d)[0];
+			// byte[] map = LevelGen.createAndValidateUndergroundMap(w, h, ++d)[0];
 
 			BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			int[] pixels = new int[w * h];

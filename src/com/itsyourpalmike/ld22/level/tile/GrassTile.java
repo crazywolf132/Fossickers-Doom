@@ -108,7 +108,7 @@ public class GrassTile extends Tile
 					if (random.nextInt(5) == 0)
 					{
 						level.add(new ItemEntity(new ResourceItem(Resource.get("seeds")), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
-						
+
 					}
 					level.setTile(xt, yt, Tile.get("farmLand"), 0);
 					return true;

@@ -6,7 +6,7 @@ import com.itsyourpalmike.ld22.item.Item;
 public class ItemRecipe extends Recipe
 {
 	private Class<? extends Item> clazz;
-	
+
 	public ItemRecipe(Class<? extends Item> clazz) throws InstantiationException, IllegalAccessException
 	{
 		super(clazz.newInstance());
@@ -25,5 +25,4 @@ public class ItemRecipe extends Recipe
 		}
 	}
 
-	
 }

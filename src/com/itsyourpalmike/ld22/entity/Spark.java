@@ -17,12 +17,12 @@ public class Spark extends Entity
 	public Spark(AirWizard owner, double xa, double ya)
 	{
 		this.owner = owner;
-		
+
 		xx = this.x = owner.x;
 		yy = this.y = owner.y;
 		xr = 0;
 		yr = 0;
-		
+
 		this.xa = xa;
 		this.ya = ya;
 
@@ -46,12 +46,12 @@ public class Spark extends Entity
 		y = (int)yy;
 
 		List<Entity> toHit = level.getEntities(x, y, x, y);
-		for(int i = 0; i < toHit.size(); i++)
+		for (int i = 0; i < toHit.size(); i++)
 		{
 			Entity e = toHit.get(i);
-			if(e instanceof Mob && !(e instanceof AirWizard))
+			if (e instanceof Mob && !(e instanceof AirWizard))
 			{
-				e.hurt(owner, 1, ((Mob)e).dir^1);
+				e.hurt(owner, 1, ((Mob)e).dir ^ 1);
 			}
 		}
 	}
@@ -67,12 +67,12 @@ public class Spark extends Entity
 		{
 			if (time / 6 % 2 == 0) return;
 		}
-		
+
 		int xt = 8;
 		int yt = 13;
 
-		screen.render(x - 4, y - 4-2, xt+yt*32, Color.get(-1, 555, 555, 555), random.nextInt(4));
-		screen.render(x - 4, y - 4+2, xt+yt*32, Color.get(-1, 000, 000, 000), random.nextInt(4));
+		screen.render(x - 4, y - 4 - 2, xt + yt * 32, Color.get(-1, 555, 555, 555), random.nextInt(4));
+		screen.render(x - 4, y - 4 + 2, xt + yt * 32, Color.get(-1, 000, 000, 000), random.nextInt(4));
 	}
 
 }

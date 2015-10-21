@@ -18,14 +18,14 @@ public abstract class Recipe implements ListItem
 	{
 		public String name;
 		public int count;
-		
+
 		public ItemTemplate(String name, int count)
 		{
 			this.name = name;
 			this.count = count;
 		}
 	}
-	
+
 	public List<ItemTemplate> costs = new ArrayList<ItemTemplate>();
 	public boolean canCraft = false;
 	public Item resultTemplate;
@@ -64,10 +64,11 @@ public abstract class Recipe implements ListItem
 
 	public void renderInventory(Screen screen, int x, int y)
 	{
-		if(this.resultTemplate.sheet != null) screen.render(x, y, this.resultTemplate.getSprite(), this.resultTemplate.getColor(), 0, this.resultTemplate.sheet);
+		if (this.resultTemplate.sheet != null) screen.render(x, y, this.resultTemplate.getSprite(), this.resultTemplate.getColor(), 0, this.resultTemplate.sheet);
 		else screen.render(x, y, this.resultTemplate.getSprite(), this.resultTemplate.getColor(), 0);
 		Font.draw(this.resultTemplate.getName(), screen, x + 8, y, canCraft ? Color.get(-1, 555, 555, 555) : Color.get(-1, 222, 222, 222));
 	}
+
 	public abstract void craft(Player player);
 
 	public void deductCost(Player player)

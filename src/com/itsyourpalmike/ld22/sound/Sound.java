@@ -13,12 +13,12 @@ public class Sound
 	{
 		load(name, Sound.class.getResource(filepath));
 	}
-	
+
 	public static void load(String name, URL url)
 	{
 		sounds.put(name, new Sound(url));
 	}
-	
+
 	public static void play(String name)
 	{
 		sounds.get(name).play();

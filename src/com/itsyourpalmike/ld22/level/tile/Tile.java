@@ -25,12 +25,12 @@ public class Tile
 	public boolean connectsToSand = false;
 	public boolean connectsToWater = false;
 	public boolean connectsToLava = false;
-	
+
 	public static void load(String name, Tile tile)
 	{
 		tileCollection.put(name.toUpperCase(), tile);
 	}
-	
+
 	public static Tile get(String name)
 	{
 		return tileCollection.get(name.toUpperCase());
@@ -44,7 +44,7 @@ public class Tile
 
 	public void render(Screen screen, Level level, int x, int y)
 	{
-		
+
 	}
 
 	public boolean mayPass(Level level, int x, int y, Entity e)

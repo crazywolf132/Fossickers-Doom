@@ -36,13 +36,12 @@ public class Level
 	public int monsterDensity = 8;
 
 	private static List<Class<? extends Mob>> mobsToSpawn = new ArrayList<Class<? extends Mob>>();
-	
+
 	public static void addMobToLevelSpawner(Class<? extends Mob> clazz)
 	{
 		mobsToSpawn.add(clazz);
 	}
-	
-	
+
 	private Comparator<Entity> spriteSorter = new Comparator<Entity>()
 	{
 		// Sorts entities so that the ones farther up get rendered behind the ones farther down
@@ -128,12 +127,12 @@ public class Level
 		{
 			entitiesInTiles[i] = new ArrayList<Entity>();
 		}
-		
-		if(level == 1)
+
+		if (level == 1)
 		{
 			AirWizard aw = new AirWizard();
-			aw.x = w*8;
-			aw.y = h*8;
+			aw.x = w * 8;
+			aw.y = h * 8;
 			add(aw);
 		}
 	}
@@ -156,7 +155,6 @@ public class Level
 		}
 		screen.setOffset(0, 0);
 	}
-
 
 	public void renderSprites(Screen screen, int xScroll, int yScroll)
 	{
@@ -315,8 +313,8 @@ public class Level
 			}
 
 			int lvl = random.nextInt(maxLevel - minLevel + 1) + minLevel;
-			
-			for(int j = 0; j < mobsToSpawn.size(); j++)
+
+			for (int j = 0; j < mobsToSpawn.size(); j++)
 			{
 				Mob mm = null;
 				try
@@ -327,14 +325,14 @@ public class Level
 				{
 					e.printStackTrace();
 				}
-				
-				if(mm != null && mm.canSpawn(this.depth))
+
+				if (mm != null && mm.canSpawn(this.depth))
 				{
 					m = mm;
 					m.setLvl(lvl);
 				}
 			}
-			
+
 			if (m != null && m.findStartPos(this))
 			{
 				this.add(m);

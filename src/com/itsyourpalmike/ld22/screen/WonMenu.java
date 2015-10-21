@@ -7,7 +7,7 @@ import com.itsyourpalmike.ld22.gfx.Screen;
 public class WonMenu extends Menu
 {
 	private int inputDelay = 60;
-	
+
 	public WonMenu()
 	{
 
@@ -15,8 +15,7 @@ public class WonMenu extends Menu
 
 	public void tick()
 	{
-		if(inputDelay > 0)
-			inputDelay--;
+		if (inputDelay > 0) inputDelay--;
 		else if (input.attack.clicked || input.menu.clicked)
 		{
 			game.setMenu(new TitleMenu());
@@ -38,11 +37,11 @@ public class WonMenu extends Menu
 		String timeString = "";
 		if (hours > 0)
 		{
-			timeString = hours + "h " + (minutes < 10 ? "0" : "") + minutes +"m";
+			timeString = hours + "h " + (minutes < 10 ? "0" : "") + minutes + "m";
 		}
 		else
 		{
-			timeString = minutes + "m " + (seconds < 10 ? "0" : "") + seconds +"s";
+			timeString = minutes + "m " + (seconds < 10 ? "0" : "") + seconds + "s";
 		}
 
 		Font.draw("Time: ", screen, 2 * 8, 5 * 8, Color.get(-1, 555, 555, 555));

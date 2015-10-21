@@ -13,7 +13,7 @@ public class ContainerMenu extends Menu
 {
 	private Player player;
 	private Inventory container;
-	
+
 	private String title;
 	private int selected = 0;
 	private int oSelected;
@@ -37,7 +37,7 @@ public class ContainerMenu extends Menu
 			selected = oSelected;
 			oSelected = tmp;
 		}
-		
+
 		if (input.right.clicked && window == 0)
 		{
 			window = 1;
@@ -45,7 +45,7 @@ public class ContainerMenu extends Menu
 			selected = oSelected;
 			oSelected = tmp;
 		}
-		
+
 		Inventory i = window == 1 ? player.inventory : container;
 		Inventory i2 = window == 0 ? player.inventory : container;
 

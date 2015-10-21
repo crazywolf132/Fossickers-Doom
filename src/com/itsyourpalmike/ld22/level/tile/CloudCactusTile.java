@@ -31,10 +31,10 @@ public class CloudCactusTile extends Tile
 
 	public boolean mayPass(Level level, int x, int y, Entity e)
 	{
-		if(e instanceof AirWizard) return true;
+		if (e instanceof AirWizard) return true;
 		return false;
 	}
-	
+
 	public void hurt(Level level, int x, int y, int dmg)
 	{
 		// We use the level data array to set rock's damage/life
@@ -42,7 +42,7 @@ public class CloudCactusTile extends Tile
 		level.add(new SmashParticle(level, x * 16 + 8, y * 16 + 8));
 		level.add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.get(-1, 500, 500, 500)));
 
-		if(dmg>0)
+		if (dmg > 0)
 		{
 			if (damage >= 10)
 			{
@@ -80,7 +80,7 @@ public class CloudCactusTile extends Tile
 	// If something bumps into a cactus, hurt that something!!! - DUH!!!
 	public void bumpedInto(Level level, int x, int y, Entity entity)
 	{
-		if(entity instanceof AirWizard) return;
+		if (entity instanceof AirWizard) return;
 		entity.hurt(this, x, y, 3);
 	}
 }

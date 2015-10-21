@@ -42,19 +42,18 @@ public class FarmTile extends Tile
 		}
 		return false;
 	}
-	
+
 	public void tick(Level level, int xt, int yt)
 	{
 		int age = level.getData(xt, yt);
-		if(age<5)level.setData(xt, yt, age + 1);
+		if (age < 5) level.setData(xt, yt, age + 1);
 	}
 
 	public void steppedOn(Level level, int xt, int yt, Entity entity)
 	{
-		if(random.nextInt(60) != 0) return;
-		if(level.getData(xt, yt) < 5) return;
+		if (random.nextInt(60) != 0) return;
+		if (level.getData(xt, yt) < 5) return;
 		level.setTile(xt, yt, Tile.get("dirt"), 0);
 	}
-	
-	
+
 }

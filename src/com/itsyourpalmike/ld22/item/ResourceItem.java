@@ -41,21 +41,21 @@ public class ResourceItem extends Item
 	// For displaying items in the world when the player uses them
 	public void renderIcon(Screen screen, int x, int y)
 	{
-		if(resource.sheet != null) screen.render(x, y, resource.sprite, resource.color, 0, resource.sheet);
+		if (resource.sheet != null) screen.render(x, y, resource.sprite, resource.color, 0, resource.sheet);
 		else screen.render(x, y, resource.sprite, resource.color, 0);
 	}
 
 	// Renders the item details for invetory menu, crafting menu, etc...
 	public void renderInventory(Screen screen, int x, int y)
 	{
-		if(resource.sheet != null) screen.render(x, y, resource.sprite, resource.color, 0, resource.sheet);
+		if (resource.sheet != null) screen.render(x, y, resource.sprite, resource.color, 0, resource.sheet);
 		else screen.render(x, y, resource.sprite, resource.color, 0);
 		Font.draw(resource.name, screen, x + 24, y, Color.get(-1, 555, 555, 555));
 		int cc = count;
 		if (cc > 99) cc = 99;
 		Font.draw("" + cc, screen, x + 8, y, Color.get(-1, 444, 444, 444));
 	}
-	
+
 	public String getName()
 	{
 		return resource.name;

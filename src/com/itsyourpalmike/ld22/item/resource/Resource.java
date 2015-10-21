@@ -10,12 +10,12 @@ import com.itsyourpalmike.ld22.level.tile.Tile;
 public class Resource
 {
 	private static HashMap<String, Resource> resources = new HashMap<String, Resource>();
-	
+
 	public static void load(Resource resource)
 	{
 		resources.put(resource.name.toUpperCase(), resource);
 	}
-	
+
 	public static Resource get(String name)
 	{
 		return resources.get(name.toUpperCase());
@@ -25,7 +25,7 @@ public class Resource
 	public final int sprite;
 	public final int color;
 	public SpriteSheet sheet;
-	
+
 	public Resource(String name, int sprite, int color, SpriteSheet sheet)
 	{
 		this.sheet = sheet;
@@ -46,7 +46,7 @@ public class Resource
 
 	public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir)
 	{
-		
+
 		return false;
 	}
 }

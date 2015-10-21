@@ -74,7 +74,7 @@ public class Arrow extends Entity
 			Entity e = toHit.get(i);
 			if (e instanceof Mob && !(e.getClass() == owner.getClass()))
 			{
-				e.hurt(owner, random.nextInt(5)+1, dir);
+				e.hurt(owner, random.nextInt(5) + 1, dir);
 				this.remove();
 			}
 		}

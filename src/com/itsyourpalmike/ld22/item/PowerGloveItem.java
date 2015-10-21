@@ -33,7 +33,7 @@ public class PowerGloveItem extends Item
 
 	public boolean interact(Player player, Entity entity, int attackDir)
 	{
-		if(entity instanceof Furniture)
+		if (entity instanceof Furniture)
 		{
 			Furniture f = (Furniture)entity;
 			f.take(player);
@@ -41,7 +41,7 @@ public class PowerGloveItem extends Item
 		}
 		return false;
 	}
-	
+
 	public String getName()
 	{
 		return "Pow glove";

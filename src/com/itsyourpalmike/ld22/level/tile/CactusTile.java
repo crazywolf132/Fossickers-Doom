@@ -33,11 +33,11 @@ public class CactusTile extends Tile
 	{
 		return false;
 	}
-	
+
 	public void tick(Level level, int xt, int yt)
 	{
 		int damage = level.getData(xt, yt);
-		if(damage>0)level.setData(xt, yt, damage - 1);
+		if (damage > 0) level.setData(xt, yt, damage - 1);
 	}
 
 	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)

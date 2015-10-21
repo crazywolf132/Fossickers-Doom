@@ -12,7 +12,7 @@ import com.itsyourpalmike.ld22.screen.ListItem;
 public class Item implements ListItem
 {
 	public SpriteSheet sheet = null;
-	
+
 	public int getColor()
 	{
 		return 0;
@@ -68,7 +68,7 @@ public class Item implements ListItem
 	{
 		return "";
 	}
-	
+
 	public boolean matches(Item item)
 	{
 		return item.getClass() == getClass();

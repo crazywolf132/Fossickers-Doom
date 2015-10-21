@@ -25,10 +25,10 @@ public class Mob extends Entity
 		xr = 4;
 		yr = 3;
 	}
-	
+
 	public void setLvl(int lvl)
 	{
-		
+
 	}
 
 	public void tick()

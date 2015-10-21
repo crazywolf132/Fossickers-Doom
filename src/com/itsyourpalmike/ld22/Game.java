@@ -167,8 +167,8 @@ public class Game extends Canvas implements Runnable
 		// pm.addPluginsFrom(new File("C:/Users/Mike/Desktop/plugins/").toURI());
 		// plugins = new PluginManagerUtil(pm).getPlugins(MinicraftPlugin.class);
 
-		plugins.add(0,new VanilllaPlugin());
-		
+		plugins.add(0, new VanilllaPlugin());
+
 		for (MinicraftPlugin plugin : plugins)
 		{
 			plugin.onLoad(this);
@@ -213,18 +213,18 @@ public class Game extends Canvas implements Runnable
 		{
 			e.printStackTrace();
 		}
-		
+
 		plugins = new ArrayList<MinicraftPlugin>();
 		plugins.add(new UltimatePlugin());
 		plugins.add(new CreeperPlugin());
-		
+
 		player = new Player(this, input);
 		setMenu(new FirstMenu(this));
 	}
 
 	public void tick()
 	{
-		
+
 		tickCount++;
 		if (!hasFocus()) // If we don't have focus release the keys, otherwise input can get stuck
 		{
@@ -293,9 +293,8 @@ public class Game extends Canvas implements Runnable
 			requestFocus();
 			return;
 		}
-		
 
-		if(menu instanceof FirstMenu)
+		if (menu instanceof FirstMenu)
 		{
 			renderMenu();
 			// Drawing the screen pixels to the game
@@ -321,7 +320,6 @@ public class Game extends Canvas implements Runnable
 			bs.show();
 			return;
 		}
-		
 
 		// Rendering the background tiles w proper offsets
 		int xScroll = player.x - screen.w / 2;
@@ -417,7 +415,7 @@ public class Game extends Canvas implements Runnable
 
 		renderMenu();
 	}
-	
+
 	public void renderMenu()
 	{
 		// Any other menu (inventory, crafting, etc)

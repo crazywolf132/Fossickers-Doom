@@ -16,7 +16,7 @@ import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 public class FishingRod extends Item
 {
 	private Random random = new Random();
-	
+
 	public FishingRod()
 	{
 		super();
@@ -49,17 +49,15 @@ public class FishingRod extends Item
 		if (tile.id == Tile.get("water").id)
 		{
 			if (random.nextInt(35) != 0) return false;
-			
+
 			if (player.payStamina(3))
 			{
 				int count = 1;
 				for (int i = 0; i < count; i++)
 				{
-					if(random.nextInt(3) != 0)
-						level.add(new ItemEntity(new ResourceItem(Resource.get("R.fish")), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
-					else
-						level.add(new ItemEntity(new ResourceItem(Resource.get("star")), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
-						
+					if (random.nextInt(3) != 0) level.add(new ItemEntity(new ResourceItem(Resource.get("R.fish")), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
+					else level.add(new ItemEntity(new ResourceItem(Resource.get("star")), xt * 16 + random.nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
+
 				}
 				return true;
 			}

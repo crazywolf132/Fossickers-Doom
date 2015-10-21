@@ -15,10 +15,10 @@ public class SmashParticle extends Entity
 	{
 		this.x = x;
 		this.y = y;
-		
+
 		int xd = level.player.x - x;
 		int yd = level.player.y - y;
-		if (xd * xd + yd * yd < 85* 85)
+		if (xd * xd + yd * yd < 85 * 85)
 		{
 			Sound.play("monsterHurt");
 		}

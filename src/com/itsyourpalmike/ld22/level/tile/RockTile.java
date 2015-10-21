@@ -92,7 +92,7 @@ public class RockTile extends Tile
 
 			for (int i = 0; i < count; i++)
 				level.add(new ItemEntity(new ResourceItem(Resource.get("stone")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
-			
+
 			count = random.nextInt(2);
 
 			for (int i = 0; i < count; i++)
@@ -132,10 +132,10 @@ public class RockTile extends Tile
 	{
 		return false;
 	}
-	
+
 	public void tick(Level level, int xt, int yt)
 	{
 		int damage = level.getData(xt, yt);
-		if(damage>0)level.setData(xt, yt, damage - 1);
+		if (damage > 0) level.setData(xt, yt, damage - 1);
 	}
 }

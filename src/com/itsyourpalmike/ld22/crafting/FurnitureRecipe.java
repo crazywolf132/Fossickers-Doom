@@ -7,7 +7,7 @@ import com.itsyourpalmike.ld22.item.FurnitureItem;
 public class FurnitureRecipe extends Recipe
 {
 	private Class<? extends Furniture> clazz;
-	
+
 	public FurnitureRecipe(Class<? extends Furniture> clazz) throws InstantiationException, IllegalAccessException
 	{
 		super(new FurnitureItem(clazz.newInstance()));

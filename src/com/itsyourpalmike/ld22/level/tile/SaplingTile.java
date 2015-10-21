@@ -8,7 +8,7 @@ import com.itsyourpalmike.ld22.level.Level;
 public class SaplingTile extends Tile
 {
 	private String onType, growsTo;
-	
+
 	public SaplingTile(String onType, String growsTo)
 	{
 		super();
@@ -22,18 +22,16 @@ public class SaplingTile extends Tile
 		connectsToGrass = Tile.get(onType).connectsToGrass;
 		connectsToWater = Tile.get(onType).connectsToWater;
 		connectsToLava = Tile.get(onType).connectsToLava;
-		
+
 		Tile.get(onType).render(screen, level, x, y);
 		int col = Color.get(10, 40, 50, -1);
 		screen.render(x * 16 + 4, y * 16 + 4, 11 + 3 * 32, col, 0);
 	}
 
-	
-
 	public void tick(Level level, int x, int y)
 	{
 		int age = level.getData(x, y) + 1;
-		if(age > 100)
+		if (age > 100)
 		{
 			level.setTile(x, y, Tile.get(growsTo), 0);
 		}

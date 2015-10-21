@@ -7,7 +7,7 @@ import com.itsyourpalmike.ld22.item.resource.Resource;
 public class ResourceRecipe extends Recipe
 {
 	private String resource;
-	
+
 	public ResourceRecipe(String resource)
 	{
 		super(new ResourceItem(Resource.get(resource)));

@@ -72,14 +72,14 @@ public class Inventory
 		if (item instanceof ResourceItem)
 		{
 			ResourceItem ri = findResource(((ResourceItem)item).resource);
-			if(ri != null) return ri.count;
+			if (ri != null) return ri.count;
 		}
 		else
 		{
 			int count = 0;
-			for(int i=0;i<items.size();i++)
+			for (int i = 0; i < items.size(); i++)
 			{
-				if(items.get(i).matches(item)) count++;
+				if (items.get(i).matches(item)) count++;
 			}
 			return count;
 		}

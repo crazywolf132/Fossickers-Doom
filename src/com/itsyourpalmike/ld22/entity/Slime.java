@@ -16,7 +16,7 @@ public class Slime extends Mob
 		y = random.nextInt(64 * 16);
 		spawnChance = 1;
 	}
-	
+
 	public void setLvl(int lvl)
 	{
 		this.lvl = lvl;
@@ -27,7 +27,6 @@ public class Slime extends Mob
 	{
 		return random.nextInt(5) <= 1;
 	}
-
 
 	public void tick()
 	{
@@ -41,20 +40,20 @@ public class Slime extends Mob
 			{
 				xa = (random.nextInt(3) - 1);
 				ya = (random.nextInt(3) - 1);
-				
-				if(level.player != null)
+
+				if (level.player != null)
 				{
-					int xd= level.player.x-x;
-					int yd = level.player.y-y;
-					if(xd*xd+yd*yd<50*50)
+					int xd = level.player.x - x;
+					int yd = level.player.y - y;
+					if (xd * xd + yd * yd < 50 * 50)
 					{
-						if(xd<0) xa = -1;
-						if(xd>0) xa = 1;
-						if(yd<0) ya = -1;
-						if(yd>0) ya = 1;
+						if (xd < 0) xa = -1;
+						if (xd > 0) xa = 1;
+						if (yd < 0) ya = -1;
+						if (yd > 0) ya = 1;
 					}
 				}
-				
+
 				if (xa != 0 || ya != 0) jumpTime = 10;
 			}
 		}
@@ -75,10 +74,10 @@ public class Slime extends Mob
 
 		for (int i = 0; i < count; i++)
 			level.add(new ItemEntity(new ResourceItem(Resource.get("SLIME")), x + random.nextInt(11) - 5, y + random.nextInt(11) - 5));
-		
-		if(level.player != null)
+
+		if (level.player != null)
 		{
-			level.player.score+=25*lvl;
+			level.player.score += 25 * lvl;
 		}
 	}
 

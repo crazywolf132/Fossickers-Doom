@@ -16,21 +16,10 @@ public class Chest extends Furniture
 		yr = 2;
 
 		/*
-		inventory.add(new PowerGloveItem());
-		inventory.add(new ResourceItem(Resource.wheat, 64));
-		inventory.add(new FurnitureItem(new Anvil(0, 0)));
-		inventory.add(new FurnitureItem(new Oven(0, 0)));
-		inventory.add(new FurnitureItem(new Furnace(0, 0)));
-		
-		for (int i = 0; i < 5; i++)
-		{
-			inventory.add(new ToolItem(ToolType.pickaxe, i));
-			inventory.add(new ToolItem(ToolType.hoe, i));
-			inventory.add(new ToolItem(ToolType.shovel, i));
-			inventory.add(new ToolItem(ToolType.sword, i));
-			inventory.add(new ToolItem(ToolType.axe, i));
-		}
-		*/
+		 * inventory.add(new PowerGloveItem()); inventory.add(new ResourceItem(Resource.wheat, 64)); inventory.add(new FurnitureItem(new Anvil(0, 0))); inventory.add(new FurnitureItem(new Oven(0, 0))); inventory.add(new FurnitureItem(new Furnace(0, 0)));
+		 * 
+		 * for (int i = 0; i < 5; i++) { inventory.add(new ToolItem(ToolType.pickaxe, i)); inventory.add(new ToolItem(ToolType.hoe, i)); inventory.add(new ToolItem(ToolType.shovel, i)); inventory.add(new ToolItem(ToolType.sword, i)); inventory.add(new ToolItem(ToolType.axe, i)); }
+		 */
 	}
 
 	public boolean use(Player player, int attackDir)

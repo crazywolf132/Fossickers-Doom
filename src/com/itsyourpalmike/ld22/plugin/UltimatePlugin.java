@@ -24,7 +24,7 @@ public class UltimatePlugin implements MinicraftPlugin
 	public void onLoad(Game game)
 	{
 		Tile.load("flower", new BetterFlowerTile());
-		
+
 		Tile.load("daisy", new BetterFlowerTile(0));
 		Tile.load("rose", new BetterFlowerTile(1));
 		Tile.load("salvia", new BetterFlowerTile(2));
@@ -34,7 +34,7 @@ public class UltimatePlugin implements MinicraftPlugin
 		Resource.load(new PlantableResource("rose", 0 + 4 * 32, Color.get(-1, 10, 511, 400), "rose", "grass"));
 		Resource.load(new PlantableResource("salvia", 0 + 4 * 32, Color.get(-1, 10, 115, 445), "salvia", "grass"));
 		Resource.load(new PlantableResource("b.rose", 0 + 4 * 32, Color.get(-1, 10, 111, 000), "b.rose", "grass"));
-		
+
 		Resource.load(new DyeResource("white", 2 + 4 * 32, 555));
 		Resource.load(new DyeResource("red", 2 + 4 * 32, 400));
 		Resource.load(new DyeResource("blue", 2 + 4 * 32, 115));
@@ -45,7 +45,7 @@ public class UltimatePlugin implements MinicraftPlugin
 		Resource.load(new DyeResource("yellow", 2 + 4 * 32, 440));
 		Resource.load(new DyeResource("orange", 2 + 4 * 32, 520));
 		Resource.load(new DyeResource("gray", 2 + 4 * 32, 222));
-		
+
 		try
 		{
 			ultimateSheet = new SpriteSheet(ImageIO.read(this.getClass().getResource("/ultimate.png")));
@@ -54,20 +54,20 @@ public class UltimatePlugin implements MinicraftPlugin
 		{
 			e.printStackTrace();
 		}
-		
+
 		Resource.load(new Resource("star", 35, Color.get(-1, 110, 440, 440), ultimateSheet));
 		Resource.load(new Resource("R.fish", 32, Color.get(-1, 0, 135, 245), ultimateSheet));
 		Resource.load(new FoodResource("C.FISH", 32, Color.get(-1, 0, 511, 410), ultimateSheet, 2, 5));
 		Resource.load(new Resource("Arrow", 33, Color.get(-1, 555, 555, 321), ultimateSheet));
 		Resource.load(new FoodResource("g.apple", 34, Color.get(-1, 110, 440, 553), ultimateSheet, 5, 4));
-		
+
 		try
 		{
 			Crafting.workbenchRecipes.add(new ItemRecipe(FishingRod.class).addCost("wood", 5).addCost("cloth", 5));
 			Crafting.workbenchRecipes.add(new ItemRecipe(Bow.class).addCost("wood", 5).addCost("cloth", 5));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("Arrow").addCost("wood", 1).addCost("stone", 1));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("g.apple").addCost("apple", 1).addCost("gold", 1));
-			
+
 			Crafting.workbenchRecipes.add(new ResourceRecipe("white").addCost("daisy", 3));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("red").addCost("rose", 3));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("blue").addCost("salvia", 3));
@@ -78,7 +78,7 @@ public class UltimatePlugin implements MinicraftPlugin
 			Crafting.workbenchRecipes.add(new ResourceRecipe("yellow").addCost("star", 1));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("orange").addCost("red", 1).addCost("yellow", 1));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("gray").addCost("white", 1).addCost("black", 1));
-			
+
 			Crafting.ovenRecipes.add(new ResourceRecipe("C.FISH").addCost("r.fish", 1).addCost("coal", 1));
 		}
 		catch (Exception e)

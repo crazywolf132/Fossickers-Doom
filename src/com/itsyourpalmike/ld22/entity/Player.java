@@ -7,12 +7,9 @@ import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.item.FishingRod;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.PowerGloveItem;
-import com.itsyourpalmike.ld22.item.ResourceItem;
-import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.screen.InventoryMenu;
@@ -43,29 +40,18 @@ public class Player extends Mob
 		this.game = game;
 		stamina = maxStamina;
 	}
-	
+
 	public void initializeInventory()
 	{
 		inventory.add(new FurnitureItem(new Workbench()));
 		inventory.add(new PowerGloveItem());
-		inventory.add(new FishingRod());
-		inventory.add(new ResourceItem(Resource.get("white"), 99));
-		inventory.add(new ResourceItem(Resource.get("red"), 99));
-		inventory.add(new ResourceItem(Resource.get("blue"), 99));
-		inventory.add(new ResourceItem(Resource.get("black"), 99));
-		inventory.add(new ResourceItem(Resource.get("green"), 99));
-		inventory.add(new ResourceItem(Resource.get("pink"), 99));
-		inventory.add(new ResourceItem(Resource.get("purple"), 99));
-		inventory.add(new ResourceItem(Resource.get("yellow"), 99));
-		inventory.add(new ResourceItem(Resource.get("orange"), 99));
-		inventory.add(new ResourceItem(Resource.get("gray"), 99));
 	}
 
 	public void tick()
 	{
 		super.tick();
-		
-		if(invulnerableTime>0)invulnerableTime--;
+
+		if (invulnerableTime > 0) invulnerableTime--;
 
 		Tile onTile = level.getTile(x >> 4, y >> 4);
 		if (onTile == Tile.get("stairsDown") || onTile == Tile.get("stairsUp"))
@@ -492,8 +478,7 @@ public class Player extends Mob
 				return true;
 			}
 		}
-		
-		
+
 	}
 
 	public boolean payStamina(int cost)
@@ -507,22 +492,21 @@ public class Player extends Mob
 	{
 		game.scheduleLevelChange(dir);
 	}
-	
 
 	public int getLightRadius()
 	{
 		int r = 3;
-		if(activeItem != null)
+		if (activeItem != null)
 		{
-			if(activeItem instanceof FurnitureItem)
+			if (activeItem instanceof FurnitureItem)
 			{
 				int rr = ((FurnitureItem)activeItem).furniture.getLightRadius();
-				if(rr > r) r = rr;
+				if (rr > r) r = rr;
 			}
 		}
 		return r;
 	}
-	
+
 	protected void die()
 	{
 		super.die();
@@ -536,14 +520,14 @@ public class Player extends Mob
 			entity.touchedBy(this);
 		}
 	}
-	
+
 	protected void doHurt(int dmg, int attackDir)
 	{
 		// Removes health, adds particles, and sets knockback
 		if (hurtTime > 0 || invulnerableTime > 0) return;
-		
+
 		Sound.play("playerHurt");
-		
+
 		level.add(new TextParticle("" + dmg, x, y, Color.get(-1, 504, 504, 504)));
 		health -= dmg;
 

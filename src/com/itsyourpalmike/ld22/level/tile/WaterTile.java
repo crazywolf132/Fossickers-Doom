@@ -75,7 +75,7 @@ public class WaterTile extends Tile
 			screen.render(x * 16 + 8, y * 16 + 8, (r ? 16 : 15) + (d ? 2 : 1) * 32, (sd || sr) ? transitionColor2 : transitionColor1, 0);
 		}
 	}
-	
+
 	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir)
 	{
 		return item.interactOn(this, level, xt, yt, player, attackDir);

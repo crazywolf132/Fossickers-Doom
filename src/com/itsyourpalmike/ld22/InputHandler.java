@@ -25,7 +25,7 @@ public class InputHandler implements KeyListener
 			{
 				down = pressed;
 			}
-			
+
 			if (pressed)
 			{
 				presses++;

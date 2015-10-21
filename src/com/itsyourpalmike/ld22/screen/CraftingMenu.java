@@ -33,13 +33,13 @@ public class CraftingMenu extends Menu
 		{
 			this.recipes.get(i).checkCanCraft(player);
 		}
-		
+
 		Collections.sort(this.recipes, new Comparator<Recipe>()
 		{
 			public int compare(Recipe r1, Recipe r2)
 			{
-				if(r1.canCraft && !r2.canCraft) return -1;
-				if(!r1.canCraft && r2.canCraft) return 1;
+				if (r1.canCraft && !r2.canCraft) return -1;
+				if (!r1.canCraft && r2.canCraft) return 1;
 				return 0;
 			}
 		});
@@ -89,16 +89,16 @@ public class CraftingMenu extends Menu
 			int xo = 13 * 8;
 			Recipe recipe = recipes.get(selected);
 			int hasResultItems = player.inventory.count(recipe.resultTemplate);
-			recipe.resultTemplate.renderIcon(screen, xo, 2*8);
-			//screen.render(xo, 2*8, recipe.resultTemplate.getSprite(), recipe.resultTemplate.getColor(), 0);
+			recipe.resultTemplate.renderIcon(screen, xo, 2 * 8);
+			// screen.render(xo, 2*8, recipe.resultTemplate.getSprite(), recipe.resultTemplate.getColor(), 0);
 			Font.draw("" + hasResultItems, screen, xo + 8, 2 * 8, Color.get(-1, 555, 555, 555));
 
 			List<Item> iCosts = new ArrayList<Item>();
-			for(int j = 0; j < recipe.costs.size(); j++)
+			for (int j = 0; j < recipe.costs.size(); j++)
 			{
 				iCosts.add(new ResourceItem(Resource.get(recipe.costs.get(j).name), recipe.costs.get(j).count));
 			}
-			
+
 			List<Item> costs = iCosts;
 			for (int i = 0; i < costs.size(); i++)
 			{
@@ -113,11 +113,11 @@ public class CraftingMenu extends Menu
 				}
 				int has = player.inventory.count(item);
 				int color = Color.get(-1, 555, 555, 555);
-				if(has < requiredAmt)
+				if (has < requiredAmt)
 				{
 					color = Color.get(-1, 222, 222, 222);
 				}
-				if(has > 99) has = 99;
+				if (has > 99) has = 99;
 				Font.draw("" + requiredAmt + "/" + has, screen, xo + 8, yo, color);
 			}
 		}

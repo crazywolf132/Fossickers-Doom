@@ -91,8 +91,7 @@ public class ItemEntity extends Entity
 		}
 
 		int col = item.getColor();
-		
-		
+
 		if (item.sheet != null)
 		{
 			screen.render(x - 4, y - 4, item.getSprite(), Color.get(-1, 0, 0, 0), 0, item.sheet);
@@ -103,7 +102,7 @@ public class ItemEntity extends Entity
 			screen.render(x - 4, y - 4, item.getSprite(), Color.get(-1, 0, 0, 0), 0);
 			screen.render(x - 4, y - 4 - (int)(zz), item.getSprite(), col, 0);
 		}
-		
+
 	}
 
 	protected void touchedBy(Entity entity)

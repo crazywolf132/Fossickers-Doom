@@ -9,7 +9,7 @@ public class Zombie extends Mob
 {
 	private int xa, ya;
 	private int lvl;
-	private int randomWalkTime = 0; 
+	private int randomWalkTime = 0;
 
 	public Zombie()
 	{
@@ -17,13 +17,12 @@ public class Zombie extends Mob
 		y = random.nextInt(64 * 16);
 		spawnChance = 3;
 	}
-	
+
 	public void setLvl(int lvl)
 	{
 		this.lvl = lvl;
 		health = maxHealth = lvl * lvl * 10;
 	}
-	
 
 	public boolean canSpawn(int level)
 	{
@@ -58,7 +57,7 @@ public class Zombie extends Mob
 			xa = (random.nextInt(3) - 1) * random.nextInt(2);
 			ya = (random.nextInt(3) - 1) * random.nextInt(2);
 		}
-		if(randomWalkTime > 0) randomWalkTime--;
+		if (randomWalkTime > 0) randomWalkTime--;
 
 	}
 
@@ -116,7 +115,7 @@ public class Zombie extends Mob
 			entity.hurt(this, lvl + 1, ((Player)entity).dir ^ 1);
 		}
 	}
-	
+
 	protected void die()
 	{
 		super.die();
@@ -126,9 +125,9 @@ public class Zombie extends Mob
 		for (int i = 0; i < count; i++)
 			level.add(new ItemEntity(new ResourceItem(Resource.get("cloth")), x + random.nextInt(11) - 5, y + random.nextInt(11) - 5));
 
-		if(level.player != null)
+		if (level.player != null)
 		{
-			level.player.score+=50*lvl;
+			level.player.score += 50 * lvl;
 		}
 	}
 

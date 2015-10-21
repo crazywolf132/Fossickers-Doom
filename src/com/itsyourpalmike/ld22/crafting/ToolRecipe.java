@@ -8,7 +8,7 @@ public class ToolRecipe extends Recipe
 {
 	private ToolType type;
 	private int level;
-	
+
 	public ToolRecipe(ToolType type, int level)
 	{
 		super(new ToolItem(type, level));
@@ -21,5 +21,4 @@ public class ToolRecipe extends Recipe
 		player.inventory.add(0, new ToolItem(type, level));
 	}
 
-	
 }
