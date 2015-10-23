@@ -172,4 +172,11 @@ public class VanilllaPlugin implements MinicraftPlugin
 	{
 		return "Vanilla Minicraft";
 	}
+
+	@Override
+	public boolean autoEnabled()
+	{
+		// TODO Auto-generated method stub
+		return true;
+	}
 }

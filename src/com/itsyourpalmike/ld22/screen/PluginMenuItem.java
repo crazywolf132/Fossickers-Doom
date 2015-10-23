@@ -1,8 +1,6 @@
 package com.itsyourpalmike.ld22.screen;
 
 import com.itsyourpalmike.ld22.MinicraftPlugin;
-import com.itsyourpalmike.ld22.gfx.Color;
-import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
 
 public class PluginMenuItem implements ListItem
@@ -13,6 +11,7 @@ public class PluginMenuItem implements ListItem
 	public PluginMenuItem(MinicraftPlugin plugin)
 	{
 		this.plugin = plugin;
+		enabled = plugin.autoEnabled();
 	}
 
 	public void renderInventory(Screen screen, int x, int y)

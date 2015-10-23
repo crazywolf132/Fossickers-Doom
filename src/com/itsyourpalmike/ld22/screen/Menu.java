@@ -65,15 +65,12 @@ public class Menu
 	// Renders an inventory in scrollable list form (for inventory menu, crafting menu, etc...)
 	public void renderPluginList(Screen screen, int xo, int yo, int x1, int y1, List<PluginMenuItem> listItems, int selected)
 	{
-		boolean renderCursor = true;
 
 		if (selected < 0)
 		{
 			selected = -selected - 1;
-			renderCursor = false;
 		}
 
-		int w = x1 - xo;
 		int h = y1 - yo - 1;
 		int i0 = 0;
 		int i1 = listItems.size();

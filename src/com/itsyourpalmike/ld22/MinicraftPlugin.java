@@ -7,4 +7,6 @@ public interface MinicraftPlugin extends Plugin
 	void onLoad(Game game);
 
 	String getName();
+	
+	boolean autoEnabled();
 }

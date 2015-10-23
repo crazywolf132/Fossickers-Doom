@@ -217,15 +217,17 @@ public class Game extends Canvas implements Runnable
 
 		plugins = new ArrayList<MinicraftPlugin>();
 		
+		// Load plugins from AppData/Roaming/.minicraft
+		/////////////////////////////////////////////////
 		String appDataRoaming = System.getenv("APPDATA");
 		File file = new File(appDataRoaming + "/.minicraft");
-		//file = new File("C:/Users/Mike/Desktop/plugins");
+		
 		if(!file.exists()) file.mkdir();
+		
 		PluginManager pm = PluginManagerFactory.createPluginManager();
-		System.out.println("Loading Plugins From:\n\"" + file + "\"");
 		pm.addPluginsFrom(new File(file.getAbsolutePath() + "/").toURI());
 		Collection<MinicraftPlugin> temp = new PluginManagerUtil(pm).getPlugins(MinicraftPlugin.class);
-		System.out.println(temp.size());
+		/////////////////////////////////////////////////
 		
 		plugins.add(new UltimatePlugin());
 		plugins.add(new CreeperPlugin());

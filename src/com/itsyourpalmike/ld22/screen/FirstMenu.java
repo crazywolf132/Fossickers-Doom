@@ -6,7 +6,7 @@ import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.item.Item;
+import com.itsyourpalmike.ld22.sound.Sound;
 
 public class FirstMenu extends Menu
 {
@@ -16,6 +16,7 @@ public class FirstMenu extends Menu
 
 	public FirstMenu(Game game)
 	{
+		Sound.load("pluginsSelected", this.getClass().getResource("/pluginsSelected.wav"));
 		this.game = game;
 		for (int i = 0; i < Game.plugins.size(); i++)
 		{
@@ -45,6 +46,7 @@ public class FirstMenu extends Menu
 						Game.plugins.remove(i);
 					}
 				}
+				Sound.play("pluginsSelected");
 				game.startGameForTheFirstTime();
 			}
 			else
@@ -85,7 +87,6 @@ public class FirstMenu extends Menu
 
 		Font.draw(msg, screen, (screen.w - msg.length() * 8) / 2, screen.h - 16, col);
 
-		String num = "" + cnt;
 		if (selected == plugins.size())
 		{
 			Font.draw("" + cnt, screen, ((screen.w - msg.length() * 8) / 2) + 10*8, screen.h - 16, Color.get(0, 050, 050, 050));

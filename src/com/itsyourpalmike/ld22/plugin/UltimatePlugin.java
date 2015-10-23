@@ -92,4 +92,11 @@ public class UltimatePlugin implements MinicraftPlugin
 	{
 		return "Ultimate Plugin";
 	}
+
+	@Override
+	public boolean autoEnabled()
+	{
+		// TODO Auto-generated method stub
+		return true;
+	}
 }

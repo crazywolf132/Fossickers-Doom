@@ -32,4 +32,11 @@ public class CreeperPlugin implements MinicraftPlugin
 	{
 		return "Creeper Plugin";
 	}
+
+	@Override
+	public boolean autoEnabled()
+	{
+		// TODO Auto-generated method stub
+		return true;
+	}
 }
