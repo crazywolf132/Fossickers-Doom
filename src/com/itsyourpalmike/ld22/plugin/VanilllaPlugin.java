@@ -1,6 +1,7 @@
 package com.itsyourpalmike.ld22.plugin;
 
 import com.itsyourpalmike.ld22.Game;
+import com.itsyourpalmike.ld22.MinicraftPlugin;
 import com.itsyourpalmike.ld22.crafting.Crafting;
 import com.itsyourpalmike.ld22.crafting.FurnitureRecipe;
 import com.itsyourpalmike.ld22.crafting.ResourceRecipe;

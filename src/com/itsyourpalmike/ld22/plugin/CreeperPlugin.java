@@ -3,6 +3,7 @@ package com.itsyourpalmike.ld22.plugin;
 import javax.imageio.ImageIO;
 
 import com.itsyourpalmike.ld22.Game;
+import com.itsyourpalmike.ld22.MinicraftPlugin;
 import com.itsyourpalmike.ld22.entity.Creeper;
 import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.level.Level;

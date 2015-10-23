@@ -1,6 +1,4 @@
-package com.itsyourpalmike.ld22.plugin;
-
-import com.itsyourpalmike.ld22.Game;
+package com.itsyourpalmike.ld22;
 
 import net.xeoh.plugins.base.Plugin;
 

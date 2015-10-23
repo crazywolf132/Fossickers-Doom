@@ -61,4 +61,43 @@ public class Menu
 			Font.draw("<", screen, (xo + w) * 8, yy * 8, Color.get(5, 555, 555, 555));
 		}
 	}
+
+	// Renders an inventory in scrollable list form (for inventory menu, crafting menu, etc...)
+	public void renderPluginList(Screen screen, int xo, int yo, int x1, int y1, List<PluginMenuItem> listItems, int selected)
+	{
+		boolean renderCursor = true;
+
+		if (selected < 0)
+		{
+			selected = -selected - 1;
+			renderCursor = false;
+		}
+
+		int w = x1 - xo;
+		int h = y1 - yo - 1;
+		int i0 = 0;
+		int i1 = listItems.size();
+		if (i1 > h) i1 = h;
+		int io = selected - h / 2;
+		if (io > listItems.size() - h) io = listItems.size() - h;
+		if (io < 0) io = 0;
+
+		for (int i = i0; i < i1; i++)
+		{
+			int col = 0;
+			String msg = listItems.get(i + io).getName();
+			
+
+			if (listItems.get(i+io).enabled) col = Color.get(0, 040, 040, 040);
+			else col = Color.get(0, 300, 300, 300);
+			
+			if (i + io == selected)
+			{
+				msg = "> " + listItems.get(i + io).getName() + " <";
+				if (listItems.get(i+io).enabled) col = Color.get(0, 050, 050, 050);
+				else col = Color.get(0, 500, 500, 500);
+			}
+			Font.draw(msg, screen, (screen.w - msg.length() * 8) / 2, (i + 1 + yo) * 8, col);
+		}
+	}
 }

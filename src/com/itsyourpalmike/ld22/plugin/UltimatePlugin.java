@@ -3,6 +3,7 @@ package com.itsyourpalmike.ld22.plugin;
 import javax.imageio.ImageIO;
 
 import com.itsyourpalmike.ld22.Game;
+import com.itsyourpalmike.ld22.MinicraftPlugin;
 import com.itsyourpalmike.ld22.crafting.Crafting;
 import com.itsyourpalmike.ld22.crafting.ItemRecipe;
 import com.itsyourpalmike.ld22.crafting.ResourceRecipe;
