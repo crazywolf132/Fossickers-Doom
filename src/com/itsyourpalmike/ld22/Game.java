@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -28,6 +29,10 @@ import com.itsyourpalmike.ld22.screen.LevelTransitionMenu;
 import com.itsyourpalmike.ld22.screen.Menu;
 import com.itsyourpalmike.ld22.screen.TitleMenu;
 import com.itsyourpalmike.ld22.screen.WonMenu;
+
+import net.xeoh.plugins.base.PluginManager;
+import net.xeoh.plugins.base.impl.PluginManagerFactory;
+import net.xeoh.plugins.base.util.PluginManagerUtil;
 
 public class Game extends Canvas implements Runnable
 {
@@ -163,10 +168,6 @@ public class Game extends Canvas implements Runnable
 
 	public void startGameForTheFirstTime()
 	{
-		// PluginManager pm = PluginManagerFactory.createPluginManager();
-		// pm.addPluginsFrom(new File("C:/Users/Mike/Desktop/plugins/").toURI());
-		// plugins = new PluginManagerUtil(pm).getPlugins(MinicraftPlugin.class);
-
 		plugins.add(0, new VanilllaPlugin());
 
 		for (MinicraftPlugin plugin : plugins)
@@ -215,9 +216,17 @@ public class Game extends Canvas implements Runnable
 		}
 
 		plugins = new ArrayList<MinicraftPlugin>();
+		
+		String appDataRoaming = System.getenv("APPDATA");
+		File file = new File(appDataRoaming + "/.minicraft");
+		if(!file.exists()) file.mkdir();
+		PluginManager pm = PluginManagerFactory.createPluginManager();
+		pm.addPluginsFrom(file.toURI());
+		plugins = (ArrayList<MinicraftPlugin>)new PluginManagerUtil(pm).getPlugins(MinicraftPlugin.class);
+
 		plugins.add(new UltimatePlugin());
 		plugins.add(new CreeperPlugin());
-
+		
 		player = new Player(this, input);
 		setMenu(new FirstMenu(this));
 	}
