@@ -317,6 +317,7 @@ public class Game extends Canvas implements Runnable
 			return;
 		}
 
+		// If we're on the plugin selection screen, don't bother rendering anything besides the menu
 		if (menu instanceof FirstMenu)
 		{
 			renderMenu();

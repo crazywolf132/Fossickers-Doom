@@ -7,9 +7,12 @@ import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.Bucket;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.PowerGloveItem;
+import com.itsyourpalmike.ld22.item.ToolItem;
+import com.itsyourpalmike.ld22.item.ToolType;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.screen.InventoryMenu;
@@ -45,6 +48,8 @@ public class Player extends Mob
 	{
 		inventory.add(new FurnitureItem(new Workbench()));
 		inventory.add(new PowerGloveItem());
+		inventory.add(new Bucket(Bucket.LAVA));
+		inventory.add(new ToolItem(ToolType.shovel, 4));
 	}
 
 	public void tick()
