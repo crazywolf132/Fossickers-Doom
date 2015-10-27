@@ -52,6 +52,7 @@ public class Game extends Canvas implements Runnable
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 	private int[] colors = new int[256];
 	private boolean running = false;
+	private boolean showUPSandFPS = true;
 
 	// Important game objects
 	private InputHandler input = new InputHandler(this);
@@ -98,6 +99,8 @@ public class Game extends Canvas implements Runnable
 		long lastTime = System.nanoTime();
 		double unprocessed = 0;
 		double nsPerTick = 1000000000.0 / 60.0;
+		int frames = 0;
+		int ticks = 0;
 		long lastTimer1 = System.currentTimeMillis();
 
 		// Game Loop
@@ -110,6 +113,7 @@ public class Game extends Canvas implements Runnable
 
 			while (unprocessed >= 1)
 			{
+				ticks++;
 				tick();
 				unprocessed -= 1;
 				shouldRender = true;
@@ -126,12 +130,16 @@ public class Game extends Canvas implements Runnable
 
 			if (shouldRender)
 			{
+				frames++;
 				render();
 			}
 
 			if (System.currentTimeMillis() - lastTimer1 > 1000)
 			{
 				lastTimer1 += 1000;
+				if(showUPSandFPS)frame.setTitle(Game.NAME + " - UPS: " + ticks + ", FPS: " + frames);
+				frames = 0;
+				ticks = 0;
 			}
 		}
 	}
