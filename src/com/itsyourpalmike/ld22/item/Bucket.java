@@ -1,13 +1,10 @@
 package com.itsyourpalmike.ld22.item;
 
-import java.util.Random;
-
 import com.itsyourpalmike.ld22.entity.ItemEntity;
 import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
@@ -15,8 +12,6 @@ import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 // This class is used to create all tools in the game + keep track of their material type (Wood, Stone, Etc...)
 public class Bucket extends Item
 {
-	private Random random = new Random();
-
 	public static final int EMPTY = 0;
 	public static final int WATER = 1;
 	public static final int LAVA = 2;

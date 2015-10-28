@@ -5,7 +5,7 @@
 
 ![screenshot](http://ludumdare.com/compo/wp-content/compo2/87574/398-shot0.png "screenshot")
 
-## Download The Latest Version:
+## Download The Latest Build:
 * [AdFly Link (Click "Skip Ad" In Top Right Corner)](http://adf.ly/1Q2T65)
 * [Direct Download (Via Google Drive)](https://drive.google.com/open?id=0B7M84SGJhrOOX0taSE4wNDk5WE0)
 
@@ -38,6 +38,7 @@
 - [x] Bucket
 - [x] Water Bucket
 - [x] Lava Bucket
+- [x] Wood Tile
 
 *Send Feedback & Suggestions To:* ItsYourPalMike@gmail.com  
 *Support The Developer:* [Donate now with PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=WPU3RP8SZ6BRC&lc=US&item_name=Buy%20Mike%20Some%20Ramen&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)

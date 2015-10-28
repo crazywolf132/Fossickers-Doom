@@ -17,10 +17,12 @@ import com.itsyourpalmike.ld22.item.resource.PlantableResource;
 import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.tile.BetterFlowerTile;
 import com.itsyourpalmike.ld22.level.tile.Tile;
+import com.itsyourpalmike.ld22.level.tile.WoodTile;
 
 public class UltimatePlugin implements MinicraftPlugin
 {
 	public static SpriteSheet ultimateSheet;
+	public static SpriteSheet icons2;
 
 	public void onLoad(Game game)
 	{
@@ -30,6 +32,9 @@ public class UltimatePlugin implements MinicraftPlugin
 		Tile.load("rose", new BetterFlowerTile(1));
 		Tile.load("salvia", new BetterFlowerTile(2));
 		Tile.load("b.rose", new BetterFlowerTile(3));
+		Tile.load("woodtile", new WoodTile());
+
+		Resource.load(new PlantableResource("Wood", 1 + 4 * 32, Color.get(-1, 200, 531, 430), "woodtile", "grass", "dirt"));
 
 		Resource.load(new PlantableResource("daisy", 0 + 4 * 32, Color.get(-1, 10, 555, 440), "daisy", "grass"));
 		Resource.load(new PlantableResource("rose", 0 + 4 * 32, Color.get(-1, 10, 511, 400), "rose", "grass"));
@@ -50,6 +55,7 @@ public class UltimatePlugin implements MinicraftPlugin
 		try
 		{
 			ultimateSheet = new SpriteSheet(ImageIO.read(this.getClass().getResource("/ultimate.png")));
+			icons2 = new SpriteSheet(ImageIO.read(this.getClass().getResource("/icons2.png")));
 		}
 		catch (Exception e)
 		{
