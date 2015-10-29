@@ -137,7 +137,7 @@ public class Game extends Canvas implements Runnable
 			if (System.currentTimeMillis() - lastTimer1 > 1000)
 			{
 				lastTimer1 += 1000;
-				if(debug)frame.setTitle(Game.NAME + " - UPS: " + ticks + ", FPS: " + frames);
+				if (debug) frame.setTitle(Game.NAME + " - UPS: " + ticks + ", FPS: " + frames);
 				frames = 0;
 				ticks = 0;
 			}
@@ -224,43 +224,57 @@ public class Game extends Canvas implements Runnable
 		}
 
 		plugins = new ArrayList<MinicraftPlugin>();
-		
+
 		// Load plugins from AppData/Roaming/.minicraft
 		/////////////////////////////////////////////////
 		String appDataRoaming = "...";
-		
+
 		String OS = (System.getProperty("os.name")).toUpperCase();
-		//to determine what the workingDirectory is.
-		//if it is some version of Windows
+		// to determine what the workingDirectory is.
+		// if it is some version of Windows
 		if (OS.contains("WIN"))
 		{
-		    //it is simply the location of the "AppData" folder
+			// it is simply the location of the "AppData" folder
 			appDataRoaming = System.getenv("APPDATA");
 		}
-		//Otherwise, we assume Linux or Mac
+		// Otherwise, we assume Linux or Mac
 		else
 		{
-		    //in either case, we would start in the user's home directory
+			// in either case, we would start in the user's home directory
 			appDataRoaming = System.getProperty("user.home");
-		    //if we are on a Mac, we are not done, we look for "Application Support"
-			appDataRoaming += "/Library/Application Support";
+
+			if (!OS.contains("LINUX"))
+			{
+				// if we are on a Mac, we are not done, we look for "Application Support"
+				appDataRoaming += "/Library/Application Support";
+			}
 		}
-		//we are now free to set the workingDirectory to the subdirectory that is our 
-		//folder.
-		
+		// we are now free to set the workingDirectory to the subdirectory that is our
+		// folder.
+
+		System.out.println("Running Minicraft On " + OS);
+
 		File file = new File(appDataRoaming + "/.minicraft");
-		
-		if(!file.exists()) file.mkdir();
-		
+
+		if (!file.exists())
+		{
+			file.mkdir();
+			System.out.println("Created .minicraft Folder");
+		}
+		else
+		{
+			System.out.println("Located .minicraft Folder");
+		}
+
 		PluginManager pm = PluginManagerFactory.createPluginManager();
 		pm.addPluginsFrom(new File(file.getAbsolutePath() + "/").toURI());
 		Collection<MinicraftPlugin> temp = new PluginManagerUtil(pm).getPlugins(MinicraftPlugin.class);
 		/////////////////////////////////////////////////
-		
+
 		plugins.add(new UltimatePlugin());
 		plugins.add(new CreeperPlugin());
 		plugins.addAll(temp);
-		
+
 		player = new Player(this, input);
 		setMenu(new FirstMenu(this));
 	}
