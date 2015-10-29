@@ -27,7 +27,9 @@ public class WoodTile extends Tile
 	{
 		// This render creates smooth corners and shapes, so the world isn't obviously blocky
 		int col = Color.get(-1, 531, 430, 200);
-		int transitionColor = Color.get(100, 531, 430, level.dirtColor);
+		int transitionColor = Color.get(200, 531, 430, level.dirtColor);
+		if(level.getData(x, y) == 10001)
+			transitionColor = Color.get(200, 531, 430, level.sandColor);
 
 		boolean u = level.getTile(x, y - 1) != this && !(level.getTile(x, y-1) instanceof StoneWallTile);
 		boolean d = level.getTile(x, y + 1) != this && !(level.getTile(x, y+1) instanceof StoneWallTile);

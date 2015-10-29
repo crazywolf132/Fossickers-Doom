@@ -52,7 +52,7 @@ public class Game extends Canvas implements Runnable
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 	private int[] colors = new int[256];
 	private boolean running = false;
-	public static boolean debug = true;
+	public static boolean debug = false;
 
 	// Important game objects
 	private InputHandler input = new InputHandler(this);

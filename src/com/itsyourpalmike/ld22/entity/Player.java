@@ -57,6 +57,15 @@ public class Player extends Mob
 			inventory.add(new ToolItem(ToolType.shovel, 4));
 			inventory.add(new ResourceItem(Resource.get("wood"), 99));
 			inventory.add(new ResourceItem(Resource.get("stone"), 99));
+			inventory.add(new ResourceItem(Resource.get("daisy"), 99));
+			inventory.add(new ResourceItem(Resource.get("rose"), 99));
+			inventory.add(new ResourceItem(Resource.get("salvia"), 99));
+			inventory.add(new ResourceItem(Resource.get("b.rose"), 99));
+			inventory.add(new FurnitureItem(new Chest()));
+			inventory.add(new FurnitureItem(new Anvil()));
+			inventory.add(new FurnitureItem(new Furnace()));
+			inventory.add(new FurnitureItem(new Lantern()));
+			inventory.add(new FurnitureItem(new Oven()));
 		}
 	}
 

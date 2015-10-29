@@ -22,6 +22,7 @@ public class DirtTile extends Tile
 	public void render(Screen screen, Level level, int x, int y)
 	{
 		int col = Color.get(level.dirtColor, level.dirtColor, level.dirtColor - 111, level.dirtColor - 111);
+		//level.setData(x, y, 1000);
 
 		screen.render(x * 16 + 0, y * 16 + 0, 0, col, 0);
 		screen.render(x * 16 + 8, y * 16 + 0, 1, col, 0);
