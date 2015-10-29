@@ -56,6 +56,7 @@ public class Player extends Mob
 			inventory.add(new Bucket(Bucket.LAVA));
 			inventory.add(new ToolItem(ToolType.shovel, 4));
 			inventory.add(new ResourceItem(Resource.get("wood"), 99));
+			inventory.add(new ResourceItem(Resource.get("stone"), 99));
 		}
 	}
 
