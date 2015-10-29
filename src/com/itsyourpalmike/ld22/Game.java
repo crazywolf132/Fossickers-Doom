@@ -52,7 +52,7 @@ public class Game extends Canvas implements Runnable
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 	private int[] colors = new int[256];
 	private boolean running = false;
-	public static boolean debug = false;
+	public static boolean debug = true;
 
 	// Important game objects
 	private InputHandler input = new InputHandler(this);
@@ -227,7 +227,27 @@ public class Game extends Canvas implements Runnable
 		
 		// Load plugins from AppData/Roaming/.minicraft
 		/////////////////////////////////////////////////
-		String appDataRoaming = System.getenv("APPDATA");
+		String appDataRoaming = "...";
+		
+		String OS = (System.getProperty("os.name")).toUpperCase();
+		//to determine what the workingDirectory is.
+		//if it is some version of Windows
+		if (OS.contains("WIN"))
+		{
+		    //it is simply the location of the "AppData" folder
+			appDataRoaming = System.getenv("APPDATA");
+		}
+		//Otherwise, we assume Linux or Mac
+		else
+		{
+		    //in either case, we would start in the user's home directory
+			appDataRoaming = System.getProperty("user.home");
+		    //if we are on a Mac, we are not done, we look for "Application Support"
+			appDataRoaming += "/Library/Application Support";
+		}
+		//we are now free to set the workingDirectory to the subdirectory that is our 
+		//folder.
+		
 		File file = new File(appDataRoaming + "/.minicraft");
 		
 		if(!file.exists()) file.mkdir();
