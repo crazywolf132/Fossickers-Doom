@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 
 import javax.imageio.ImageIO;
@@ -37,6 +38,8 @@ import net.xeoh.plugins.base.util.PluginManagerUtil;
 public class Game extends Canvas implements Runnable
 {
 	private static final long serialVersionUID = 1L;
+	
+	public static DarknessChecker bonusDarknessChecker = null;
 
 	// Game constants
 	public final static int WIDTH = 160;
@@ -184,7 +187,6 @@ public class Game extends Canvas implements Runnable
 			System.out.println("Loaded:\"" + plugin.getName() + "\"");
 		}
 
-		resetGame();
 
 		// Displays the Main Menu Screen
 		setMenu(new TitleMenu());
@@ -352,7 +354,7 @@ public class Game extends Canvas implements Runnable
 		}
 
 		// If we're on the plugin selection screen, don't bother rendering anything besides the menu
-		if (menu instanceof FirstMenu)
+		if (menu != null)
 		{
 			renderMenu();
 			// Drawing the screen pixels to the game
@@ -402,7 +404,7 @@ public class Game extends Canvas implements Runnable
 		level.renderBackground(screen, xScroll, yScroll);
 		level.renderSprites(screen, xScroll, yScroll);
 
-		if (currentLevel < 3)
+		if (currentLevel < 3 || (bonusDarknessChecker != null && bonusDarknessChecker.isDark()))
 		{
 			lightScreen.clear(0);
 			level.renderLight(lightScreen, xScroll, yScroll);

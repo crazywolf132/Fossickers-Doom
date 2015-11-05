@@ -9,7 +9,7 @@ public class Lantern extends Furniture
 		super("Lantern");
 		col = Color.get(-1, 000, 111, 555);
 		sprite = 5;
-		xr = 3;
+		xr = 4;
 		yr = 2;
 	}
 

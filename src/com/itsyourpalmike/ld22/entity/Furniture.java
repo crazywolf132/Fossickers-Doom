@@ -1,6 +1,7 @@
 package com.itsyourpalmike.ld22.entity;
 
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.PowerGloveItem;
 
@@ -12,6 +13,7 @@ public class Furniture extends Entity
 	public int sprite;
 	public String name;
 	private Player shouldTake;
+	public SpriteSheet spriteSheet = null;
 
 	public Furniture(String name)
 	{
@@ -46,10 +48,20 @@ public class Furniture extends Entity
 
 	public void render(Screen screen)
 	{
-		screen.render(x - 8, y - 8 - 4, sprite * 2 + 8 * 32, col, 0);
-		screen.render(x - 0, y - 8 - 4, sprite * 2 + 8 * 32 + 1, col, 0);
-		screen.render(x - 8, y - 0 - 4, sprite * 2 + 8 * 32 + 32, col, 0);
-		screen.render(x + 0, y - 0 - 4, sprite * 2 + 8 * 32 + 33, col, 0);
+		if (spriteSheet == null)
+		{
+			screen.render(x - 8, y - 8 - 4, sprite * 2 + 8 * 32, col, 0);
+			screen.render(x - 0, y - 8 - 4, sprite * 2 + 8 * 32 + 1, col, 0);
+			screen.render(x - 8, y - 0 - 4, sprite * 2 + 8 * 32 + 32, col, 0);
+			screen.render(x + 0, y - 0 - 4, sprite * 2 + 8 * 32 + 33, col, 0);
+		}
+		else
+		{
+			screen.render(x - 8, y - 8 - 4, sprite * 2 + 8 * 32, col, 0, spriteSheet);
+			screen.render(x - 0, y - 8 - 4, sprite * 2 + 8 * 32 + 1, col, 0, spriteSheet);
+			screen.render(x - 8, y - 0 - 4, sprite * 2 + 8 * 32 + 32, col, 0, spriteSheet);
+			screen.render(x + 0, y - 0 - 4, sprite * 2 + 8 * 32 + 33, col, 0, spriteSheet);
+		}
 	}
 
 	public boolean blocks(Entity e)

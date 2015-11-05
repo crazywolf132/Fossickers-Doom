@@ -91,6 +91,8 @@ public class LevelGen
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static CustomLevelGen top = null;
+	
 	public static byte[][] createAndValidateTopMap(int w, int h)
 	{
 		do
@@ -312,6 +314,8 @@ public class LevelGen
 			count++;
 			if (count == 4) break;
 		}
+		
+		//if(top != null) map = top.go(map, w, h);
 
 		return new byte[][] { map, data };
 	}

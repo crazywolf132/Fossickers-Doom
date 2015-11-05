@@ -11,11 +11,14 @@ import com.itsyourpalmike.ld22.entity.Entity;
 import com.itsyourpalmike.ld22.entity.Mob;
 import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.level.levelgen.CustomLevelGen;
 import com.itsyourpalmike.ld22.level.levelgen.LevelGen;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 
 public class Level
 {
+	public static ArrayList<CustomLevelGen> customLevelGenCode = new ArrayList<CustomLevelGen>();
+	
 	private Random random = new Random();
 	public int w, h;
 
@@ -134,6 +137,14 @@ public class Level
 			aw.x = w * 8;
 			aw.y = h * 8;
 			add(aw);
+		}
+		
+		for(int i = 0; i < customLevelGenCode.size(); i++)
+		{
+			if(level == customLevelGenCode.get(i).getLevel())
+			{
+				customLevelGenCode.get(i).go(this);
+			}
 		}
 	}
 

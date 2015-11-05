@@ -1,12 +1,17 @@
 package com.itsyourpalmike.ld22.plugin;
 
+import java.util.Calendar;
+import java.util.Random;
+
 import javax.imageio.ImageIO;
 
+import com.itsyourpalmike.ld22.DarknessChecker;
 import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.MinicraftPlugin;
 import com.itsyourpalmike.ld22.crafting.Crafting;
 import com.itsyourpalmike.ld22.crafting.ItemRecipe;
 import com.itsyourpalmike.ld22.crafting.ResourceRecipe;
+import com.itsyourpalmike.ld22.entity.Pumpkin;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.item.Bow;
@@ -15,6 +20,9 @@ import com.itsyourpalmike.ld22.item.resource.DyeResource;
 import com.itsyourpalmike.ld22.item.resource.FoodResource;
 import com.itsyourpalmike.ld22.item.resource.PlantableResource;
 import com.itsyourpalmike.ld22.item.resource.Resource;
+import com.itsyourpalmike.ld22.level.Level;
+import com.itsyourpalmike.ld22.level.levelgen.CustomLevelGen;
+import com.itsyourpalmike.ld22.level.levelgen.LevelGen;
 import com.itsyourpalmike.ld22.level.tile.BetterFlowerTile;
 import com.itsyourpalmike.ld22.level.tile.StoneWallTile;
 import com.itsyourpalmike.ld22.level.tile.Tile;
@@ -25,6 +33,7 @@ public class UltimatePlugin implements MinicraftPlugin
 	public static SpriteSheet ultimateSheet;
 	public static SpriteSheet icons2;
 	public static SpriteSheet icons3;
+	private static final Random random = new Random();
 
 	public void onLoad(Game game)
 	{
@@ -97,6 +106,63 @@ public class UltimatePlugin implements MinicraftPlugin
 		{
 			e.printStackTrace();
 		}
+		
+		Game.bonusDarknessChecker = new DarknessChecker()
+		{
+			public boolean isDark()
+			{
+				// Make world dark on halloween
+				Calendar rightNow = Calendar.getInstance();
+				int m = rightNow.get(Calendar.MONTH) + 1;
+				int d = rightNow.get(Calendar.DAY_OF_MONTH);
+				
+				//return m == 10 && d == 31;
+				return false;
+			}
+		};
+		
+		Level.customLevelGenCode.add(new CustomLevelGen()
+		{
+			@Override
+			public void go(Level level)
+			{
+				Calendar rightNow = Calendar.getInstance();
+				int m = rightNow.get(Calendar.MONTH) + 1;
+				int d = rightNow.get(Calendar.DAY_OF_MONTH);
+				
+				// Only on halloween?
+				//if(m != 10 && d != 31) return;
+				
+				// Spawn pumpkins
+				for (int i = 0; i < level.w * level.h / 800; i++)
+				{
+					int x = random.nextInt(level.w);
+					int y = random.nextInt(level.h);
+					int col = random.nextInt(4);
+					for (int j = 0; j < 15; j++)
+					{
+						int xx = x + random.nextInt(5) - random.nextInt(5);
+						int yy = y + random.nextInt(5) - random.nextInt(5);
+						if (xx >= 0 && yy >= 0 && xx < level.w && yy < level.h)
+						{
+							if (level.tiles[xx + yy * level.w] == Tile.get("grass").id)
+							{
+								Pumpkin p = new Pumpkin();
+								p.x = xx * 16 + 8;
+								p.y = yy * 16 + 8;
+								level.add(p);
+							}
+						}
+					}
+				}
+			}
+
+			@Override
+			public int getLevel()
+			{
+				return 0;
+			}
+		});
 	}
 
 	public String getName()

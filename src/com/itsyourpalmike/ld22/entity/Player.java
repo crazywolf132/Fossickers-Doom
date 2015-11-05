@@ -66,6 +66,7 @@ public class Player extends Mob
 			inventory.add(new FurnitureItem(new Furnace()));
 			inventory.add(new FurnitureItem(new Lantern()));
 			inventory.add(new FurnitureItem(new Oven()));
+			inventory.add(new FurnitureItem(new Pumpkin()));
 		}
 	}
 
