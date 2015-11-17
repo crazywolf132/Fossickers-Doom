@@ -43,4 +43,4 @@
 - [x] Pumpkin
 
 *Send Feedback & Suggestions To:* ItsYourPalMike@gmail.com  
-*Support The Developer:* [Donate now with PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=WPU3RP8SZ6BRC&lc=US&item_name=Buy%20Mike%20Some%20Ramen&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
+*Support The Developer:* [Donate now with PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=WPU3RP8SZ6BRC&lc=US&item_name=Buy%20Mike%20A%20Coffee&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
