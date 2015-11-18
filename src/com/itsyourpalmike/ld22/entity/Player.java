@@ -53,7 +53,7 @@ public class Player extends Mob
 
 		if (Game.debug)
 		{
-			inventory.add(new Bucket(Bucket.LAVA));
+			/*inventory.add(new Bucket(Bucket.LAVA));
 			inventory.add(new ToolItem(ToolType.shovel, 4));
 			inventory.add(new ResourceItem(Resource.get("wood"), 99));
 			inventory.add(new ResourceItem(Resource.get("stone"), 99));
@@ -65,7 +65,7 @@ public class Player extends Mob
 			inventory.add(new FurnitureItem(new Anvil()));
 			inventory.add(new FurnitureItem(new Furnace()));
 			inventory.add(new FurnitureItem(new Lantern()));
-			inventory.add(new FurnitureItem(new Oven()));
+			inventory.add(new FurnitureItem(new Oven()));*/
 			inventory.add(new FurnitureItem(new Pumpkin()));
 		}
 	}

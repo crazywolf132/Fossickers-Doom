@@ -3,6 +3,7 @@ package com.itsyourpalmike.ld22.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.ResourceItem;
 import com.itsyourpalmike.ld22.item.resource.Resource;
@@ -49,12 +50,41 @@ public class Inventory
 		}
 		return null;
 	}
+	
+	private int findItem(Item resource)
+	{
+		for (int i = 0; i < items.size(); i++)
+		{
+			if (items.get(i) instanceof Item)
+			{
+				Item has = (Item)items.get(i);
+				if (has.getName() == resource.getName()) return i;
+			}
+		}
+		return -1;
+	}
 
 	public boolean hasResources(Resource r, int count)
 	{
 		ResourceItem ri = findResource(r);
 		if (ri == null) return false;
 		return ri.count >= count;
+	}
+	
+	public boolean hasFurniture(FurnitureItem f, int count)
+	{
+		int fi = findItem(f);
+		if (fi == -1) return false;
+		return true;
+	}
+	
+	public boolean removeItem(Item i)
+	{
+		int ri = -1;
+		ri = findItem(i);
+		if (ri == -1) return false;
+		items.remove(ri);
+		return true;
 	}
 
 	public boolean removeResource(Resource r, int count)
@@ -73,6 +103,10 @@ public class Inventory
 		{
 			ResourceItem ri = findResource(((ResourceItem)item).resource);
 			if (ri != null) return ri.count;
+		}
+		else if (item instanceof FurnitureItem)
+		{
+			if(findItem(item) != -1) return 1;
 		}
 		else
 		{

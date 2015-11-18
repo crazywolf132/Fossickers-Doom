@@ -55,6 +55,7 @@ public class Screen
 	// Renders a single sprite / image
 	public void render(int xp, int yp, int tile, int colors, int bits, SpriteSheet altSheet)
 	{
+		if(altSheet == null) altSheet = sheet;
 		xp -= xOffset;
 		yp -= yOffset;
 		boolean mirrorX = (bits & BIT_MIRROR_X) > 0;

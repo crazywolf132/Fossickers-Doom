@@ -6,6 +6,7 @@ import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 
@@ -18,6 +19,7 @@ public class FurnitureItem extends Item
 	public FurnitureItem(Furniture furniture)
 	{
 		this.furniture = furniture;
+		sheet = furniture.sheet;
 	}
 
 	public int getColor()
@@ -32,14 +34,14 @@ public class FurnitureItem extends Item
 
 	public void renderIcon(Screen screen, int x, int y)
 	{
-		if(furniture.spriteSheet == null) screen.render(x, y, getSprite(), getColor(), 0);
-		else  screen.render(x, y, getSprite(), getColor(), 0, furniture.spriteSheet);
+		if(furniture.sheet == null) screen.render(x, y, getSprite(), getColor(), 0);
+		else  screen.render(x, y, getSprite(), getColor(), 0, furniture.sheet);
 	}
 
 	public void renderInventory(Screen screen, int x, int y)
 	{
-		if(furniture.spriteSheet == null) screen.render(x, y, getSprite(), getColor(), 0);
-		else screen.render(x, y, getSprite(), getColor(), 0, furniture.spriteSheet);
+		if(furniture.sheet == null) screen.render(x, y, getSprite(), getColor(), 0);
+		else screen.render(x, y, getSprite(), getColor(), 0, furniture.sheet);
 		Font.draw(furniture.name, screen, x + 8, y, Color.get(-1, 555, 555, 555));
 	}
 

@@ -10,6 +10,7 @@ import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.ResourceItem;
 import com.itsyourpalmike.ld22.item.resource.Resource;
@@ -96,7 +97,15 @@ public class CraftingMenu extends Menu
 			List<Item> iCosts = new ArrayList<Item>();
 			for (int j = 0; j < recipe.costs.size(); j++)
 			{
-				iCosts.add(new ResourceItem(Resource.get(recipe.costs.get(j).name), recipe.costs.get(j).count));
+				if(!recipe.costs.get(j).isFurniture)iCosts.add(new ResourceItem(Resource.get(recipe.costs.get(j).name), recipe.costs.get(j).count));
+				else try
+				{
+					iCosts.add(new FurnitureItem(recipe.costs.get(j).clazz.newInstance()));
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 			}
 
 			List<Item> costs = iCosts;

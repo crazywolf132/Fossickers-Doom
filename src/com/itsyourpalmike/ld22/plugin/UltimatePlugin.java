@@ -9,8 +9,10 @@ import com.itsyourpalmike.ld22.DarknessChecker;
 import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.MinicraftPlugin;
 import com.itsyourpalmike.ld22.crafting.Crafting;
+import com.itsyourpalmike.ld22.crafting.FurnitureRecipe;
 import com.itsyourpalmike.ld22.crafting.ItemRecipe;
 import com.itsyourpalmike.ld22.crafting.ResourceRecipe;
+import com.itsyourpalmike.ld22.entity.JackOLantern;
 import com.itsyourpalmike.ld22.entity.Pumpkin;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.SpriteSheet;
@@ -22,7 +24,6 @@ import com.itsyourpalmike.ld22.item.resource.PlantableResource;
 import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.levelgen.CustomLevelGen;
-import com.itsyourpalmike.ld22.level.levelgen.LevelGen;
 import com.itsyourpalmike.ld22.level.tile.BetterFlowerTile;
 import com.itsyourpalmike.ld22.level.tile.StoneWallTile;
 import com.itsyourpalmike.ld22.level.tile.Tile;
@@ -99,6 +100,8 @@ public class UltimatePlugin implements MinicraftPlugin
 			Crafting.workbenchRecipes.add(new ResourceRecipe("yellow").addCost("star", 1));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("orange").addCost("red", 1).addCost("yellow", 1));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("gray").addCost("white", 1).addCost("black", 1));
+			
+			Crafting.workbenchRecipes.add(new FurnitureRecipe(JackOLantern.class).addCost(Pumpkin.class, 1));
 
 			Crafting.ovenRecipes.add(new ResourceRecipe("C.FISH").addCost("r.fish", 1).addCost("coal", 1));
 		}

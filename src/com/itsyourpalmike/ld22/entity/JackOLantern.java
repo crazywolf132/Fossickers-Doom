@@ -5,17 +5,17 @@ import java.util.Random;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 
-public class Pumpkin extends Furniture
+public class JackOLantern extends Furniture
 {
 	int count = 0;
 	int brightness = 5;
 	private static final Random random = new Random();
 	
-	public Pumpkin()
+	public JackOLantern()
 	{
-		super("Pumpkin");
+		super("Jack");
 		col = Color.get(-1, 210, 530, 550);
-		sprite = 4;
+		sprite = 5;
 		xr = 3;
 		yr = 2;
 		sheet = UltimatePlugin.icons2;
@@ -33,7 +33,7 @@ public class Pumpkin extends Furniture
 			count = 0;
 		}
 		
-		return 0;
+		return 5;
 	}
 	
 }
