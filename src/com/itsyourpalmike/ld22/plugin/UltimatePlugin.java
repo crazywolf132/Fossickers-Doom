@@ -1,6 +1,5 @@
 package com.itsyourpalmike.ld22.plugin;
 
-import java.util.Calendar;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -17,6 +16,7 @@ import com.itsyourpalmike.ld22.entity.Pumpkin;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.item.Bow;
+import com.itsyourpalmike.ld22.item.Bucket;
 import com.itsyourpalmike.ld22.item.FishingRod;
 import com.itsyourpalmike.ld22.item.resource.DyeResource;
 import com.itsyourpalmike.ld22.item.resource.FoodResource;
@@ -102,6 +102,8 @@ public class UltimatePlugin implements MinicraftPlugin
 			Crafting.workbenchRecipes.add(new ResourceRecipe("gray").addCost("white", 1).addCost("black", 1));
 			
 			Crafting.workbenchRecipes.add(new FurnitureRecipe(JackOLantern.class).addCost(Pumpkin.class, 1));
+			
+			Crafting.anvilRecipes.add(new ItemRecipe(Bucket.class).addCost("i.ore", 5));
 
 			Crafting.ovenRecipes.add(new ResourceRecipe("C.FISH").addCost("r.fish", 1).addCost("coal", 1));
 		}
@@ -115,9 +117,9 @@ public class UltimatePlugin implements MinicraftPlugin
 			public boolean isDark()
 			{
 				// Make world dark on halloween
-				Calendar rightNow = Calendar.getInstance();
-				int m = rightNow.get(Calendar.MONTH) + 1;
-				int d = rightNow.get(Calendar.DAY_OF_MONTH);
+				//Calendar rightNow = Calendar.getInstance();
+				//int m = rightNow.get(Calendar.MONTH) + 1;
+				//int d = rightNow.get(Calendar.DAY_OF_MONTH);
 				
 				//return m == 10 && d == 31;
 				return false;
@@ -129,9 +131,9 @@ public class UltimatePlugin implements MinicraftPlugin
 			@Override
 			public void go(Level level)
 			{
-				Calendar rightNow = Calendar.getInstance();
-				int m = rightNow.get(Calendar.MONTH) + 1;
-				int d = rightNow.get(Calendar.DAY_OF_MONTH);
+				//Calendar rightNow = Calendar.getInstance();
+				//int m = rightNow.get(Calendar.MONTH) + 1;
+				//int d = rightNow.get(Calendar.DAY_OF_MONTH);
 				
 				// Only on halloween?
 				//if(m != 10 && d != 31) return;
@@ -141,7 +143,7 @@ public class UltimatePlugin implements MinicraftPlugin
 				{
 					int x = random.nextInt(level.w);
 					int y = random.nextInt(level.h);
-					int col = random.nextInt(4);
+					//int col = random.nextInt(4);
 					for (int j = 0; j < 15; j++)
 					{
 						int xx = x + random.nextInt(5) - random.nextInt(5);

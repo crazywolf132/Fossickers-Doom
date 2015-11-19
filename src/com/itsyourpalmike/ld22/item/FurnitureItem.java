@@ -6,7 +6,6 @@ import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 

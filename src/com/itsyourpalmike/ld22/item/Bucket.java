@@ -21,10 +21,16 @@ public class Bucket extends Item
 	public static final int[] LEVEL_COLORS = { 000, 005, 500 };
 
 	public int level = 0;
+	
+	public Bucket()
+	{
+		this(0);
+	}
 
 	public Bucket(int level)
 	{
 		this.level = level;
+		sheet = UltimatePlugin.ultimateSheet;
 	}
 
 	public int getColor()
