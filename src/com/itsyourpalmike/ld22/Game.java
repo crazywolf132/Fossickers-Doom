@@ -23,8 +23,10 @@ import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.plugin.CreeperPlugin;
 import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 import com.itsyourpalmike.ld22.plugin.VanilllaPlugin;
+import com.itsyourpalmike.ld22.screen.AboutMenu;
 import com.itsyourpalmike.ld22.screen.DeadMenu;
 import com.itsyourpalmike.ld22.screen.FirstMenu;
+import com.itsyourpalmike.ld22.screen.InstructionsMenu;
 import com.itsyourpalmike.ld22.screen.LevelTransitionMenu;
 import com.itsyourpalmike.ld22.screen.Menu;
 import com.itsyourpalmike.ld22.screen.TitleMenu;
@@ -353,7 +355,8 @@ public class Game extends Canvas implements Runnable
 		}
 
 		// If we're on the plugin selection screen, don't bother rendering anything besides the menu
-		if (menu != null)
+		if (menu != null && (menu instanceof FirstMenu || menu instanceof TitleMenu
+				|| menu instanceof AboutMenu || menu instanceof InstructionsMenu))
 		{
 			renderMenu();
 			// Drawing the screen pixels to the game
