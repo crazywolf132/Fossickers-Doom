@@ -11,10 +11,8 @@ import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 
-// This class is used to create all tools in the game + keep track of their material type (Wood, Stone, Etc...)
 public class Bow extends Item
 {
-
 	public Bow()
 	{
 		super();
@@ -43,16 +41,15 @@ public class Bow extends Item
 
 	public boolean interact(Player player, Entity entity, int attackDir)
 	{
-		if (player.payStamina(1) && player.inventory.hasResources(Resource.get("arrow"), 1))
-		{
-			player.level.add(new Arrow(player));
-			player.inventory.removeResource(Resource.get("arrow"), 1);
-			return true;
-		}
-		return false;
+		return shoot(player);
 	}
 
 	public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir)
+	{
+		return shoot(player);
+	}
+	
+	public boolean shoot(Player player)
 	{
 		if (player.payStamina(1) && player.inventory.hasResources(Resource.get("arrow"), 1))
 		{

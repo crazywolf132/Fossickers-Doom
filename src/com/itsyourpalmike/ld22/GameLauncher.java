@@ -36,17 +36,17 @@ public class GameLauncher extends Applet
 		{
 			public void run()
 			{
-				// NOTE: Setting canvas properties
+				// Setting canvas properties
 				game.setMinimumSize(Game.DIMENSIONS);
 				game.setMaximumSize(Game.DIMENSIONS);
 				game.setPreferredSize(Game.DIMENSIONS);
 
-				// NOTE: Setting up JFrame
+				// Setting up JFrame
 				game.frame = new JFrame(Game.NAME);
 				game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				game.frame.setLayout(new BorderLayout());
 
-				// NOTE: Adding the canvas to the JFrame
+				// Adding the canvas to the JFrame
 				game.frame.add(game, BorderLayout.CENTER);
 				game.frame.pack();
 				game.frame.setResizable(false);

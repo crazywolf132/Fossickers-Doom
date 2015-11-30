@@ -58,7 +58,7 @@ public abstract class Recipe implements ListItem
 		return this;
 	}
 
-	// Makes sure the player has the proper resourcse in the proper amounts
+	// Makes sure the player has the proper resources in the proper amounts
 	public void checkCanCraft(Player player)
 	{
 		for (int i = 0; i < costs.size(); i++)
@@ -88,8 +88,7 @@ public abstract class Recipe implements ListItem
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
+
 				if (item instanceof FurnitureItem)
 				{
 					FurnitureItem ri = ((FurnitureItem)item);
@@ -109,7 +108,6 @@ public abstract class Recipe implements ListItem
 	public void renderInventory(Screen screen, int x, int y)
 	{
 		screen.render(x, y, this.resultTemplate.getSprite(), this.resultTemplate.getColor(), 0, this.resultTemplate.sheet);
-		//else screen.render(x, y, this.resultTemplate.getSprite(), this.resultTemplate.getColor(), 0);
 		Font.draw(this.resultTemplate.getName(), screen, x + 8, y, canCraft ? Color.get(-1, 555, 555, 555) : Color.get(-1, 222, 222, 222));
 	}
 
@@ -120,14 +118,13 @@ public abstract class Recipe implements ListItem
 		for (int i = 0; i < costs.size(); i++)
 		{
 			Item item = null;
-			if(!costs.get(i).isFurniture) item = new ResourceItem(Resource.get(costs.get(i).name), costs.get(i).count);
+			if (!costs.get(i).isFurniture) item = new ResourceItem(Resource.get(costs.get(i).name), costs.get(i).count);
 			else try
 			{
 				item = new FurnitureItem(costs.get(i).clazz.newInstance());
 			}
 			catch (Exception e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if (item instanceof ResourceItem)

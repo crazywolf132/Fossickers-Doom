@@ -50,7 +50,7 @@ public class Inventory
 		}
 		return null;
 	}
-	
+
 	private int findItem(Item resource)
 	{
 		for (int i = 0; i < items.size(); i++)
@@ -70,14 +70,14 @@ public class Inventory
 		if (ri == null) return false;
 		return ri.count >= count;
 	}
-	
+
 	public boolean hasFurniture(FurnitureItem f, int count)
 	{
 		int fi = findItem(f);
 		if (fi == -1) return false;
 		return true;
 	}
-	
+
 	public boolean removeItem(Item i)
 	{
 		int ri = -1;
@@ -106,7 +106,7 @@ public class Inventory
 		}
 		else if (item instanceof FurnitureItem)
 		{
-			if(findItem(item) != -1) return 1;
+			if (findItem(item) != -1) return 1;
 		}
 		else
 		{

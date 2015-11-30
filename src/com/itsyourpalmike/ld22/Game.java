@@ -39,7 +39,8 @@ import net.xeoh.plugins.base.util.PluginManagerUtil;
 public class Game extends Canvas implements Runnable
 {
 	private static final long serialVersionUID = 1L;
-	
+
+	// Usually it's only dark underground, but plugins can override this using a darkness checker
 	public static DarknessChecker bonusDarknessChecker = null;
 
 	// Game constants
@@ -56,22 +57,17 @@ public class Game extends Canvas implements Runnable
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 	private int[] colors = new int[256];
 	private boolean running = false;
-	public static boolean debug = true;
+	public static boolean debug = true; // Show debug window info and spawn with bonus items
 
 	// Important game objects
 	private InputHandler input = new InputHandler(this);
-
 	public Screen screen;
 	public Screen lightScreen;
-
 	public Level level;
 	private Level[] levels = new Level[5];
 	private int currentLevel = 3;
-
 	public Player player;
-
 	public Menu menu;
-
 	private int playerDeadTime;
 	private int pendingLevelChange;
 	private int wonTimer = 0;
@@ -102,7 +98,7 @@ public class Game extends Canvas implements Runnable
 
 		long lastTime = System.nanoTime();
 		double unprocessed = 0;
-		double nsPerTick = 1000000000.0 / 60.0;
+		double nsPerTick = 1000000000.0 / 60.0; // 60 FPS
 		int frames = 0;
 		int ticks = 0;
 		long lastTimer1 = System.currentTimeMillis();
@@ -174,20 +170,20 @@ public class Game extends Canvas implements Runnable
 
 		for (int i = 0; i < 5; i++)
 		{
-			levels[i].trySpawn(5000);
+			levels[i].trySpawn(5000); // Initialize level with mob spawns
 		}
 	}
 
 	public void startGameForTheFirstTime()
 	{
-		plugins.add(0, new VanilllaPlugin());
+		plugins.add(0, new VanilllaPlugin()); // Regular Minicraft
 
+		// Load the active plugins that weren't disabled in Plugin Menu
 		for (MinicraftPlugin plugin : plugins)
 		{
 			plugin.onLoad(this);
 			System.out.println("Loaded:\"" + plugin.getName() + "\"");
 		}
-
 
 		// Displays the Main Menu Screen
 		setMenu(new TitleMenu());
@@ -233,15 +229,16 @@ public class Game extends Canvas implements Runnable
 		String appDataRoaming = "...";
 
 		String OS = (System.getProperty("os.name")).toUpperCase();
+
 		// to determine what the workingDirectory is.
+
 		// if it is some version of Windows
 		if (OS.contains("WIN"))
 		{
 			// it is simply the location of the "AppData" folder
 			appDataRoaming = System.getenv("APPDATA");
 		}
-		// Otherwise, we assume Linux or Mac
-		else
+		else // Otherwise, we assume Linux or Mac
 		{
 			// in either case, we would start in the user's home directory
 			appDataRoaming = System.getProperty("user.home");
@@ -252,13 +249,11 @@ public class Game extends Canvas implements Runnable
 				appDataRoaming += "/Library/Application Support";
 			}
 		}
-		// we are now free to set the workingDirectory to the subdirectory that is our
-		// folder.
 
+		// we are now free to set the workingDirectory to the subdirectory that is our folder
 		System.out.println("Running Minicraft On " + OS);
 
 		File file = new File(appDataRoaming + "/.minicraft");
-
 		if (!file.exists())
 		{
 			file.mkdir();
@@ -274,6 +269,7 @@ public class Game extends Canvas implements Runnable
 		Collection<MinicraftPlugin> temp = new PluginManagerUtil(pm).getPlugins(MinicraftPlugin.class);
 		/////////////////////////////////////////////////
 
+		// Add built-in plugins and plugins loaded from AppData
 		plugins.add(new UltimatePlugin());
 		plugins.add(new CreeperPlugin());
 		plugins.addAll(temp);
@@ -354,11 +350,11 @@ public class Game extends Canvas implements Runnable
 			return;
 		}
 
-		// If we're on the plugin selection screen, don't bother rendering anything besides the menu
-		if (menu != null && (menu instanceof FirstMenu || menu instanceof TitleMenu
-				|| menu instanceof AboutMenu || menu instanceof InstructionsMenu))
+		// If we're on certain menu screens, don't bother rendering anything besides the menu
+		if (menu != null && (menu instanceof FirstMenu || menu instanceof TitleMenu || menu instanceof AboutMenu || menu instanceof InstructionsMenu))
 		{
 			renderMenu();
+
 			// Drawing the screen pixels to the game
 			for (int y = 0; y < screen.h; y++)
 			{
@@ -383,7 +379,7 @@ public class Game extends Canvas implements Runnable
 			return;
 		}
 
-		// Rendering the background tiles w proper offsets
+		// Rendering the background tiles with proper offsets
 		int xScroll = player.x - screen.w / 2;
 		int yScroll = player.y - (screen.h - 8) / 2;
 		if (xScroll < 16) xScroll = 16;
@@ -391,6 +387,7 @@ public class Game extends Canvas implements Runnable
 		if (xScroll > level.w * 16 - screen.w) xScroll = level.w * 16 - screen.w - 16;
 		if (yScroll > level.h * 16 - screen.h) yScroll = level.h * 16 - screen.h - 16;
 
+		// Rendering the sky world properly
 		if (currentLevel > 3)
 		{
 			int col = Color.get(20, 20, 121, 121);
@@ -406,6 +403,7 @@ public class Game extends Canvas implements Runnable
 		level.renderBackground(screen, xScroll, yScroll);
 		level.renderSprites(screen, xScroll, yScroll);
 
+		// Determining if we should render darkness - can be overriden by plugins via Darkness Checker
 		if (currentLevel < 3 || (bonusDarknessChecker != null && bonusDarknessChecker.isDark()))
 		{
 			lightScreen.clear(0);
@@ -451,7 +449,7 @@ public class Game extends Canvas implements Runnable
 			}
 		}
 
-		// Player hearts
+		// Player hearts & energy
 		for (int i = 0; i < 10; i++)
 		{
 			if (i < player.health) screen.render(i * 8, screen.h - 16, 0 + 12 * 32, Color.get(000, 200, 500, 533), 0);

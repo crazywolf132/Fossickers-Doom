@@ -13,6 +13,7 @@ public class Screen
 	private SpriteSheet sheet;
 	public int[] pixels;
 
+	// Override the spritesheet - called by plugins
 	public void changeSpritesheet(int w, int h, SpriteSheet sheet)
 	{
 		System.out.println("changed spritesheer");
@@ -55,7 +56,7 @@ public class Screen
 	// Renders a single sprite / image
 	public void render(int xp, int yp, int tile, int colors, int bits, SpriteSheet altSheet)
 	{
-		if(altSheet == null) altSheet = sheet;
+		if (altSheet == null) altSheet = sheet;
 		xp -= xOffset;
 		yp -= yOffset;
 		boolean mirrorX = (bits & BIT_MIRROR_X) > 0;
@@ -125,7 +126,7 @@ public class Screen
 		if (y0 < 0) y0 = 0;
 		if (x1 > w) x1 = w;
 		if (y1 > h) y1 = h;
-		// System.out.println(x0 + ", " + x1 + " -> " + y0 + ", " + y1);
+		
 		for (int yy = y0; yy < y1; yy++)
 		{
 			int yd = yy - y;
@@ -134,7 +135,7 @@ public class Screen
 			{
 				int xd = xx - x;
 				int dist = xd * xd + yd;
-				// System.out.println(dist);
+				
 				if (dist <= r * r)
 				{
 					int br = 255 - dist * 255 / (r * r);

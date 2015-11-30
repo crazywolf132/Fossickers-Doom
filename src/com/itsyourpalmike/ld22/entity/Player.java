@@ -7,6 +7,7 @@ import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.item.Bow;
 import com.itsyourpalmike.ld22.item.Bucket;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
@@ -48,14 +49,18 @@ public class Player extends Mob
 
 	public void initializeInventory()
 	{
+		// Default inventory
 		inventory.add(new FurnitureItem(new Workbench()));
 		inventory.add(new PowerGloveItem());
 
+		// Debug inventory
 		if (Game.debug)
 		{
 			inventory.add(new Bucket(Bucket.LAVA));
 			inventory.add(new ToolItem(ToolType.shovel, 4));
 			inventory.add(new ToolItem(ToolType.pickaxe, 4));
+			inventory.add(new Bow());
+			inventory.add(new ResourceItem(Resource.get("arrow"), 99));
 			inventory.add(new ResourceItem(Resource.get("wood"), 99));
 			inventory.add(new ResourceItem(Resource.get("stone"), 99));
 			inventory.add(new ResourceItem(Resource.get("daisy"), 99));

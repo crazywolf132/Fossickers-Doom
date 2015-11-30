@@ -10,7 +10,7 @@ public class JackOLantern extends Furniture
 	int count = 0;
 	int brightness = 5;
 	private static final Random random = new Random();
-	
+
 	public JackOLantern()
 	{
 		super("Jack");
@@ -23,17 +23,17 @@ public class JackOLantern extends Furniture
 
 	public int getLightRadius()
 	{
-		// FLickering light??
+		// Flickering light??
 		count++;
-		if(count >= 180)
+		if (count >= 180)
 		{
 			int jackpot = random.nextInt(2);
-			if(jackpot == 0) brightness = 6;
+			if (jackpot == 0) brightness = 6;
 			else brightness = 5;
 			count = 0;
 		}
-		
+
 		return 5;
 	}
-	
+
 }

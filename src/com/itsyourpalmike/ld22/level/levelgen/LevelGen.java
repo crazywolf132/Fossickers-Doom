@@ -90,8 +90,6 @@ public class LevelGen
 		values[(x & (w - 1)) + (y & (h - 1)) * w] = value;
 	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static CustomLevelGen top = null;
 	
 	public static byte[][] createAndValidateTopMap(int w, int h)
 	{
@@ -237,11 +235,6 @@ public class LevelGen
 			}
 		}
 
-		// Spawning dirt Tiles
-		/*
-		 * for (int i = 0; i < w * h / 2800; i++) { int xs = random.nextInt(w); int ys = random.nextInt(h); for (int k = 0; k < 10; k++) { int x = xs + random.nextInt(21) - 10; int y = ys + random.nextInt(21) - 10; for (int j = 0; j < 100; j++) { int xo = x + random.nextInt(5) - random.nextInt(5); int yo = y + random.nextInt(5) - random.nextInt(5); for (int yy = yo - 1; yy <= yo + 1; yy++) { for (int xx = xo - 1; xx <= xo + 1; xx++) { if (xx >= 0 && yy >= 0 && xx < w && yy < h) { if (map[xx + yy * w] == Tile.grass.id) { map[xx + yy * w] = Tile.dirt.id; } } } } } } }
-		 */
-
 		// Spawning tree Tiles
 		for (int i = 0; i < w * h / 400; i++)
 		{
@@ -314,8 +307,6 @@ public class LevelGen
 			count++;
 			if (count == 4) break;
 		}
-		
-		//if(top != null) map = top.go(map, w, h);
 
 		return new byte[][] { map, data };
 	}

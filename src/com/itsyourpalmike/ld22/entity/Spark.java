@@ -5,7 +5,6 @@ import java.util.List;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
 
-// This is the entity version of actual items that are on the ground in the level
 public class Spark extends Entity
 {
 	private int lifeTime;
