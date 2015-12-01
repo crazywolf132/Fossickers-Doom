@@ -25,6 +25,7 @@ import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.levelgen.CustomLevelGen;
 import com.itsyourpalmike.ld22.level.tile.BetterFlowerTile;
+import com.itsyourpalmike.ld22.level.tile.MushroomTile;
 import com.itsyourpalmike.ld22.level.tile.StoneWallTile;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.level.tile.WoodTile;
@@ -39,6 +40,7 @@ public class UltimatePlugin implements MinicraftPlugin
 	public void onLoad(Game game)
 	{
 		Tile.load("flower", new BetterFlowerTile());
+		Tile.load("mushroom", new MushroomTile());
 
 		Tile.load("daisy", new BetterFlowerTile(0));
 		Tile.load("rose", new BetterFlowerTile(1));
@@ -50,6 +52,7 @@ public class UltimatePlugin implements MinicraftPlugin
 		Resource.load(new PlantableResource("Wood", 1 + 4 * 32, Color.get(-1, 200, 531, 430), "woodtile", "grass", "dirt"));
 		Resource.load(new PlantableResource("Stone", 2 + 4 * 32, Color.get(-1, 111, 333, 555), "stonewalltile", "grass", "dirt"));
 
+		
 		Resource.load(new PlantableResource("daisy", 0 + 4 * 32, Color.get(-1, 10, 555, 440), "daisy", "grass"));
 		Resource.load(new PlantableResource("rose", 0 + 4 * 32, Color.get(-1, 10, 511, 400), "rose", "grass"));
 		Resource.load(new PlantableResource("salvia", 0 + 4 * 32, Color.get(-1, 10, 115, 445), "salvia", "grass"));
@@ -76,6 +79,8 @@ public class UltimatePlugin implements MinicraftPlugin
 		{
 			e.printStackTrace();
 		}
+		
+		Resource.load(new PlantableResource("shroom", 5 + 0 * 32, Color.get(-1, 533, 500, 220), ultimateSheet, "mushroom", "grass"));
 
 		Resource.load(new Resource("star", 35, Color.get(-1, 110, 440, 440), ultimateSheet));
 		Resource.load(new Resource("R.fish", 32, Color.get(-1, 0, 135, 245), ultimateSheet));
@@ -138,13 +143,33 @@ public class UltimatePlugin implements MinicraftPlugin
 				// Only on halloween?
 				//if(m != 10 && d != 31) return;
 				
-				// Spawn pumpkins
 				for (int i = 0; i < level.w * level.h / 800; i++)
 				{
 					int x = random.nextInt(level.w);
 					int y = random.nextInt(level.h);
+					int col = random.nextInt(4);
+					for (int j = 0; j < 30; j++)
+					{
+						int xx = x + random.nextInt(5) - random.nextInt(5);
+						int yy = y + random.nextInt(5) - random.nextInt(5);
+						if (xx >= 0 && yy >= 0 && xx < level.w && yy < level.h)
+						{
+							if (level.tiles[xx + yy * level.w] == Tile.get("grass").id)
+							{
+								level.tiles[xx + yy * level.w] = Tile.get("mushroom").id;
+								level.data[xx + yy * level.w] = (byte)(col + random.nextInt(4) * 16); // creates unique flowers
+							}
+						}
+					}
+				}
+				
+				// Spawn pumpkins
+				for (int i = 0; i < level.w * level.h / 1200; i++)
+				{
+					int x = random.nextInt(level.w);
+					int y = random.nextInt(level.h);
 					//int col = random.nextInt(4);
-					for (int j = 0; j < 15; j++)
+					for (int j = 0; j < 8; j++)
 					{
 						int xx = x + random.nextInt(5) - random.nextInt(5);
 						int yy = y + random.nextInt(5) - random.nextInt(5);

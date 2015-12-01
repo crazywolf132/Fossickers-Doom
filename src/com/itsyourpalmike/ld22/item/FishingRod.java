@@ -12,7 +12,6 @@ import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 
-// This class is used to create all tools in the game + keep track of their material type (Wood, Stone, Etc...)
 public class FishingRod extends Item
 {
 	private Random random = new Random();
@@ -46,6 +45,7 @@ public class FishingRod extends Item
 
 	public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir)
 	{
+		// If tile being hit is water then drop raw fish, star fish, or nothing.
 		if (tile.id == Tile.get("water").id)
 		{
 			if (random.nextInt(35) != 0) return false;

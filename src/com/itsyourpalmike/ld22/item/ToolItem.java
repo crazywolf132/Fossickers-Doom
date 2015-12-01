@@ -8,7 +8,6 @@ import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
 
-// This class is used to create all tools in the game + keep track of their material type (Wood, Stone, Etc...)
 public class ToolItem extends Item
 {
 	private Random random = new Random();
@@ -59,6 +58,7 @@ public class ToolItem extends Item
 
 	public int getAttackDamageBonus(Entity e)
 	{
+		// Axes and swords can be used as weapons
 		if (type == ToolType.axe)
 		{
 			return (level + 1) * 2 + random.nextInt(4);

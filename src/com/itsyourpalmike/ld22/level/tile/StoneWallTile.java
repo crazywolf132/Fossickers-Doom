@@ -28,18 +28,17 @@ public class StoneWallTile extends Tile
 		// This render creates smooth corners and shapes, so the world isn't obviously blocky
 		int col = Color.get(444, 444, 333, 333);
 		int transitionColor = Color.get(111, 444, 555, level.dirtColor);
-		if(level.getData(x, y) == 10001)
-			transitionColor = Color.get(111, 444, 555, level.sandColor);
+		if (level.getData(x, y) == 10001) transitionColor = Color.get(111, 444, 555, level.sandColor);
 
-		boolean u = level.getTile(x, y - 1) != this && !(level.getTile(x, y-1) instanceof WoodTile);
-		boolean d = level.getTile(x, y + 1) != this && !(level.getTile(x, y+1) instanceof WoodTile);
-		boolean l = level.getTile(x - 1, y) != this && !(level.getTile(x-1, y) instanceof WoodTile);
-		boolean r = level.getTile(x + 1, y) != this  && !(level.getTile(x+1, y) instanceof WoodTile);
+		boolean u = level.getTile(x, y - 1) != this && !(level.getTile(x, y - 1) instanceof WoodTile);
+		boolean d = level.getTile(x, y + 1) != this && !(level.getTile(x, y + 1) instanceof WoodTile);
+		boolean l = level.getTile(x - 1, y) != this && !(level.getTile(x - 1, y) instanceof WoodTile);
+		boolean r = level.getTile(x + 1, y) != this && !(level.getTile(x + 1, y) instanceof WoodTile);
 
-		boolean ul = level.getTile(x - 1, y - 1) != this && !(level.getTile(x - 1, y-1) instanceof WoodTile);
-		boolean dl = level.getTile(x - 1, y + 1) != this && !(level.getTile(x-1, y+1) instanceof WoodTile);
-		boolean ur = level.getTile(x + 1, y - 1) != this && !(level.getTile(x+1, y-1) instanceof WoodTile);
-		boolean dr = level.getTile(x + 1, y + 1) != this && !(level.getTile(x+1, y+1) instanceof WoodTile);
+		boolean ul = level.getTile(x - 1, y - 1) != this && !(level.getTile(x - 1, y - 1) instanceof WoodTile);
+		boolean dl = level.getTile(x - 1, y + 1) != this && !(level.getTile(x - 1, y + 1) instanceof WoodTile);
+		boolean ur = level.getTile(x + 1, y - 1) != this && !(level.getTile(x + 1, y - 1) instanceof WoodTile);
+		boolean dr = level.getTile(x + 1, y + 1) != this && !(level.getTile(x + 1, y + 1) instanceof WoodTile);
 
 		if (!u && !l)
 		{

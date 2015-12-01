@@ -7,7 +7,6 @@ import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
 
-// This class is used to create all tools in the game + keep track of their material type (Wood, Stone, Etc...)
 public class PowerGloveItem extends Item
 {
 	public int getColor()
@@ -33,6 +32,7 @@ public class PowerGloveItem extends Item
 
 	public boolean interact(Player player, Entity entity, int attackDir)
 	{
+		// Pick up the furniture
 		if (entity instanceof Furniture)
 		{
 			Furniture f = (Furniture)entity;

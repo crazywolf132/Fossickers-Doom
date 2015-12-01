@@ -39,6 +39,7 @@ public class FirstMenu extends Menu
 		{
 			if (selected == plugins.size())
 			{
+				// Remove the disabled plugins from the Game.plugins array list before running game
 				for (int i = plugins.size()-1; i >= 0; i--)
 				{
 					if (!plugins.get(i).enabled)

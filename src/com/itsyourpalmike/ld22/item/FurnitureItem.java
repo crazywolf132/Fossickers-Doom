@@ -9,7 +9,6 @@ import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 
-// This class is used to create all tools in the game + keep track of their material type (Wood, Stone, Etc...)
 public class FurnitureItem extends Item
 {
 	public Furniture furniture;
@@ -33,19 +32,20 @@ public class FurnitureItem extends Item
 
 	public void renderIcon(Screen screen, int x, int y)
 	{
-		if(furniture.sheet == null) screen.render(x, y, getSprite(), getColor(), 0);
-		else  screen.render(x, y, getSprite(), getColor(), 0, furniture.sheet);
+		if (furniture.sheet == null) screen.render(x, y, getSprite(), getColor(), 0);
+		else screen.render(x, y, getSprite(), getColor(), 0, furniture.sheet);
 	}
 
 	public void renderInventory(Screen screen, int x, int y)
 	{
-		if(furniture.sheet == null) screen.render(x, y, getSprite(), getColor(), 0);
+		if (furniture.sheet == null) screen.render(x, y, getSprite(), getColor(), 0);
 		else screen.render(x, y, getSprite(), getColor(), 0, furniture.sheet);
 		Font.draw(furniture.name, screen, x + 8, y, Color.get(-1, 555, 555, 555));
 	}
 
 	public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir)
 	{
+		// Place the furniture
 		if (tile.mayPass(level, xt, yt, furniture))
 		{
 			furniture.x = xt * 16 + 8;

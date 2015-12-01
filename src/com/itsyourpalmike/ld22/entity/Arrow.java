@@ -29,6 +29,7 @@ public class Arrow extends Entity
 		xa = ya = 0;
 		this.dir = owner.dir;
 
+		// Determine the arrow direction
 		if (owner.dir == 2)
 		{
 			this.xa = -1;
@@ -46,6 +47,7 @@ public class Arrow extends Entity
 			this.ya = 1;
 		}
 
+		// Set the arrow speed
 		xa *= 3.5;
 		ya *= 3.5;
 

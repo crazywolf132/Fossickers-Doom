@@ -25,7 +25,7 @@ public class GrassTile extends Tile
 		// This render creates smooth corners and shapes, so the world isn't obviously blocky
 		int col = Color.get(level.grassColor, level.grassColor, level.grassColor + 111, level.grassColor + 111);
 		int transitionColor = Color.get(level.grassColor - 111, level.grassColor, level.grassColor + 111, level.dirtColor);
-		//level.setData(x, y, 1000);
+		// level.setData(x, y, 1000);
 
 		boolean u = !level.getTile(x, y - 1).connectsToGrass;
 		boolean d = !level.getTile(x, y + 1).connectsToGrass;

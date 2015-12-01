@@ -2,6 +2,7 @@ package com.itsyourpalmike.ld22.screen;
 
 import com.itsyourpalmike.ld22.gfx.Screen;
 
+// moving up/down stairs level transition
 public class LevelTransitionMenu extends Menu
 {
 	private int dir;

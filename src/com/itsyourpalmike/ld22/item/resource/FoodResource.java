@@ -26,6 +26,7 @@ public class FoodResource extends Resource
 
 	public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir)
 	{
+		// Heal the player (aka eat the food)
 		if (player.health < player.maxHealth && player.payStamina(staminaCost))
 		{
 			player.heal(heal);

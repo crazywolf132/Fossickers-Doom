@@ -12,10 +12,17 @@ import com.itsyourpalmike.ld22.item.ToolType;
 import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 
+// Can create specific flower tile directly, or by using the
+// flowerCol level data notch left in the level gen code
 public class BetterFlowerTile extends GrassTile
 {
 	int type = -1;
 	int flowerColor;
+	
+	// flower color 0: daisy
+	// flower color 1: rose
+	// flower color 2: salvia
+	// flower color 3: black rose
 
 	public BetterFlowerTile()
 	{
@@ -48,11 +55,10 @@ public class BetterFlowerTile extends GrassTile
 		// Unique flower shapes (TL, TR, BL, BR)
 		if (shape == 0) screen.render(x * 16 + 0, y * 16 + 0, 1 + 1 * 32, flowerCol, 0);
 		if (shape == 1) screen.render(x * 16 + 8, y * 16 + 0, 1 + 1 * 32, flowerCol, 0);
-		if (shape == 1) screen.render(x * 16 + 0, y * 16 + 8, 1 + 1 * 32, flowerCol, 0);
+		if (shape == 2) screen.render(x * 16 + 0, y * 16 + 8, 1 + 1 * 32, flowerCol, 0);
 		if (shape == 3) screen.render(x * 16 + 8, y * 16 + 8, 1 + 1 * 32, flowerCol, 0);
 	}
 
-	// If we hurt a flower with a bare hand, 2 flowers pop out???
 	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
 	{
 		int data = level.getData(x, y);
@@ -70,7 +76,6 @@ public class BetterFlowerTile extends GrassTile
 		level.setTile(x, y, Tile.get("grass"), 0);
 	}
 
-	// If we hurt a flower with a shovel, 2 flowers pop out??? + the grass is turned to dirt!
 	public boolean interact(Level level, int x, int y, Player player, Item item, int attackDir)
 	{
 		if (item instanceof ToolItem)

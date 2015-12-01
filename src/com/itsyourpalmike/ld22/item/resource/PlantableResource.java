@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.itsyourpalmike.ld22.entity.Player;
+import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 
@@ -16,6 +17,12 @@ public class PlantableResource extends Resource
 	{
 		this(name, sprite, color, targetTile, Arrays.asList(sourceTiles1));
 	}
+	
+	public PlantableResource(String name, int sprite, int color, SpriteSheet sheet, String targetTile, String... sourceTiles1)
+	{
+		this(name, sprite, color, targetTile, Arrays.asList(sourceTiles1));
+		this.sheet = sheet;
+	}
 
 	public PlantableResource(String name, int sprite, int color, String targetTile, List<String> sourceTiles)
 	{
@@ -24,7 +31,7 @@ public class PlantableResource extends Resource
 		this.targetTile = targetTile;
 	}
 
-	// Plant a tree when we use an acorn - DUH!
+	// Place the item when we click the button
 	public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir)
 	{
 		for (int i = 0; i < sourceTiles.size(); i++)

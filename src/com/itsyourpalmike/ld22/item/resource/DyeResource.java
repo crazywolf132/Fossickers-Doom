@@ -24,6 +24,7 @@ public class DyeResource extends Resource
 
 	public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir)
 	{
+		// Change the color of the players clothes
 		if (player.shirtColor != mainColor)
 		{
 			player.shirtColor = mainColor;

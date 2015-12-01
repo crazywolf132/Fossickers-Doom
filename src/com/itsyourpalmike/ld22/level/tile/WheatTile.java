@@ -44,6 +44,7 @@ public class WheatTile extends Tile
 
 	public void tick(Level level, int xt, int yt)
 	{
+		// Increase the wheat's age until we reach 50
 		if (random.nextInt(2) == 0) return;
 		int age = level.getData(xt, yt);
 		if (age < 50) level.setData(xt, yt, age + 1);
@@ -66,6 +67,7 @@ public class WheatTile extends Tile
 		return false;
 	}
 
+	// Walking on the crops ruin them!!!
 	public void steppedOn(Level level, int xt, int yt, Entity entity)
 	{
 		if (random.nextInt(60) != 0) return;
@@ -84,11 +86,13 @@ public class WheatTile extends Tile
 		int age = level.getData(x, y);
 		int count = random.nextInt(2);
 
+		// Drop seeds
 		for (int i = 0; i < count; i++)
 		{
 			level.add(new ItemEntity(new ResourceItem(Resource.get("seeds")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 		}
 
+		// Drop Wheat if its age is between 40 (less wheat drop) and 50 (most wheat drop)
 		count = 0;
 		if (age == 50)
 		{

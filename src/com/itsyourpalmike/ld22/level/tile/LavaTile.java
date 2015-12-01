@@ -74,7 +74,7 @@ public class LavaTile extends Tile
 		}
 	}
 
-	// Water flows into holes
+	// Lava flows into holes
 	public void tick(Level level, int xt, int yt)
 	{
 		int xn = xt;

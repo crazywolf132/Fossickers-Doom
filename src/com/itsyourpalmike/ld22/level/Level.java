@@ -17,6 +17,7 @@ import com.itsyourpalmike.ld22.level.tile.Tile;
 
 public class Level
 {
+	// Plugins can add custom level generation code to this ArrayList
 	public static ArrayList<CustomLevelGen> customLevelGenCode = new ArrayList<CustomLevelGen>();
 	
 	private Random random = new Random();
@@ -38,8 +39,10 @@ public class Level
 	public Player player;
 	public int monsterDensity = 8;
 
+	// The list of mobs to spawn
 	private static List<Class<? extends Mob>> mobsToSpawn = new ArrayList<Class<? extends Mob>>();
 
+	// Plugins can add new Mob classes that the level will spawn
 	public static void addMobToLevelSpawner(Class<? extends Mob> clazz)
 	{
 		mobsToSpawn.add(clazz);
@@ -81,13 +84,14 @@ public class Level
 		}
 		else
 		{
-			maps = LevelGen.createAndValidateSkyMap(w, h); // Sky level
+			maps = LevelGen.createAndValidateSkyMap(w, h);
 			monsterDensity = 4;
 		}
 
 		tiles = maps[0];
 		data = maps[1];
 
+		// Correctly link staircases
 		if (parentLevel != null)
 		{
 			for (int y = 0; y < h; y++)
@@ -138,7 +142,7 @@ public class Level
 			aw.y = h * 8;
 			add(aw);
 		}
-		
+		// Run any and all custom level generation code
 		for(int i = 0; i < customLevelGenCode.size(); i++)
 		{
 			if(level == customLevelGenCode.get(i).getLevel())
@@ -228,11 +232,6 @@ public class Level
 		screen.setOffset(0, 0);
 	}
 
-	// private void renderLight(Screen screen, int x, int y, int r)
-	// {
-	// screen.renderLight(x,y,r);
-	// }
-
 	/// sorts entities before rendering them
 	private void sortAndRender(Screen screen, List<Entity> list)
 	{
@@ -307,7 +306,6 @@ public class Level
 
 	public void trySpawn(int count)
 	{
-		// Spawn in some mobs
 		for (int i = 0; i < count; i++)
 		{
 			Mob m = null;

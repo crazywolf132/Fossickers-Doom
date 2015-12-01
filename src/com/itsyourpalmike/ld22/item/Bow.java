@@ -49,6 +49,7 @@ public class Bow extends Item
 		return shoot(player);
 	}
 	
+	// Takes an arrow item from inventory and adds Arrow entity to the level
 	public boolean shoot(Player player)
 	{
 		if (player.payStamina(1) && player.inventory.hasResources(Resource.get("arrow"), 1))

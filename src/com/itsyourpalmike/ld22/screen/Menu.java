@@ -83,15 +83,14 @@ public class Menu
 		{
 			int col = 0;
 			String msg = listItems.get(i + io).getName();
-			
 
-			if (listItems.get(i+io).enabled) col = Color.get(0, 040, 040, 040);
+			if (listItems.get(i + io).enabled) col = Color.get(0, 040, 040, 040);
 			else col = Color.get(0, 300, 300, 300);
-			
+
 			if (i + io == selected)
 			{
 				msg = "> " + listItems.get(i + io).getName() + " <";
-				if (listItems.get(i+io).enabled) col = Color.get(0, 050, 050, 050);
+				if (listItems.get(i + io).enabled) col = Color.get(0, 050, 050, 050);
 				else col = Color.get(0, 500, 500, 500);
 			}
 			Font.draw(msg, screen, (screen.w - msg.length() * 8) / 2, (i + 1 + yo) * 8, col);

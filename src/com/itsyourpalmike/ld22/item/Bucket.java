@@ -9,7 +9,6 @@ import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
 import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 
-// This class is used to create all tools in the game + keep track of their material type (Wood, Stone, Etc...)
 public class Bucket extends Item
 {
 	public static final int EMPTY = 0;
@@ -17,8 +16,8 @@ public class Bucket extends Item
 	public static final int LAVA = 2;
 
 	public static final int MAX_LEVEL = 3;
-	public static final String[] LEVEL_NAMES = { "", "W.", "L." };
-	public static final int[] LEVEL_COLORS = { 000, 005, 500 };
+	public static final String[] LEVEL_NAMES = { "", "W.", "L." }; // Bucket names
+	public static final int[] LEVEL_COLORS = { 000, 005, 500 }; // Bucket contents color
 
 	public int level = 0;
 	
@@ -56,7 +55,7 @@ public class Bucket extends Item
 
 	public boolean interactOn(Tile tile, Level level, int xt, int yt, Player player, int attackDir)
 	{
-		if (tile.id == Tile.get("water").id && this.level == Bucket.EMPTY)
+		if (tile.id == Tile.get("water").id && this.level == Bucket.EMPTY) // Collect water
 		{
 			if (player.payStamina(2))
 			{
@@ -65,7 +64,7 @@ public class Bucket extends Item
 				return true;
 			}
 		}
-		else if (tile.id == Tile.get("lava").id && this.level == Bucket.EMPTY)
+		else if (tile.id == Tile.get("lava").id && this.level == Bucket.EMPTY) // Collect lava
 		{
 			if (player.payStamina(2))
 			{
@@ -74,7 +73,7 @@ public class Bucket extends Item
 				return true;
 			}
 		}
-		else if (tile.id == Tile.get("hole").id && this.level != Bucket.EMPTY)
+		else if (tile.id == Tile.get("hole").id && this.level != Bucket.EMPTY) // Place water or lava
 		{
 			if (player.payStamina(2))
 			{
