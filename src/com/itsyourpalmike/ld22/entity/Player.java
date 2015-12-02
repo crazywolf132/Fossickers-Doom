@@ -67,6 +67,8 @@ public class Player extends Mob
 			inventory.add(new ResourceItem(Resource.get("rose"), 99));
 			inventory.add(new ResourceItem(Resource.get("salvia"), 99));
 			inventory.add(new ResourceItem(Resource.get("b.rose"), 99));
+			inventory.add(new ResourceItem(Resource.get("r.mshrm"), 99));
+			inventory.add(new ResourceItem(Resource.get("b.mshrm"), 99));
 			inventory.add(new FurnitureItem(new Chest()));
 			inventory.add(new FurnitureItem(new Anvil()));
 			inventory.add(new FurnitureItem(new Furnace()));

@@ -13,12 +13,30 @@ import com.itsyourpalmike.ld22.item.resource.Resource;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 
+// Can create specific flower tile directly, or by using the
+// flowerCol level data notch left in the level gen code
 public class MushroomTile extends GrassTile
 {
+	int type = -1;
+	int flowerColor;
+	
+	// flower color 0: daisy
+	// flower color 1: rose
+	// flower color 2: salvia
+	// flower color 3: black rose
+
 	public MushroomTile()
 	{
 		super();
 		connectsToGrass = true;
+		type = -1;
+	}
+
+	public MushroomTile(int type)
+	{
+		super();
+		connectsToGrass = true;
+		this.type = type;
 	}
 
 	public void render(Screen screen, Level level, int x, int y)
@@ -26,9 +44,12 @@ public class MushroomTile extends GrassTile
 		super.render(screen, level, x, y); // Render the grass
 		int data = level.getData(x, y);
 		int shape = (data / 16) % 2;
-		//shape = 0;
+		flowerColor = data % 16;
+		if (type != -1) flowerColor = type;
 
-		int flowerCol = Color.get(533, level.grassColor, 500, 220);
+		int flowerCol = 0;
+		if (flowerColor == 0 || flowerColor == 3) flowerCol = Color.get(533, level.grassColor, 500, 220);
+		if (flowerColor == 1 || flowerColor == 2) flowerCol = Color.get(110, level.grassColor, 110, 321);
 
 		// Unique flower shapes (TL, TR, BL, BR)
 		if (shape == 0) screen.render(x * 16 + 0, y * 16 + 0, 4 + 0 * 32, flowerCol, 0, UltimatePlugin.ultimateSheet);
@@ -37,18 +58,21 @@ public class MushroomTile extends GrassTile
 		if (shape == 3) screen.render(x * 16 + 8, y * 16 + 8, 4 + 0 * 32, flowerCol, 0, UltimatePlugin.ultimateSheet);
 	}
 
-	// If we hurt a flower with a bare hand, 2 flowers pop out???
 	public void hurt(Level level, int x, int y, Mob source, int dmg, int attackDir)
 	{
-		int count = 1;
+		int data = level.getData(x, y);
+		flowerColor = data % 16;
+		if (type != -1) flowerColor = type;
+
+		int count = random.nextInt(2) + 1;
 		for (int i = 0; i < count; i++)
 		{
-			level.add(new ItemEntity(new ResourceItem(Resource.get("shroom")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+			if (flowerColor == 0 || flowerColor == 3) level.add(new ItemEntity(new ResourceItem(Resource.get("r.mshrm")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+			if (flowerColor == 1 || flowerColor == 2) level.add(new ItemEntity(new ResourceItem(Resource.get("b.mshrm")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 		}
 		level.setTile(x, y, Tile.get("grass"), 0);
 	}
 
-	// If we hurt a flower with a shovel, 2 flowers pop out??? + the grass is turned to dirt!
 	public boolean interact(Level level, int x, int y, Player player, Item item, int attackDir)
 	{
 		if (item instanceof ToolItem)
@@ -59,7 +83,13 @@ public class MushroomTile extends GrassTile
 				if (player.payStamina(4 - tool.level))
 				{
 					level.setTile(x, y, Tile.get("dirt"), 0);
-					level.add(new ItemEntity(new ResourceItem(Resource.get("shroom")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+
+					int data = level.getData(x, y);
+					flowerColor = data % 16;
+					if (type != -1) flowerColor = type;
+
+					if (flowerColor == 0 || flowerColor == 3) level.add(new ItemEntity(new ResourceItem(Resource.get("r.mshrm")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
+					if (flowerColor == 1 || flowerColor == 2) level.add(new ItemEntity(new ResourceItem(Resource.get("b.mshrm")), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
 					return true;
 				}
 			}

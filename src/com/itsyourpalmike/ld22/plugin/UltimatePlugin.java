@@ -41,6 +41,8 @@ public class UltimatePlugin implements MinicraftPlugin
 	{
 		Tile.load("flower", new BetterFlowerTile());
 		Tile.load("mushroom", new MushroomTile());
+		Tile.load("r.mushroom", new MushroomTile(0));
+		Tile.load("b.mushroom", new MushroomTile(1));
 
 		Tile.load("daisy", new BetterFlowerTile(0));
 		Tile.load("rose", new BetterFlowerTile(1));
@@ -80,7 +82,11 @@ public class UltimatePlugin implements MinicraftPlugin
 			e.printStackTrace();
 		}
 		
-		Resource.load(new PlantableResource("shroom", 5 + 0 * 32, Color.get(-1, 533, 500, 220), ultimateSheet, "mushroom", "grass"));
+		Resource.load(new FoodResource("r.mshrm", 5 + 0 * 32, Color.get(-1, 533, 500, 220), ultimateSheet, 1, 5));
+		Resource.load(new FoodResource("b.mshrm", 5 + 0 * 32, Color.get(-1, 110, 110, 321), ultimateSheet, 1, 5));
+		
+		Resource.load(new PlantableResource("r.spore", 2 + 4 * 32, Color.get(-1, -1, -1, 500), "r.mushroom", "grass"));
+		Resource.load(new PlantableResource("b.spore", 2 + 4 * 32, Color.get(-1, -1, -1, 321), "b.mushroom", "grass"));
 
 		Resource.load(new Resource("star", 35, Color.get(-1, 110, 440, 440), ultimateSheet));
 		Resource.load(new Resource("R.fish", 32, Color.get(-1, 0, 135, 245), ultimateSheet));
@@ -105,6 +111,9 @@ public class UltimatePlugin implements MinicraftPlugin
 			Crafting.workbenchRecipes.add(new ResourceRecipe("yellow").addCost("star", 1));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("orange").addCost("red", 1).addCost("yellow", 1));
 			Crafting.workbenchRecipes.add(new ResourceRecipe("gray").addCost("white", 1).addCost("black", 1));
+			
+			Crafting.workbenchRecipes.add(new ResourceRecipe("r.spore").addCost("r.mshrm", 1));
+			Crafting.workbenchRecipes.add(new ResourceRecipe("b.spore").addCost("b.mshrm", 1));
 			
 			Crafting.workbenchRecipes.add(new FurnitureRecipe(JackOLantern.class).addCost(Pumpkin.class, 1));
 			
