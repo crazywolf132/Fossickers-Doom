@@ -6,6 +6,7 @@ import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
+import com.itsyourpalmike.ld22.plugin.DownloadPlugins;
 import com.itsyourpalmike.ld22.sound.Sound;
 
 public class FirstMenu extends Menu
@@ -22,6 +23,8 @@ public class FirstMenu extends Menu
 		{
 			plugins.add(new PluginMenuItem(Game.plugins.get(i)));
 		}
+		
+		plugins.add(new PluginMenuItem(new DownloadPlugins()));
 	}
 
 	public void tick()
@@ -40,7 +43,7 @@ public class FirstMenu extends Menu
 			if (selected == plugins.size())
 			{
 				// Remove the disabled plugins from the Game.plugins array list before running game
-				for (int i = plugins.size()-1; i >= 0; i--)
+				for (int i = plugins.size()-2; i >= 0; i--)
 				{
 					if (!plugins.get(i).enabled)
 					{
@@ -49,6 +52,13 @@ public class FirstMenu extends Menu
 				}
 				Sound.play("pluginsSelected");
 				game.startGameForTheFirstTime();
+			}
+			else if (selected == plugins.size() - 1)
+			{
+				System.out.println("DOWNLOADING");
+				Sound.play("pluginsSelected");
+				game.deletePlugins();
+				game.setMenu(new DownloadMenu(game));
 			}
 			else
 			{

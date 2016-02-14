@@ -7,6 +7,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -25,10 +26,12 @@ import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 import com.itsyourpalmike.ld22.plugin.VanilllaPlugin;
 import com.itsyourpalmike.ld22.screen.AboutMenu;
 import com.itsyourpalmike.ld22.screen.DeadMenu;
+import com.itsyourpalmike.ld22.screen.DownloadMenu;
 import com.itsyourpalmike.ld22.screen.FirstMenu;
 import com.itsyourpalmike.ld22.screen.InstructionsMenu;
 import com.itsyourpalmike.ld22.screen.LevelTransitionMenu;
 import com.itsyourpalmike.ld22.screen.Menu;
+import com.itsyourpalmike.ld22.screen.RestartMenu;
 import com.itsyourpalmike.ld22.screen.TitleMenu;
 import com.itsyourpalmike.ld22.screen.WonMenu;
 
@@ -57,7 +60,7 @@ public class Game extends Canvas implements Runnable
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 	private int[] colors = new int[256];
 	private boolean running = false;
-	public static boolean debug = true; // Show debug window info and spawn with bonus items
+	public static boolean debug = false; // Show debug window info and spawn with bonus items
 
 	// Important game objects
 	private InputHandler input = new InputHandler(this);
@@ -189,7 +192,7 @@ public class Game extends Canvas implements Runnable
 		setMenu(new TitleMenu());
 	}
 
-	private void init()
+	public void init()
 	{
 		// Setting up colors
 		int pp = 0;
@@ -264,18 +267,28 @@ public class Game extends Canvas implements Runnable
 			System.out.println("Located .minicraft Folder");
 		}
 
+		URI f = new File(file.getAbsolutePath() + "/").toURI();
 		PluginManager pm = PluginManagerFactory.createPluginManager();
-		pm.addPluginsFrom(new File(file.getAbsolutePath() + "/").toURI());
-		Collection<MinicraftPlugin> temp = new PluginManagerUtil(pm).getPlugins(MinicraftPlugin.class);
+		pm.addPluginsFrom(f);
+		pm.shutdown();
+		pm = null;
+		//PluginManagerUtil pmM = new PluginManagerUtil(pm);
+		//Collection<MinicraftPlugin> temp = pmM.getPlugins(MinicraftPlugin.class);
+		
 		/////////////////////////////////////////////////
 
 		// Add built-in plugins and plugins loaded from AppData
 		plugins.add(new UltimatePlugin());
 		plugins.add(new CreeperPlugin());
-		plugins.addAll(temp);
+		//plugins.addAll(temp);
 
 		player = new Player(this, input);
 		setMenu(new FirstMenu(this));
+	}
+	
+	public void deletePlugins()
+	{
+		plugins.clear();
 	}
 
 	public void tick()
@@ -351,7 +364,8 @@ public class Game extends Canvas implements Runnable
 		}
 
 		// If we're on certain menu screens, don't bother rendering anything besides the menu
-		if (menu != null && (menu instanceof FirstMenu || menu instanceof TitleMenu || menu instanceof AboutMenu || menu instanceof InstructionsMenu))
+		if (menu != null && (menu instanceof FirstMenu || menu instanceof TitleMenu || menu instanceof AboutMenu || menu instanceof InstructionsMenu
+				|| menu instanceof DownloadMenu || menu instanceof RestartMenu))
 		{
 			renderMenu();
 

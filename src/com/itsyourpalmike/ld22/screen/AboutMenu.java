@@ -24,6 +24,10 @@ public class AboutMenu extends Menu
 	public void render(Screen screen)
 	{
 		screen.clear(0);
+		
+		int i =7;
+		
+		i = 9;
 
 		Font.draw("About Minicraft", screen, 2 * 8 + 4, 1 * 8, Color.get(0, 555, 555, 555));
 		Font.draw("Minicraft was made", screen, 0 * 8 + 4, 3 * 8, Color.get(0, 333, 333, 333));
