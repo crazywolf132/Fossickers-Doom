@@ -25,7 +25,7 @@ public class DownloadMenu extends Menu
 	private Game game;
 	private int selected = 0;
 	private ArrayList<DownloadablePlugin> plugins = new ArrayList<DownloadablePlugin>();
-	String savePath = System.getenv("APPDATA") + "/.minicraft/";
+	String savePath = System.getenv("APPDATA") + "/.minicraft/tmp/";
 	String pluginsTXT = System.getenv("APPDATA") + "/.minicraft/plugins.txt";
 
 	public DownloadMenu(Game game)
@@ -110,6 +110,12 @@ public class DownloadMenu extends Menu
 					}
 				}
 				Sound.play("pluginsSelected");
+				
+				File file = new File(savePath);
+				if (!file.exists())
+				{
+					file.mkdir();
+				}
 				
 				for(int i = 0; i < plugins.size(); i++)
 				{

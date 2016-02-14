@@ -57,7 +57,7 @@ public class FirstMenu extends Menu
 			{
 				System.out.println("DOWNLOADING");
 				Sound.play("pluginsSelected");
-				game.deletePlugins();
+				//game.deletePlugins();
 				game.setMenu(new DownloadMenu(game));
 			}
 			else

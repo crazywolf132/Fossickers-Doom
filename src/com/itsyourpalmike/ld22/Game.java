@@ -7,7 +7,12 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -266,24 +271,55 @@ public class Game extends Canvas implements Runnable
 		{
 			System.out.println("Located .minicraft Folder");
 		}
+		
+		File ff = new File(System.getenv("APPDATA") + "/.minicraft/tmp/");
+		if(ff.isDirectory()) {
+		    File[] content = ff.listFiles();
+		    for(int i = 0; i < content.length; i++) {
+		    	try
+				{
+		    		Path src = Paths.get(ff.getAbsolutePath() + "/" + content[i].getName());
+		    		Path dest = Paths.get(file.getAbsolutePath() + "/" +content[i].getName());
+		    		
+		    		System.out.println("Src = " + src + ", DEST = " + dest);
+		    		
+					Files.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);
+				}
+				catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+		}
+
+		deleteDir(ff);
 
 		URI f = new File(file.getAbsolutePath() + "/").toURI();
 		PluginManager pm = PluginManagerFactory.createPluginManager();
 		pm.addPluginsFrom(f);
-		pm.shutdown();
-		pm = null;
-		//PluginManagerUtil pmM = new PluginManagerUtil(pm);
-		//Collection<MinicraftPlugin> temp = pmM.getPlugins(MinicraftPlugin.class);
+		PluginManagerUtil pmM = new PluginManagerUtil(pm);
+		Collection<MinicraftPlugin> temp = pmM.getPlugins(MinicraftPlugin.class);
 		
 		/////////////////////////////////////////////////
 
 		// Add built-in plugins and plugins loaded from AppData
 		plugins.add(new UltimatePlugin());
 		plugins.add(new CreeperPlugin());
-		//plugins.addAll(temp);
+		plugins.addAll(temp);
 
 		player = new Player(this, input);
 		setMenu(new FirstMenu(this));
+	}
+	
+	void deleteDir(File file) {
+	    File[] contents = file.listFiles();
+	    if (contents != null) {
+	        for (File f : contents) {
+	            deleteDir(f);
+	        }
+	    }
+	    file.delete();
 	}
 	
 	public void deletePlugins()
