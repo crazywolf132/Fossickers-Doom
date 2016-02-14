@@ -126,20 +126,6 @@ public class UltimatePlugin implements MinicraftPlugin
 			e.printStackTrace();
 		}
 		
-		Game.bonusDarknessChecker = new DarknessChecker()
-		{
-			public boolean isDark()
-			{
-				// Make world dark on halloween
-				//Calendar rightNow = Calendar.getInstance();
-				//int m = rightNow.get(Calendar.MONTH) + 1;
-				//int d = rightNow.get(Calendar.DAY_OF_MONTH);
-				
-				//return m == 10 && d == 31;
-				return false;
-			}
-		};
-		
 		Level.customLevelGenCode.add(new CustomLevelGen()
 		{
 			@Override

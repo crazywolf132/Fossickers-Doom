@@ -36,6 +36,7 @@ import com.itsyourpalmike.ld22.screen.FirstMenu;
 import com.itsyourpalmike.ld22.screen.InstructionsMenu;
 import com.itsyourpalmike.ld22.screen.LevelTransitionMenu;
 import com.itsyourpalmike.ld22.screen.Menu;
+import com.itsyourpalmike.ld22.screen.OpeningMenu;
 import com.itsyourpalmike.ld22.screen.RestartMenu;
 import com.itsyourpalmike.ld22.screen.TitleMenu;
 import com.itsyourpalmike.ld22.screen.WonMenu;
@@ -309,7 +310,7 @@ public class Game extends Canvas implements Runnable
 		plugins.addAll(temp);
 
 		player = new Player(this, input);
-		setMenu(new FirstMenu(this));
+		setMenu(new OpeningMenu(this));
 	}
 	
 	void deleteDir(File file) {
@@ -401,7 +402,7 @@ public class Game extends Canvas implements Runnable
 
 		// If we're on certain menu screens, don't bother rendering anything besides the menu
 		if (menu != null && (menu instanceof FirstMenu || menu instanceof TitleMenu || menu instanceof AboutMenu || menu instanceof InstructionsMenu
-				|| menu instanceof DownloadMenu || menu instanceof RestartMenu))
+				|| menu instanceof DownloadMenu || menu instanceof RestartMenu || menu instanceof OpeningMenu))
 		{
 			renderMenu();
 

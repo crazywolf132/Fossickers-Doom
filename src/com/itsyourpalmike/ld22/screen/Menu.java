@@ -85,7 +85,7 @@ public class Menu
 			String msg = listItems.get(i + io).getName();
 
 			if (listItems.get(i + io).enabled && listItems.get(i + io).getName() != "GETMORE PLUGINS") col = Color.get(0, 040, 040, 040);
-			else if(listItems.get(i + io).getName() == "GETMORE PLUGINS")col = Color.get(0, 404, 404, 404);
+			else if(listItems.get(i + io).getName() == "GETMORE PLUGINS")col = Color.get(0, 302, 302, 302);
 			else col = Color.get(0, 300, 300, 300);
 
 			if (i + io == selected)
@@ -97,7 +97,7 @@ public class Menu
 					}
 				else if(listItems.get(i + io).getName() == "GETMORE PLUGINS")
 					{
-					col = Color.get(0, 505, 505, 505);
+					col = Color.get(0, 503, 503, 503);
 					}
 				else col = Color.get(0, 500, 500, 500);
 			}
@@ -128,7 +128,7 @@ public class Menu
 				String msg = listItems.get(i + io).getName();
 
 				if (listItems.get(i + io).enabled && listItems.get(i + io).getName() != "GETMORE PLUGINS") col = Color.get(0, 040, 040, 040);
-				else if(listItems.get(i + io).getName() == "GETMORE PLUGINS")col = Color.get(0, 404, 404, 404);
+				else if(listItems.get(i + io).getName() == "GETMORE PLUGINS")col = Color.get(0, 303, 303, 303);
 				else col = Color.get(0, 300, 300, 300);
 
 				if (i + io == selected)

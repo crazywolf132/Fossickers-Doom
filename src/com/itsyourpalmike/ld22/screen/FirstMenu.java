@@ -17,7 +17,6 @@ public class FirstMenu extends Menu
 
 	public FirstMenu(Game game)
 	{
-		Sound.load("pluginsSelected", this.getClass().getResource("/pluginsSelected.wav"));
 		this.game = game;
 		for (int i = 0; i < Game.plugins.size(); i++)
 		{
@@ -88,16 +87,23 @@ public class FirstMenu extends Menu
 		if(cnt > 99) cnt = 99;
 		String s = (cnt == 0 || cnt > 1) ? "s" : "";
 		msg = "Play With " + cnt + "plugin" + s;
+		if(cnt == 0)
+		{
+			msg = "PLAY VANILLA!";
+		}
 		int col = Color.get(0, 333, 333, 333);
 
 		if (selected == plugins.size())
 		{
-			msg = "" + msg + "";
+			if(cnt > 0)msg = "" + msg + "";
+			else msg = "> " + msg + " <";
 			col = Color.get(0, 555, 555, 555);
 		}
 
 		Font.draw(msg, screen, (screen.w - msg.length() * 8) / 2, screen.h - 16, col);
 
+		if(cnt == 0) return;
+		
 		if (selected == plugins.size())
 		{
 			Font.draw("" + cnt, screen, ((screen.w - msg.length() * 8) / 2) + 10*8, screen.h - 16, Color.get(0, 050, 050, 050));
