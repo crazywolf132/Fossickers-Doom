@@ -9,7 +9,7 @@ import com.itsyourpalmike.ld22.sound.Sound;
 public class Mob extends Entity
 {
 	protected int walkDist = 0;
-	protected int dir = 0;
+	public int dir = 0;
 	public int hurtTime = 0;
 	protected int xKnockback, yKnockback;
 	public int maxHealth = 10;

@@ -40,6 +40,7 @@ public class InventoryMenu extends Menu
 		{
 			Item item = player.inventory.items.remove(selected);
 			player.activeItem = item;
+			player.activeItem.setPlayer(player);
 			game.setMenu(null);
 		}
 	}

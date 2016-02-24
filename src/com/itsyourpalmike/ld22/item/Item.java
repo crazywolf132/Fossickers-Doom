@@ -12,6 +12,7 @@ import com.itsyourpalmike.ld22.screen.ListItem;
 public class Item implements ListItem
 {
 	public SpriteSheet sheet = null;
+	public Player player;
 
 	public int getColor()
 	{
@@ -29,6 +30,11 @@ public class Item implements ListItem
 	}
 
 	public void renderInventory(Screen screen, int x, int y)
+	{
+
+	}
+
+	public void renderActive(Screen screen, int x, int y)
 	{
 
 	}
@@ -72,5 +78,15 @@ public class Item implements ListItem
 	public boolean matches(Item item)
 	{
 		return item.getClass() == getClass();
+	}
+	
+	public void setPlayer(Player player)
+	{
+		this.player = player;
+	}
+	
+	public Player getPlayer()
+	{
+		return player;
 	}
 }

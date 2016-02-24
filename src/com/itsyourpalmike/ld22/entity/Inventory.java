@@ -70,6 +70,13 @@ public class Inventory
 		if (ri == null) return false;
 		return ri.count >= count;
 	}
+	
+	public int getNumOfResources(Resource r)
+	{
+		ResourceItem ri = findResource(r);
+		if (ri == null) return 0;
+		return ri.count;
+	}
 
 	public boolean hasFurniture(FurnitureItem f, int count)
 	{

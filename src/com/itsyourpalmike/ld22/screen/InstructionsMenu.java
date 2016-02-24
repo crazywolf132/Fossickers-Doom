@@ -1,5 +1,14 @@
 package com.itsyourpalmike.ld22.screen;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
 import com.itsyourpalmike.ld22.gfx.Screen;
@@ -7,7 +16,7 @@ import com.itsyourpalmike.ld22.gfx.Screen;
 public class InstructionsMenu extends Menu
 {
 	private Menu parent;
-
+	
 	public InstructionsMenu(Menu parent)
 	{
 		this.parent = parent;
@@ -17,6 +26,8 @@ public class InstructionsMenu extends Menu
 	{
 		if (input.attack.clicked || input.menu.clicked)
 		{
+			
+			
 			game.setMenu(parent);
 		}
 	}

@@ -7,8 +7,6 @@ import com.itsyourpalmike.ld22.InputHandler;
 import com.itsyourpalmike.ld22.entity.particles.TextParticle;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Screen;
-import com.itsyourpalmike.ld22.item.Bow;
-import com.itsyourpalmike.ld22.item.Bucket;
 import com.itsyourpalmike.ld22.item.FurnitureItem;
 import com.itsyourpalmike.ld22.item.Item;
 import com.itsyourpalmike.ld22.item.PowerGloveItem;
@@ -56,11 +54,10 @@ public class Player extends Mob
 		// Debug inventory
 		if (Game.debug)
 		{
-			inventory.add(new Bucket(Bucket.LAVA));
 			inventory.add(new ToolItem(ToolType.shovel, 4));
 			inventory.add(new ToolItem(ToolType.pickaxe, 4));
-			inventory.add(new Bow());
-			inventory.add(new ResourceItem(Resource.get("arrow"), 99));
+			inventory.add(new ResourceItem(Resource.get("arrow"), 105));
+			inventory.add(new ResourceItem(Resource.get("cloth"), 99));
 			inventory.add(new ResourceItem(Resource.get("wood"), 99));
 			inventory.add(new ResourceItem(Resource.get("stone"), 99));
 			inventory.add(new ResourceItem(Resource.get("daisy"), 99));
@@ -74,7 +71,6 @@ public class Player extends Mob
 			inventory.add(new FurnitureItem(new Furnace()));
 			inventory.add(new FurnitureItem(new Lantern()));
 			inventory.add(new FurnitureItem(new Oven()));
-			inventory.add(new FurnitureItem(new Pumpkin()));
 			inventory.add(new FurnitureItem(new Anvil()));
 		}
 	}

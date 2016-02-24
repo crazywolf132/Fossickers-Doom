@@ -26,8 +26,6 @@ import com.itsyourpalmike.ld22.gfx.Screen;
 import com.itsyourpalmike.ld22.gfx.SpriteSheet;
 import com.itsyourpalmike.ld22.level.Level;
 import com.itsyourpalmike.ld22.level.tile.Tile;
-import com.itsyourpalmike.ld22.plugin.CreeperPlugin;
-import com.itsyourpalmike.ld22.plugin.UltimatePlugin;
 import com.itsyourpalmike.ld22.plugin.VanilllaPlugin;
 import com.itsyourpalmike.ld22.screen.AboutMenu;
 import com.itsyourpalmike.ld22.screen.DeadMenu;
@@ -39,6 +37,7 @@ import com.itsyourpalmike.ld22.screen.Menu;
 import com.itsyourpalmike.ld22.screen.OpeningMenu;
 import com.itsyourpalmike.ld22.screen.RestartMenu;
 import com.itsyourpalmike.ld22.screen.TitleMenu;
+import com.itsyourpalmike.ld22.screen.UpdateMenu;
 import com.itsyourpalmike.ld22.screen.WonMenu;
 
 import net.xeoh.plugins.base.PluginManager;
@@ -48,6 +47,8 @@ import net.xeoh.plugins.base.util.PluginManagerUtil;
 public class Game extends Canvas implements Runnable
 {
 	private static final long serialVersionUID = 1L;
+	
+	public static final int CURRENT_VERSION = 1;
 
 	// Usually it's only dark underground, but plugins can override this using a darkness checker
 	public static DarknessChecker bonusDarknessChecker = null;
@@ -66,7 +67,7 @@ public class Game extends Canvas implements Runnable
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 	private int[] colors = new int[256];
 	private boolean running = false;
-	public static boolean debug = false; // Show debug window info and spawn with bonus items
+	public static boolean debug = true; // Show debug window info and spawn with bonus items
 
 	// Important game objects
 	private InputHandler input = new InputHandler(this);
@@ -305,8 +306,6 @@ public class Game extends Canvas implements Runnable
 		/////////////////////////////////////////////////
 
 		// Add built-in plugins and plugins loaded from AppData
-		plugins.add(new UltimatePlugin());
-		plugins.add(new CreeperPlugin());
 		plugins.addAll(temp);
 
 		player = new Player(this, input);
@@ -402,7 +401,8 @@ public class Game extends Canvas implements Runnable
 
 		// If we're on certain menu screens, don't bother rendering anything besides the menu
 		if (menu != null && (menu instanceof FirstMenu || menu instanceof TitleMenu || menu instanceof AboutMenu || menu instanceof InstructionsMenu
-				|| menu instanceof DownloadMenu || menu instanceof RestartMenu || menu instanceof OpeningMenu))
+				|| menu instanceof DownloadMenu || menu instanceof RestartMenu || menu instanceof OpeningMenu
+				|| menu instanceof UpdateMenu))
 		{
 			renderMenu();
 
@@ -521,7 +521,7 @@ public class Game extends Canvas implements Runnable
 		// Player's currently equipped item
 		if (player.activeItem != null)
 		{
-			player.activeItem.renderInventory(screen, 10 * 8, screen.h - 16);
+			player.activeItem.renderActive(screen, 10 * 8, screen.h - 16);
 		}
 
 		renderMenu();
