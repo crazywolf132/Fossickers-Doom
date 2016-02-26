@@ -1,1 +1,202 @@
-initial commit
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<title>Minicraft: Ultimate Edition</title>
+		
+		<link rel="shortcut icon" href="favicon.ico">
+		<link rel="stylesheet" href="css/themes/default/jquery.mobile-1.4.5.min.css">
+		<link rel="stylesheet" href="assets/css/jqm-demos.css">
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+		
+		<script src="js/jquery.js"></script>
+		<script src="assets/js/index.js"></script>
+		<script src="js/jquery.mobile-1.4.5.min.js"></script>
+		
+		<style>
+			.hiddenContent
+			{
+				display:none;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div data-role="page" class="jqm-demos jqm-home">
+			<div data-role="header" class="jqm-header">
+				<h2>Minicraft: Ultimate Edition</h2>
+				<a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+				<a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
+			</div><!-- /header -->
+
+			<div role="main" class="ui-content jqm-content" id="content">
+				
+			</div><!-- /content -->
+			
+			<div data-role="panel" class="jqm-navmenu-panel" data-position="left" data-display="overlay" data-theme="a">
+				<ul class="jqm-list ui-alt-icon ui-nodisc-icon">
+					<li data-filtertext="demos homepage" data-icon="home"><a href="#home" class="contentUpdate" data-ajax="false">Home</a></li>
+					<li data-role="collapsible" data-enhanced="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
+					data-iconpos="right" data-inset="false" data-collapsed="false" class="ui-collapsible ui-collapsible-themed-content ui-li-static ui-body-inherit ui-last-child">
+						<h3 class="ui-collapsible-heading">
+							<a href="#" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-right ui-btn-inherit ui-icon-carat-u">
+								Section One<span class="ui-collapsible-heading-status"> click to expand contents</span>
+							</a>
+						</h3>
+						
+						<div class="ui-collapsible-content ui-body-inherit" aria-hidden="false">
+							<ul>
+								<li data-filtertext=""><a href="#1-1" class="contentUpdate" data-ajax="false">Part 1 - Introduction</a></li>
+								<li data-filtertext=""><a href="#1-2" class="contentUpdate" data-ajax="false">Part 2 - Prehistoric Mathematics</a></li>
+								<li data-filtertext=""><a href="#1-3" class="contentUpdate" data-ajax="false">Part 3 - Sumerian/Babylonian Mathematics</a></li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div><!-- /panel -->
+
+			<div data-role="footer" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
+				<p><a href="https://twitter.com/ItsYourPalMike" style="text-decoration: none">@ItsYourPalMike</a> | ItsYourPalMike@gmail.com</p>
+			</div><!-- /footer -->
+			
+			<!-- TODO: This should become an external panel so we can add input to markup (unique ID) -->
+			<div data-role="panel" class="jqm-search-panel" data-position="right" data-display="overlay" data-theme="a">
+				<div class="jqm-search">
+					<ul class="jqm-list" data-filter-placeholder="Search course content..." data-filter-reveal="true">
+						<li data-filtertext="demos homepage" data-icon="home"><a href="#home" onclick="updateContent('#home')" data-ajax="false">Home</a></li>
+						<li data-role="collapsible" data-enhanced="true" data-collapsed-icon="carat-d" data-expanded-icon="carat-u"
+						data-iconpos="right" data-inset="false" data-collapsed="false" class="ui-collapsible ui-collapsible-themed-content ui-li-static ui-body-inherit ui-last-child">
+							<h3 class="ui-collapsible-heading">
+								<a href="#" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-right ui-btn-inherit ui-icon-carat-u">
+									Section One<span class="ui-collapsible-heading-status"> click to expand contents</span>
+								</a>
+							</h3>
+							
+							<div class="ui-collapsible-content ui-body-inherit" aria-hidden="false">
+								<ul>
+									<li data-filtertext=""><a href="#1-1" onclick="updateContent('#1-1')" data-ajax="false">1.1 - Introduction</a></li>
+									<li data-filtertext=""><a href="#1-2" onclick="updateContent('#1-2')" data-ajax="false">1.2 - Prehistoric Mathematics</a></li>
+									<li data-filtertext=""><a href="#1-3" onclick="updateContent('#1-3')" data-ajax="false">1.3 - Sumerian/Babylonian Mathematics</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div><!-- /panel -->
+		</div><!-- /page -->
+		
+		<div class="hiddenContent home">
+			<h1>Minicraft: Ultimate Edition</h1>
+			<p><strong>Minicraft was made by <a href="https://twitter.com/notch">@notch</a> for the 22'nd Ludum Dare competition in December 2011. <br/>
+Minicraft: Ultimate Edition is a mod being developed in <a href="https://twitter.com/ItsYourPalMike">@ItsYourPalMike</a>'s spare time.</strong></p>
+			<img src="http://ludumdare.com/compo/wp-content/compo2/87574/398-shot0.png" style="float:right; padding:15px; margin:0;"/>
+
+			<p>The main purpose of the mod is to allow additional content to be seamlessly added into the game. This is accomplished with a lovely little plugin system.
+			A plugin is a tiny .jar file that contains new mobs, items, tools, weapons, resources, sounds, graphics, menus, world generation code, etc. Pretty cool, huh?</p>
+			
+			<p>When the game starts you can pick which plugins will be enabled during the session. Official plugins developed by myself or approved authors are available
+			through the in-game downloads menu. Alternatively, plugins can be added by simply dragging the .jar file into your .minicraft folder.</p>
+			
+			<p>If you've developed a plugin that you'd like included in the official list:<br />Message me on Twitter: <a href="https://twitter.com/ItsYourPalMike" style="text-decoration: none">@ItsYourPalMike</a><br />Or
+			shoot me an email: ItsYourPalMike@gmail.com</p>
+			
+			<p><strong>OH YEAH! DOWNLOAD THE GAME HERE: <a href="https://twitter.com/ItsYourPalMike">CLICK ME!</a></strong></p>
+			
+			<!--<img src="http://parentsinc.sg/wp-content/uploads/2015/06/Mathematics-Secondary1.jpg" style="float:right; padding:0; margin:0;"/>-->
+		</div>
+		
+		<div class="hiddenContent 1-1">
+			<h1>Section 1 - Part 1</h1>
+			<p><strong>Introduction</strong></p>
+			<p>The history of mathematics is nearly as old as humanity itself. 
+			Since antiquity, mathematics has been fundamental to advances in science, 
+			engineering, and philosophy. It has evolved from simple counting, measurement and 
+			calculation, and the systematic study of the shapes and motions of physical objects, 
+			through the application of abstraction, imagination and logic, to the broad, complex 
+			and often abstract discipline we know today.</p>
+			<p>From the notched bones of early man to the mathematical 
+			advances brought about by settled agriculture in Mesopotamia 
+			and Egypt and the revolutionary developments of ancient Greece and its 
+			Hellenistic empire, the story of mathematics is a long and impressive one.</p>
+			<p>The East carried on the baton, particularly China, India and the medieval Islamic empire, 
+			before the focus of mathematical innovation moved back to Europe in the late Middle Ages and Renaissance. 
+			Then, a whole new series of revolutionary developments occurred in 17th Century and 18th Century Europe, setting 
+			the stage for the increasing complexity and abstraction of 19th Century mathematics, and finally the audacious and 
+			sometimes devastating discoveries of the 20th Century.</p>
+			<p>Follow the story as it unfolds in this series of linked sections, like the chapters of a book. Read the human 
+			stories behind the innovations, and how they made - and sometimes destroyed - the men and women who devoted their 
+			lives to... THE STORY OF MATHEMATICS.</p>
+		</div>
+		
+		<div class="hiddenContent 1-2">
+			<h1>Section 1 - Part 2</h1>
+			<p><strong>Prehistoric Mathematics</strong></p>
+			<img src="http://www.storyofmathematics.com/images2/ishango_bone.jpg" style="float:right; padding:0; margin:0;"/>
+			<p>Our prehistoric ancestors would have had a general sensibility about amounts, and would 
+			have instinctively known the difference between, say, one and two antelopes. But the intellectual 
+			leap from the concrete idea of two things to the invention of a symbol or word for the abstract idea 
+			of "two" took many ages to come about.</p>
+			<p>Even today, there are isolated hunter-gatherer tribes in Amazonia which only have words for "one", 
+			"two" and "many", and others which only have words for numbers up to five. In the absence of settled 
+			agriculture and trade, there is little need for a formal system of numbers.</p>
+			<p>Early man kept track of regular occurrences such as the phases of the moon and the seasons. Some of 
+			the very earliest evidence of mankind thinking about numbers is from notched bones in Africa dating back 
+			to 35,000 to 20,000 years ago. But this is really mere counting and tallying rather than mathematics as such.</p>
+			<p>Pre-dynastic Egyptians and Sumerians represented geometric designs on their artefacts as early as the 5th millennium BCE, 
+			as did some megalithic societies in northern Europe in the 3rd millennium BCE or before. But this is more art and decoration 
+			than the systematic treatment of figures, patterns, forms and quantities that has come to be considered as mathematics.</p>
+			<p>Mathematics proper initially developed largely as a response to bureaucratic needs when civilizations settled and developed 
+			agriculture - for the measurement of plots of land, the taxation of individuals, etc - and this first occurred in the Sumerian 
+			and Babylonian civilizations of Mesopotamia (roughly, modern Iraq) and in ancient Egypt.</p>
+			<p>According to some authorities, there is evidence of basic arithmetic and geometric notations on the petroglyphs 
+			at Knowth and Newgrange burial mounds in Ireland (dating from about 3500 BCE and 3200 BCE respectively). These 
+			utilize a repeated zig-zag glyph for counting, a system which continued to be used in Britain and Ireland into 
+			the 1st millennium BCE. Stonehenge, a Neolithic ceremonial and astronomical monument in England, which dates from 
+			around 2300 BCE, also arguably exhibits examples of the use of 60 and 360 in the circle measurements, a practice which 
+			presumably developed quite independently of the sexagesimal counting system of the ancient Sumerian and Babylonians.</p>
+		</div>
+		
+		<div class="hiddenContent 1-3">
+			<h1>Section 1 - Part 3</h1>
+			<p><strong>Sumerian/Babylonian Mathematics</strong></p>
+			<img src="http://www.storyofmathematics.com/images2/sumerian_clay_cones.jpg" style="float:right; padding:0; margin:0;"/>
+			<p>Sumer (a region of Mesopotamia, modern-day Iraq) was the birthplace of writing, the wheel, agriculture, the arch, the plow, irrigation and many other innovations, and is often referred to as the Cradle of Civilization. The Sumerians developed the earliest known writing system - a pictographic writing system known as cuneiform script, using wedge-shaped characters inscribed on baked clay tablets - and this has meant that we actually have more knowledge of ancient Sumerian and Babylonian mathematics than of early Egyptian mathematics. Indeed, we even have what appear to school exercises in arithmetic and geometric problems.</p>
+			<p>As in Egypt, Sumerian mathematics initially developed largely as a response to bureaucratic needs when their civilization settled and developed agriculture (possibly as early as the 6th millennium BCE) for the measurement of plots of land, the taxation of individuals, etc. In addition, the Sumerians and Babylonians needed to describe quite large numbers as they attempted to chart the course of the night sky and develop their sophisticated lunar calendar.</p>
+			<p>They were perhaps the first people to assign symbols to groups of objects in an attempt to make the description of larger numbers easier. They moved from using separate tokens or symbols to represent sheaves of wheat, jars of oil, etc, to the more abstract use of a symbol for specific numbers of anything. Starting as early as the 4th millennium BCE, they began using a small clay cone to represent one, a clay ball for ten, and a large cone for sixty. Over the course of the third millennium, these objects were replaced by cuneiform equivalents so that numbers could be written with the same stylus that was being used for the words in the text. A rudimentary model of the abacus was probably in use in Sumeria from as early as 2700 - 2300 BCE.</p>
+			<img src="http://www.storyofmathematics.com/images2/babylonian_numerals.gif" style="float:right; padding:0; margin:0;"/>
+			<p>Sumerian and Babylonian mathematics was based on a sexegesimal, or base 60, numeric system, which could be counted physically using the twelve knuckles on one hand the five fingers on the other hand. Unlike those of the Egyptians, Greeks and Romans, Babylonian numbers used a true place-value system, where digits written in the left column represented larger values, much as in the modern decimal system, although of course using base 60 not base 10. Thus, 1  1  1 in the Babylonian system represented 3,600 plus 60 plus 1, or 3,661. Also, to represent the numbers 1 - 59 within each place value, two distinct symbols were used, a unit symbol (1) and a ten symbol (10) which were combined in a similar way to the familiar system of Roman numerals (e.g. 23 would be shown as 23). Thus, 1  23 represents 60 plus 23, or 83. However, the number 60 was represented by the same symbol as the number 1 and, because they lacked an equivalent of the decimal point, the actual place value of a symbol often had to be inferred from the context.</p>
+			<p>It has been conjectured that Babylonian advances in mathematics were probably facilitated by the fact that 60 has many divisors (1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30 and 60 - in fact, 60 is the smallest integer divisible by all integers from 1 to 6), and the continued modern-day usage of of 60 seconds in a minute, 60 minutes in an hour, and 360 (60 x 6) degrees in a circle, are all testaments to the ancient Babylonian system. It is for similar reasons that 12 (which has factors of 1, 2, 3, 4 and 6) has been such a popular multiple historically (e.g. 12 months, 12 inches, 12 pence, 2 x 12 hours, etc).</p>
+			<p>The Babylonians also developed another revolutionary mathematical concept, something else that the Egyptians, Greeks and Romans did not have, a circle character for zero, although its symbol was really still more of a placeholder than a number in its own right.</p>
+			<p>We have evidence of the development of a complex system of metrology in Sumer from about 3000 BCE, and multiplication and reciprocal (division) tables, tables of squares, square roots and cube roots, geometrical exercises and division problems from around 2600 BCE onwards. Later Babylonian tablets dating from about 1800 to 1600 BCE cover topics as varied as fractions, algebra, methods for solving linear, quadratic and even some cubic equations, and the calculation of regular reciprocal pairs (pairs of number which multiply together to give 60). One Babylonian tablet gives an approximation to √2 accurate to an astonishing five decimal places. Others list the squares of numbers up to 59, the cubes of numbers up to 32 as well as tables of compound interest. Yet another gives an estimate for π of 3 1⁄8 (3.125, a reasonable approximation of the real value of 3.1416).</p>
+			<img src="http://www.storyofmathematics.com/images2/babylonian_clay_tablet.jpg" style="float:right; padding:0; margin:0;"/>
+			<p>The idea of square numbers and quadratic equations (where the unknown quantity is multiplied by itself, e.g. x2) naturally arose in the context of the meaurement of land, and Babylonian mathematical tablets give us the first ever evidence of the solution of quadratic equations. The Babylonian approach to solving them usually revolved around a kind of geometric game of slicing up and rearranging shapes, although the use of algebra and quadratic equations also appears. At least some of the examples we have appear to indicate problem-solving for its own sake rather than in order to resolve a concrete practical problem.</p>
+			<p>The Babylonians used geometric shapes in their buildings and design and in dice for the leisure games which were so popular in their society, such as the ancient game of backgammon. Their geometry extended to the calculation of the areas of rectangles, triangles and trapezoids, as well as the volumes of simple shapes such as bricks and cylinders (although not pyramids).</p>
+			<p>The famous and controversial Plimpton 322 clay tablet, believed to date from around 1800 BCE, suggests that the Babylonians may well have known the secret of right-angled triangles (that the square of the hypotenuse equals the sum of the square of the other two sides) many centuries before the Greek Pythagoras. The tablet appears to list 15 perfect Pythagorean triangles with whole number sides, although some claim that they were merely academic exercises, and not deliberate manifestations of Pythagorean triples.</p>
+		</div>
+		
+		<script>
+			function updateContent(hash)
+			{
+				var newClass = hash.substring(1);
+				var newContent = $("."+newClass).html();
+				$("#content").html(newContent);
+			}
+			
+			if(window.location.hash)
+			{
+				updateContent(window.location.hash);
+			}
+			else
+			{
+				updateContent("#home");
+			}
+		
+			$(".contentUpdate").click(function()
+			{
+				updateContent($(this).attr("href"));
+			});
+		</script>
+	</body>
+</html>
