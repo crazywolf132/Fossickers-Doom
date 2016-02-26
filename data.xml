@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<plugin_list>
+	<release>0.1.0</release>
 
-<release>0.1.0</release>
+	<plugin>
+		<name>Ultimate Plugin</name>
+		<url>http://knawledge.rocks/UltimatePlugin.jar</url>
+		<save_name>UltimatePlugin.jar</save_name>
+	</plugin>
 
-<plugin>
-	<name>Ultimate Plugin</name>
-	<url>http://knawledge.rocks/UltimatePlugin.jar</url>
-	<save>UltimatePlugin.jar</save>
-</plugin>
-
-<plugin>
-	<name>Creeper Plugin</name>
-	<url>http://knawledge.rocks/CreeperPlugin.jar</url>
-	<save>CreeperPlugin.jar</save>
-</plugin>
+	<plugin>
+		<name>Creeper Plugin</name>
+		<url>http://knawledge.rocks/CreeperPlugin.jar</url>
+		<save_name>CreeperPlugin.jar</save_name>
+	</plugin>
+</plugin_list>
