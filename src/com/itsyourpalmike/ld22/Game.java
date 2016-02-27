@@ -19,6 +19,8 @@ import java.util.Collection;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
+import com.itsyourpalmike.helper.MyOS;
+import com.itsyourpalmike.helper.MyXML;
 import com.itsyourpalmike.ld22.entity.Player;
 import com.itsyourpalmike.ld22.gfx.Color;
 import com.itsyourpalmike.ld22.gfx.Font;
@@ -234,34 +236,7 @@ public class Game extends Canvas implements Runnable
 
 		plugins = new ArrayList<MinicraftPlugin>();
 
-		// Load plugins from AppData/Roaming/.minicraft
-		/////////////////////////////////////////////////
-		String appDataRoaming = "...";
-
-		String OS = (System.getProperty("os.name")).toUpperCase();
-
-		// to determine what the workingDirectory is.
-
-		// if it is some version of Windows
-		if (OS.contains("WIN"))
-		{
-			// it is simply the location of the "AppData" folder
-			appDataRoaming = System.getenv("APPDATA");
-		}
-		else // Otherwise, we assume Linux or Mac
-		{
-			// in either case, we would start in the user's home directory
-			appDataRoaming = System.getProperty("user.home");
-
-			if (!OS.contains("LINUX"))
-			{
-				// if we are on a Mac, we are not done, we look for "Application Support"
-				appDataRoaming += "/Library/Application Support";
-			}
-		}
-
-		// we are now free to set the workingDirectory to the subdirectory that is our folder
-		System.out.println("Running Minicraft On " + OS);
+		String appDataRoaming = MyOS.getAppdataLocation();
 
 		File file = new File(appDataRoaming + "/.minicraft");
 		if (!file.exists())
@@ -274,27 +249,25 @@ public class Game extends Canvas implements Runnable
 			System.out.println("Located .minicraft Folder");
 		}
 		
-		File ff = new File(System.getenv("APPDATA") + "/.minicraft/tmp/");
-		if(ff.isDirectory()) {
+		File ff = new File(MyOS.getAppdataLocation() + "/.minicraft/tmp/");
+		if(ff.isDirectory())
+		{
 		    File[] content = ff.listFiles();
-		    for(int i = 0; i < content.length; i++) {
+		    for(int i = 0; i < content.length; i++)
+		    {
 		    	try
 				{
 		    		Path src = Paths.get(ff.getAbsolutePath() + "/" + content[i].getName());
 		    		Path dest = Paths.get(file.getAbsolutePath() + "/" +content[i].getName());
 		    		
-		    		System.out.println("Src = " + src + ", DEST = " + dest);
-		    		
 					Files.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);
 				}
 				catch (IOException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		    }
 		}
-
 		deleteDir(ff);
 
 		URI f = new File(file.getAbsolutePath() + "/").toURI();
@@ -302,20 +275,21 @@ public class Game extends Canvas implements Runnable
 		pm.addPluginsFrom(f);
 		PluginManagerUtil pmM = new PluginManagerUtil(pm);
 		Collection<MinicraftPlugin> temp = pmM.getPlugins(MinicraftPlugin.class);
-		
-		/////////////////////////////////////////////////
-
-		// Add built-in plugins and plugins loaded from AppData
 		plugins.addAll(temp);
 
+		MyXML.initXML();
+		
 		player = new Player(this, input);
 		setMenu(new OpeningMenu(this));
 	}
 	
-	void deleteDir(File file) {
+	void deleteDir(File file)
+	{
 	    File[] contents = file.listFiles();
-	    if (contents != null) {
-	        for (File f : contents) {
+	    if (contents != null)
+	    {
+	        for (File f : contents)
+	        {
 	            deleteDir(f);
 	        }
 	    }
