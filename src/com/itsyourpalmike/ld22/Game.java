@@ -48,7 +48,7 @@ public class Game extends Canvas implements Runnable
 {
 	private static final long serialVersionUID = 1L;
 	
-	public static final int CURRENT_VERSION = 1;
+	public static final String CURRENT_VERSION = "0.1.0";
 
 	// Usually it's only dark underground, but plugins can override this using a darkness checker
 	public static DarknessChecker bonusDarknessChecker = null;

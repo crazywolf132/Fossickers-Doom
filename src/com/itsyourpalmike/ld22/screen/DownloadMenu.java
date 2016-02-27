@@ -11,6 +11,15 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.itsyourpalmike.ld22.Game;
 import com.itsyourpalmike.ld22.GameLauncher;
@@ -26,7 +35,7 @@ public class DownloadMenu extends Menu
 	private int selected = 0;
 	private ArrayList<DownloadablePlugin> plugins = new ArrayList<DownloadablePlugin>();
 	String savePath = System.getenv("APPDATA") + "/.minicraft/tmp/";
-	String pluginsTXT = System.getenv("APPDATA") + "/.minicraft/plugins.txt";
+	static String pluginsTXT = System.getenv("APPDATA") + "/.minicraft/curVer.xml";
 
 	public DownloadMenu(Game game)
 	{
@@ -42,7 +51,7 @@ public class DownloadMenu extends Menu
 		URL website = null;
 		try
 		{
-			website = new URL("http://knawledge.rocks/plugins.txt");
+			website = new URL("http://itsyourpalmike.github.io/Minicraft-Ultimate-Edition/data.xml");
 		}
 		catch (MalformedURLException e2)
 		{
@@ -66,24 +75,31 @@ public class DownloadMenu extends Menu
 			e1.printStackTrace();
 		}
 		
-		String content = null;
-		try
+		Document xmlDoc = getDocument(pluginsTXT);
+		System.out.println("ROOT: " + xmlDoc.getDocumentElement().getNodeName());
+		
+		NodeList release = xmlDoc.getElementsByTagName("release");
+		System.out.println(release.item(0).getTextContent());
+		
+		NodeList pluginsXML = xmlDoc.getElementsByTagName("plugin");
+		String name = "name";
+		String url = "url";
+		String save_name = "save_name";
+		
+		for(int i = 0; i < pluginsXML.getLength(); i++)
 		{
-			content = new String(Files.readAllBytes(Paths.get(pluginsTXT)));
+			Element element = (Element)pluginsXML.item(i);
+			
+			Element pluginName = (Element)element.getElementsByTagName(name).item(0);
+			Element pluginURL = (Element)element.getElementsByTagName(url).item(0);
+			Element pluginSaveName = (Element)element.getElementsByTagName(save_name).item(0);
+
+			plugins.add(new DownloadablePlugin(pluginName.getTextContent(), pluginURL.getTextContent(), pluginSaveName.getTextContent()));
+			System.out.println(pluginName.getTextContent() + ", " + pluginURL.getTextContent() + ", " + pluginSaveName.getTextContent());
 		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String[] parts = content.split(",");
+		
 		File file = new File(pluginsTXT);
 		file.delete();
-		
-		for(int i = 0; i < parts.length; i+=3)
-		{
-			plugins.add(new DownloadablePlugin(parts[i], parts[i+1], parts[i+2]));
-		}
 	}
 
 	public void tick()
@@ -200,5 +216,37 @@ public class DownloadMenu extends Menu
 		{
 			Font.draw("" + cnt, screen, ((screen.w - msg.length() * 8) / 2) + 9*8, screen.h - 16, Color.get(0, 040, 040, 040));
 		}
+	}
+	
+	private static Document getDocument(String docString)
+	{
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setIgnoringComments(true);
+		factory.setIgnoringElementContentWhitespace(true);
+		factory.setValidating(true);
+		
+		DocumentBuilder builder = null;
+		try
+		{
+			builder = factory.newDocumentBuilder();
+		}
+		catch (ParserConfigurationException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try
+		{
+			return builder.parse(new InputSource(docString));
+		}
+		catch (SAXException | IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		return null;
 	}
 }
