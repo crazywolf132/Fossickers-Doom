@@ -3,7 +3,7 @@
 	<release>0.1.0</release>
 
 	<plugin>
-		<name>Ult Plug</name>
+		<name>Ultimate Plugin</name>
 		<url>http://knawledge.rocks/UltimatePlugin.jar</url>
 		<save_name>UltimatePlugin.jar</save_name>
 	</plugin>
